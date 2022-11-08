@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'users', type: :request do
 
   path '/users' do
-    post('create user') do
+    post('Create User') do
       tags 'User'
       consumes 'application/json'
       produces 'application/json'
@@ -42,7 +42,7 @@ RSpec.describe 'users', type: :request do
       end
     end
 
-    get('show user') do
+    get('Show User') do
       tags 'User'
       consumes 'application/json'
       produces 'application/json'
@@ -70,7 +70,7 @@ RSpec.describe 'users', type: :request do
   end
   
   path '/users/{id}' do
-    get('get user by id') do
+    get('Get User By Id') do
       tags 'User'
       consumes 'application/json'
       produces 'application/json'
@@ -156,6 +156,41 @@ RSpec.describe 'users', type: :request do
         schema type: :object,
               properties: {
                   message: {type: :string, example: "User tidak ditemukan"},
+                  code: {type: :string, example: "422"}
+              }
+        run_test!
+      end
+      response '500', 'Error' do
+        schema type: :object,
+              properties: {
+                  message: {type: :string, example: "Invalid Header"},
+                  code: {type: :string, example: "X-401"}
+              }
+        run_test!
+      end
+    end
+  end
+  path '/login' do
+    post('Login') do
+      tags 'Login'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            email: {type: :string, example: "tatangs@gmail.com"},
+            password: {type: :string, example: "tatang123"}
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Error' do
+        schema type: :object,
+              properties: {
+                  message: {type: :string, example: "Email is Already Taken"},
                   code: {type: :string, example: "422"}
               }
         run_test!
