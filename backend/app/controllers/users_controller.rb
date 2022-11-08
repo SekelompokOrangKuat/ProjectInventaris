@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authorize_request, except: :create
-  before_action :find_user, except: %i[create index]
+#   before_action :authorize_request, except: :create
+#   before_action :find_user, except: %i[create index]
 
   # GET /users
   def index
@@ -10,7 +10,12 @@ class UsersController < ApplicationController
 
   # GET /users/{username}
   def show
-      render json: @user, status: :ok
+      @Users = User.where(_id: params[:id]).first
+      if @Users.blank?
+        render json: {error: "User tidak ditemukan"}, status: :unprocessable_entity
+      else
+        render json: @Users, status: :ok
+      end
   end
 
   # POST /users
@@ -22,19 +27,29 @@ class UsersController < ApplicationController
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
       end
   end
+
+  def edit
+    @users = User.find(params[:id])
+  end
+
+  def update
+    @users = User.find(params[:id])
+    @users.update(user_role: params[:user_role], nama: params[:nama], nip: params[:nip], telepon: params[:telepon])
+    render json: @users, status: :ok
+  end
   
   # DELETE /users/{username}
   def destroy
-      @user.destroy
+      @Users = User.where(_id: params[:id]).first
+      if @Users.blank?
+        render json: {error: "User tidak ditemukan"}, status: :unprocessable_entity
+      else
+        @Users.destroy
+        render json: {success: "User berhasil dihapus!"}, status: :ok
+      end
   end
 
   private
-
-  def find_user
-      @user = User.find_by_username!(params[:_username])
-      rescue ActiveRecord::RecordNotFound
-          render json: { errors: 'User tidak ditemukan!' }, status: :not_found
-  end
 
   def user_params
       params.permit(:email, :password, :password_confirmation, :user_role, :nama, :nip, :telepon)
