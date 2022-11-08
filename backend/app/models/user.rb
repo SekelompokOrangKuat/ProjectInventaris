@@ -21,4 +21,8 @@ class User
   field :nip, type: String
   field :telepon, type: String
 
+  def authenticate!(password)
+    self.password.eql?(password)
+  end
+
 end

@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
 
-  resources :users, param: :_email
-  post '/auth/login', to: 'authentication#login'
+  resources :users, param: :email
+  post "/login", to: "authentication#login"
   get '/*a', to: 'application#not_found'
 
 end
