@@ -251,9 +251,9 @@ paths:
               code:
                 type: string
                 example: X-401
-  "/login":
-    post:
-      summary: login
+  "/v1/user/registrasi/findAll":
+    get:
+      summary: Find All User
       tags:
       - Auth/Login
       consumes:

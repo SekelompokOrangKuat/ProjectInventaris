@@ -3,7 +3,6 @@ class User
   include Mongoid::Timestamps
   include Mongoid::Attributes::Dynamic
   include ActiveModel::SecurePassword
-  # mount_uploader :avatar, AvatarUploader
   validates :email, presence: true, uniqueness: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP}
   has_secure_password
