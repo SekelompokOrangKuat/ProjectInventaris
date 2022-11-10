@@ -4,133 +4,16 @@ info:
   title: INVENTARIS API V1
   version: v1
 paths:
-  "/login":
+  "/users":
     post:
-      summary: Login
+      summary: create user
       tags:
-      - Authentication
+      - User
       consumes:
       - application/json
       produces:
       - application/json
       parameters:
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            email:
-              type: string
-              example: simbada@gmail.com
-            password:
-              type: string
-              example: '12345678'
-          required: []
-      responses:
-        '201':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: Email is Already Taken
-              code:
-                type: string
-                example: '422'
-        '500':
-          description: Error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
-  "/v1/user/registrasi/create":
-    post:
-      summary: Create User
-      tags:
-      - Registrasi
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            email:
-              type: string
-              example: simbada@gmail.com
-            password:
-              type: string
-              example: '12345678'
-            password_confirmation:
-              type: string
-              example: '12345678'
-            user_role:
-              type: string
-              example: SuperAdmin
-            nama:
-              type: string
-              example: Admin Simbada
-            nip:
-              type: string
-              example: '019231234329102'
-            telepon:
-              type: string
-              example: '081232132318'
-          required: []
-      responses:
-        '201':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: Email is Already Taken
-              code:
-                type: string
-                example: '422'
-        '500':
-          description: Error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
-  "/v1/user/registrasi/find":
-    post:
-      summary: Find User
-      tags:
-      - Registrasi
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
       - name: body
         in: body
         schema:
@@ -139,74 +22,27 @@ paths:
             email:
               type: string
               example: tatang@polban.ac.id
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: User tidak ditemukan!
-              code:
-                type: string
-                example: '422'
-        '500':
-          description: Error
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
-  "/v1/user/registrasi/edit":
-    post:
-      summary: Edit User
-      tags:
-      - Registrasi
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            id:
+            password:
               type: string
-              example: 636cfd59e21fac2ab08223c3
-            email:
+              example: tatang123
+            password_confirmation:
               type: string
-              example: simbada@gmail.com
+              example: tatang123
             user_role:
               type: string
-              example: SuperAdmin
+              example: Pengurus
             nama:
               type: string
-              example: Admin Simbada
+              example: Tatang
             nip:
               type: string
-              example: '019231234329102'
+              example: '195808181984041001'
             telepon:
               type: string
-              example: '081232132318'
+              example: '08253442516'
           required: []
       responses:
-        '200':
+        '201':
           description: Successfull
           schema:
             type: object
@@ -217,7 +53,7 @@ paths:
             properties:
               message:
                 type: string
-                example: User tidak ditemukan!
+                example: Email is Already Taken
               code:
                 type: string
                 example: '422'
@@ -232,20 +68,141 @@ paths:
               code:
                 type: string
                 example: X-401
-  "/v1/user/registrasi/delete":
-    post:
-      summary: Delete User
+    get:
+      summary: show user
       tags:
-      - Registrasi
+      - User
       consumes:
       - application/json
       produces:
       - application/json
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: User tidak ditemukan
+              code:
+                type: string
+                example: '422'
+        '500':
+          description: Error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Invalid Header
+              code:
+                type: string
+                example: X-401
+  "/users/{id}":
+    get:
+      summary: get user by id
+      tags:
+      - User
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      operationId: getUserById
       parameters:
-      - name: Authorization
-        in: header
-        type: string
+      - name: id
+        in: path
         required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: User tidak ditemukan
+              code:
+                type: string
+                example: '422'
+        '500':
+          description: Error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Invalid Header
+              code:
+                type: string
+                example: X-401
+    delete:
+      summary: Delete User By Id
+      tags:
+      - User
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      operationId: deleteUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: User tidak ditemukan
+              code:
+                type: string
+                example: '422'
+        '500':
+          description: Error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Invalid Header
+              code:
+                type: string
+                example: X-401
+    put:
+      summary: Edit/Update Users
+      tags:
+      - User
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      operationId: updateUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
       - name: body
         in: body
         schema:
@@ -253,7 +210,19 @@ paths:
           properties:
             email:
               type: string
-              example: simbada@gmail.com
+              example: tatang@polban.ac.id
+            user_role:
+              type: string
+              example: Pengurus
+            nama:
+              type: string
+              example: Tatang
+            nip:
+              type: string
+              example: '195808181984041001'
+            telepon:
+              type: string
+              example: '08253442516'
           required: []
       responses:
         '200':
@@ -267,7 +236,7 @@ paths:
             properties:
               message:
                 type: string
-                example: User tidak ditemukan!
+                example: User tidak ditemukan
               code:
                 type: string
                 example: '422'
@@ -286,16 +255,24 @@ paths:
     get:
       summary: Find All User
       tags:
-      - Registrasi
+      - Auth/Login
       consumes:
       - application/json
       produces:
       - application/json
       parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              example: tatangs@gmail.com
+            password:
+              type: string
+              example: tatang123
+          required: []
       responses:
         '200':
           description: Successfull
@@ -308,7 +285,7 @@ paths:
             properties:
               message:
                 type: string
-                example: User tidak ditemukan!
+                example: Email is Already Taken
               code:
                 type: string
                 example: '422'
