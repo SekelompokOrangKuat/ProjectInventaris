@@ -14,23 +14,15 @@ describe 'Authentication API' do
         },
         required: []
       }
-      response '201', 'Successfull' do
+      response '200', 'Successfull' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '401', 'Error' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Email is Already Taken"},
+                  message: {type: :string, example: "Email salah"},
                   code: {type: :string, example: "422"}
-              }
-        run_test!
-      end
-      response '500', 'Error' do
-        schema type: :object,
-              properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
               }
         run_test!
       end
