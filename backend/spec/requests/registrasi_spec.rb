@@ -6,6 +6,7 @@ describe 'Registrasi API' do
       tags 'Registrasi'
       consumes 'application/json'
       produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
@@ -31,7 +32,7 @@ describe 'Registrasi API' do
               }
         run_test!
       end
-      response '500', 'Error' do
+      response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
                   message: {type: :string, example: "Invalid Header"},
@@ -67,7 +68,7 @@ describe 'Registrasi API' do
               }
         run_test!
       end
-      response '500', 'Error' do
+      response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
                   message: {type: :string, example: "Invalid Header"},
@@ -108,7 +109,7 @@ describe 'Registrasi API' do
               }
         run_test!
       end
-      response '500', 'Error' do
+      response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
                   message: {type: :string, example: "Invalid Header"},
@@ -144,7 +145,7 @@ describe 'Registrasi API' do
               }
         run_test!
       end
-      response '500', 'Error' do
+      response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
                   message: {type: :string, example: "Invalid Header"},
@@ -173,7 +174,7 @@ describe 'Registrasi API' do
               }
         run_test!
       end
-      response '500', 'Error' do
+      response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
                   message: {type: :string, example: "Invalid Header"},

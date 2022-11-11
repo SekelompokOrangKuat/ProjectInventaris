@@ -1,10 +1,13 @@
 class V1::User::RegistrasiController < ApplicationController
-    before_action :authorize_request, except: :create
+    before_action :authorize_request
   
-    # GET /users
     def index
         @users = User.all
-        render json: @users, status: :ok
+        if not @users.present?
+            render json: {error: "Tidak ada data!"}, status: :unprocessable_entity
+        else
+            render json: @users, status: :ok
+        end
     end
   
     def find
@@ -82,16 +85,13 @@ class V1::User::RegistrasiController < ApplicationController
                         @users.save(:validate => false)
                         render json: {succes: @users}, status: :ok
                     end
-
-                    puts params[:user_role]
                 rescue Exception => e
                     render json: {error: "edit gagal, silahkan dicoba kembali!"}, status: :unprocessable_entity
                 end
             end
         end
     end
-    
-    # DELETE /users/{username}
+
     def delete
         if params[:email].blank?
             render json: {error: "Email harus di isi!"}, status: :unprocessable_entity
