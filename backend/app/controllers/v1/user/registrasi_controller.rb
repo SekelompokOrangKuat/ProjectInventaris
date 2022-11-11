@@ -8,11 +8,15 @@ class V1::User::RegistrasiController < ApplicationController
     end
   
     def find
-        users = User.where(email: params[:email]).first
-        if users.blank?
-          render json: {error: "User tidak ditemukan"}, status: :unprocessable_entity
+        if params[:email].blank?
+            render json: {error: "Email harus diisi!"}, status: :unprocessable_entity
         else
-          render json: users, status: :ok
+            users = User.where(email: params[:email]).first
+            if not users.present?
+              render json: {error: "User tidak ditemukan"}, status: :unprocessable_entity
+            else
+              render json: {success: users}, status: :ok
+            end
         end
     end
   
@@ -81,7 +85,7 @@ class V1::User::RegistrasiController < ApplicationController
 
                     puts params[:user_role]
                 rescue Exception => e
-                    render json: {error: "edit gagal!"}, status: :unprocessable_entity
+                    render json: {error: "edit gagal, silahkan dicoba kembali!"}, status: :unprocessable_entity
                 end
             end
         end
