@@ -1351,49 +1351,49 @@ paths:
           properties:
             kode_lokasi:
               type: string
-              example: 01.02.03.04.05
+              example: 5.2.05.01.01.001
             nama_barang:
               type: string
-              example: Buku
+              example: Agama Islam
             nomor_register:
               type: string
-              example: '0001'
+              example: '001'
             judul_buku:
               type: string
-              example: Hujan
+              example: Ahmad Dahlan
             spesifikasi_buku:
               type: string
-              example: Novel
+              example: Kertas HVS 70 gr
             asal_kesenian:
               type: string
-              example: Sastra
+              example: "-"
             pencipta_kesenian:
               type: string
-              example: Tereliye
+              example: Ahmad Dahlan
             bahan_kesenian:
               type: string
-              example: Buku
+              example: "-"
             jenis:
               type: string
-              example: Fiksi
+              example: "-"
             jumlah:
               type: string
               example: '1'
             ukuran:
               type: string
-              example: 12x18 cm
+              example: "-"
             tahun_pembelian:
               type: string
-              example: '2011'
+              example: '2021'
             asal_usul:
               type: string
               example: APBD
             harga:
               type: string
-              example: Rp. 100000
+              example: Rp. 23000
             keterangan:
               type: string
-              example: Layak Pakai
+              example: "-"
           required: []
       responses:
         '201':
@@ -1496,25 +1496,25 @@ paths:
               example: 636e72bbe21fac2f6846f8e3
             kode_lokasi:
               type: string
-              example: 03.02.01.04.05
+              example: 5.2.05.01.01.002
             nama_barang:
               type: string
-              example: Buku
+              example: Sejarah
             nomor_register:
               type: string
-              example: '0002'
+              example: '002'
             judul_buku:
               type: string
-              example: Hujan Di Mimpi
+              example: Sembada
             spesifikasi_buku:
               type: string
               example: Novel
             asal_kesenian:
               type: string
-              example: Sastra
+              example: "-"
             pencipta_kesenian:
               type: string
-              example: Gemintang
+              example: Pembada
             bahan_kesenian:
               type: string
               example: Buku
@@ -1535,10 +1535,10 @@ paths:
               example: APBD
             harga:
               type: string
-              example: Rp. 90000
+              example: Rp. 48000
             keterangan:
               type: string
-              example: Layak Pakai
+              example: "-"
           required: []
       responses:
         '200':
