@@ -10,10 +10,10 @@ describe 'Registrasi API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            email: {type: :string, example: "simbada@gmail.com"},
+            email: {type: :string, example: "simbadainv@gmail.com"},
             password: {type: :string, example: "12345678"},
             password_confirmation: {type: :string, example: "12345678"},
-            user_role: {type: :string, example: "SuperAdmin"},
+            user_role: {type: :string, example: "Admin"},
             nama: {type: :string, example: "Admin Simbada"},
             nip: {type: :string, example: "019231234329102"},
             telepon: {type: :string, example: "081232132318"},
@@ -52,7 +52,7 @@ describe 'Registrasi API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            email: {type: :string, example: "tatang@polban.ac.id"},
+            email: {type: :string, example: "simbada@gmail.com"},
         },
         required: []
       }
