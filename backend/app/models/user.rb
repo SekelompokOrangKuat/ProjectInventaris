@@ -11,7 +11,7 @@ class User
   validates :telepon, presence: true
   validates :nip, presence: true
   validates :nama, presence: true
-  validates_inclusion_of :user_role, in: %w(Pengurus Admin SuperAdmin), message: "harus Pengurus/Admin/SuperAdmin!"
+  validates_inclusion_of :user_role, in: %w(Admin Pengelola Pengguna), message: "harus Admin/Pengelola/Pengguna!"
 
   field :email, type: String
   field :password_digest, :type => String

@@ -1,9 +1,13 @@
 class ApplicationController < ActionController::API
-  def not_found
-      render json: { error: 'routes tidak dapat ditemukan, silahkan periksa kembali!' }
-    end
   
-    def authorize_request
+  def role
+    header = request.authorization
+    @decoded = JsonWebToken.decode(header)
+    @current_user = User.find(@decoded[:user_id]).user_role
+    return @current_user
+  end
+  
+  def authorize_request
       header = request.headers['Authorization']
       header = header.split(' ').last if header
       begin

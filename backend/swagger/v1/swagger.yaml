@@ -2013,7 +2013,7 @@ paths:
           properties:
             email:
               type: string
-              example: simbada@gmail.com
+              example: simbadainv@gmail.com
             password:
               type: string
               example: '12345678'
@@ -2022,7 +2022,7 @@ paths:
               example: '12345678'
             user_role:
               type: string
-              example: SuperAdmin
+              example: Admin
             nama:
               type: string
               example: Admin Simbada
@@ -2081,7 +2081,7 @@ paths:
           properties:
             email:
               type: string
-              example: tatang@polban.ac.id
+              example: simbada@gmail.com
           required: []
       responses:
         '200':
