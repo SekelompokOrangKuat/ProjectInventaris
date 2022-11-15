@@ -10,21 +10,6 @@ class V1::Kib::KibaController < ApplicationController
         end
     end
   
-    def find
-        if params[:id].blank?
-            render json: {error: "id tidak boleh kosong!"}, status: :unprocessable_entity
-        else
-            kib_a = Barang::Kiba.where(_id: params[:id]).first
-            if not kib_a.present?
-                render json: {error: "Barang tidak dapat ditemukan!"}, status: :unprocessable_entity
-            elsif kib_a.status_kib == Enums::KibStatus::DELETED
-                render json: {error: "Barang sudah dihapus!"}, status: :unprocessable_entity  
-            else
-                render json: {success: kib_a}, status: :ok
-            end
-        end
-    end
-  
     def create
         if role.match(/Pengguna/).present?
             render json: {role: role, error:"Tidak memiliki akses!"}, status: :unauthorized
@@ -135,6 +120,15 @@ class V1::Kib::KibaController < ApplicationController
                     render json: {success: @kib_a}, status: :ok
                 end
             end
+        end
+    end
+
+    def search
+        @search = Barang::Kiba.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if not @search.present?
+            render json: {error: "Keyword tidak dapat ditemukan!"}, status: :unprocessable_entity
+        else
+            render json: {success: "Berhasil ditemukan!", response: @search}, status: :ok
         end
     end
   

@@ -50,8 +50,8 @@ describe 'KIB API' do
     end
   end
 
-  path '/v1/kib/kiba/find' do
-    post 'Find KIB A' do
+  path '/v1/kib/kiba/search' do
+    post 'Search KIB A' do
       tags 'KIB A'
       consumes 'application/json'
       produces 'application/json'
@@ -59,7 +59,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636dfb9ae21fac2cd4510353"},
+            keywords: {type: :string, example: "Sepeda"},
         },
         required: []
       }
@@ -249,8 +249,8 @@ describe 'KIB API' do
     end
   end
 
-  path '/v1/kib/kibb/find' do
-    post 'Find KIB B' do
+  path '/v1/kib/kibb/search' do
+    post 'Search KIB B' do
       tags 'KIB B'
       consumes 'application/json'
       produces 'application/json'
@@ -258,7 +258,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636dfb9ae21fac2cd4510353"},
+            id: {type: :string, example: "Kipas Angin"},
         },
         required: []
       }
@@ -450,8 +450,8 @@ describe 'KIB API' do
     end
   end
 
-  path '/v1/kib/kibc/find' do
-    post 'Find KIB C' do
+  path '/v1/kib/kibc/search' do
+    post 'Search KIB C' do
       tags 'KIB C'
       consumes 'application/json'
       produces 'application/json'
@@ -459,7 +459,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e51c8e21fac163c3e0cc7"},
+            keywords: {type: :string, example: "Rumah"},
         },
         required: []
       }
@@ -653,8 +653,8 @@ describe 'KIB API' do
     end
   end
 
-  path '/v1/kib/kibd/find' do
-    post 'Find KIB D' do
+  path '/v1/kib/kibd/search' do
+    post 'Search KIB D' do
       tags 'KIB D'
       consumes 'application/json'
       produces 'application/json'
@@ -662,7 +662,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e5ae2e21fac2f6846f8d7"},
+            keywords: {type: :string, example: "Rumah"},
         },
         required: []
       }
@@ -856,8 +856,8 @@ describe 'KIB API' do
     end
   end
 
-  path '/v1/kib/kibe/find' do
-    post 'Find KIB E' do
+  path '/v1/kib/kibe/search' do
+    post 'Search KIB E' do
       tags 'KIB E'
       consumes 'application/json'
       produces 'application/json'
@@ -865,7 +865,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e72bbe21fac2f6846f8e3"},
+            keywords: {type: :string, example: "Buku"},
         },
         required: []
       }
@@ -1059,8 +1059,8 @@ describe 'KIB API' do
     end
   end
 
-  path '/v1/kib/kibf/find' do
-    post 'Find KIB F' do
+  path '/v1/kib/kibf/search' do
+    post 'Search KIB F' do
       tags 'KIB F'
       consumes 'application/json'
       produces 'application/json'
@@ -1068,7 +1068,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e6497e21fac2f6846f8db"},
+            keywords: {type: :string, example: "Rumah"},
         },
         required: []
       }

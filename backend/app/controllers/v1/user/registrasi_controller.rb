@@ -14,24 +14,6 @@ class V1::User::RegistrasiController < ApplicationController
         end
     end
   
-    def find
-        #Cek Role
-        if not role.match(/Admin/).present?
-            render json: {role: role, error:"Tidak memiliki akses!"}, status: :unauthorized
-        else
-            if params[:email].blank?
-                render json: {error: "Email harus diisi!"}, status: :unprocessable_entity
-            else
-                users = User.where(email: params[:email]).first
-                if not users.present?
-                    render json: {error: "User tidak ditemukan"}, status: :unprocessable_entity
-                else
-                    render json: {success: users}, status: :ok
-                end
-            end
-        end
-    end
-  
     def create
         #Cek Role
         if not role.match(/Admin/).present?
@@ -94,6 +76,7 @@ class V1::User::RegistrasiController < ApplicationController
                                     @users.assign_attributes({user_role: user_role, nama: nama, nip: nip, telepon: telepon})
                                     @users.save(:validate => false)
                                     render json: {succes: @users}, status: :ok
+                                end
                             else 
                                 if not params[:user_role].length == 8
                                     render json: {error: "User Role harus Admin/Pengelola/Pengguna"}, status: :unprocessable_entity
@@ -101,6 +84,7 @@ class V1::User::RegistrasiController < ApplicationController
                                     @users.assign_attributes({user_role: user_role, nama: nama, nip: nip, telepon: telepon})
                                     @users.save(:validate => false)
                                     render json: {succes: @users}, status: :ok
+                                end
                             end
                         else
                             @users.assign_attributes({user_role: user_role, nama: nama, nip: nip, telepon: telepon})
@@ -130,6 +114,20 @@ class V1::User::RegistrasiController < ApplicationController
                     @users.destroy
                     render json: {success: "User berhasil dihapus!"}, status: :ok
                 end
+            end
+        end
+    end
+
+    def search
+        #Cek Role
+        if not role.match(/Admin/).present?
+            render json: {role: role, error:"Tidak memiliki akses!"}, status: :unauthorized
+        else
+            @search = User.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+            if not @search.present?
+                render json: {error: "Keyword tidak dapat ditemukan!"}, status: :unprocessable_entity
+            else
+                render json: {success: "Berhasil ditemukan!", response: @search}, status: :ok
             end
         end
     end

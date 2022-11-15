@@ -43,8 +43,8 @@ describe 'Registrasi API' do
     end
   end
 
-  path '/v1/user/registrasi/find' do
-    post 'Find User' do
+  path '/v1/user/registrasi/search' do
+    post 'Search User' do
       tags 'Registrasi'
       consumes 'application/json'
       produces 'application/json'
@@ -52,7 +52,7 @@ describe 'Registrasi API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            email: {type: :string, example: "simbada@gmail.com"},
+            keywords: {type: :string, example: "simbada@gmail.com"},
         },
         required: []
       }
