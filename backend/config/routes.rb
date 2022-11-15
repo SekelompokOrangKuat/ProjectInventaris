@@ -9,57 +9,56 @@ Rails.application.routes.draw do
   namespace :v1 do
     namespace :user do
       resource :registrasi do
-        get "/findAll" => "registrasi#index" 
-        post "/find" => "registrasi#find"
+        get "/findAll" => "registrasi#index"
         post "/edit" => "registrasi#edit"
         post "/create" => "registrasi#create"
         post "/delete" => "registrasi#delete"
+        post "/search" => "registrasi#search"
       end
     end
     namespace :kib do
       resource :kiba do
         get "/findAll" => "kiba#index"
-        post "/find" => "kiba#find"
         post "/edit" => "kiba#edit"
         post "/create" => "kiba#create"
         post "/delete" => "kiba#delete"
+        post "/search" => "kiba#search"
       end
       resource :kibb do
         get "/findAll" => "kibb#index"
-        post "/find" => "kibb#find"
         post "/edit" => "kibb#edit"
         post "/create" => "kibb#create"
         post "/delete" => "kibb#delete"
+        post "/search" => "kibb#search"
       end
       resource :kibc do
         get "/findAll" => "kibc#index"
-        post "/find" => "kibc#find"
         post "/edit" => "kibc#edit"
         post "/create" => "kibc#create"
         post "/delete" => "kibc#delete"
+        post "/search" => "kibc#search"
       end
       resource :kibd do
         get "/findAll" => "kibd#index"
-        post "/find" => "kibd#find"
         post "/edit" => "kibd#edit"
         post "/create" => "kibd#create"
         post "/delete" => "kibd#delete"
+        post "/search" => "kibd#search"
       end
       resource :kibe do
         get "/findAll" => "kibe#index"
-        post "/find" => "kibe#find"
         post "/edit" => "kibe#edit"
         post "/create" => "kibe#create"
         post "/delete" => "kibe#delete"
+        post "/search" => "kibe#search"
       end
       resource :kibf do
         get "/findAll" => "kibf#index"
-        post "/find" => "kibf#find"
         post "/edit" => "kibf#edit"
         post "/create" => "kibf#create"
         post "/delete" => "kibf#delete"
+        post "/search" => "kibe#search"
       end
     end
   end
-
 end
