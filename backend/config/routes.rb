@@ -18,4 +18,15 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :v1 do
+    namespace :ruangan do 
+      resource :ruangans do
+        get "/findAll" => "ruangans#getAll" 
+        post "/create" => "ruangans#create"
+        post "/delete" => "ruangans#destroy"
+        post "/edit" => "ruangans#editById"
+      end
+    end
+  end
+
 end
