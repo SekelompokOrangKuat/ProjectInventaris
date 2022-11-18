@@ -1,0 +1,6 @@
+{"scripts": {
+    "frontend": "cd frontend && npm start",
+    "backend": "cd backend && rails s",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
+  }
+}
