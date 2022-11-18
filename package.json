@@ -1,6 +1,6 @@
 {"scripts": {
-    "frontend": "cd frontend && yarn start",
-    "backend": "cd backend && rails s",
+    "frontend": "cd frontend && yarn install && yarn start",
+    "backend": "cd backend && bundle install && rails s",
     "heroku-postbuild": "cd frontend && yarn install && yarn run build"
   }
 }
