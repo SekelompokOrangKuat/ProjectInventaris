@@ -1,4 +1,0 @@
-{"scripts": {
-    "backend": "cd backend && bundle install && rails s"
-  }
-}
