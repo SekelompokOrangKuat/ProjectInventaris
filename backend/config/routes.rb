@@ -15,6 +15,15 @@ Rails.application.routes.draw do
         post "/delete" => "registrasi#delete"
         post "/search" => "registrasi#search"
       end
+      resource :pengadaan do
+        get "/findAll" => "pengadaan#index"
+        post "/create" => "pengadaan#create"
+        post "/approval" => "pengadaan#approval"
+        post "/edit" => "pengadaan#edit"
+        post "/delete" => "pengadaan#delete"
+        post "/search" => "pengadaan#search"
+
+      end
     end
     namespace :kib do
       resource :kiba do
