@@ -3,6 +3,8 @@ class Barang::Kibb
     include Mongoid::Timestamps
     include Mongoid::Attributes::Dynamic
     
+    belongs_to :user_pengadaan, class_name: "User::Pengadaan", optional: true
+
     field :kode_lokasi, type: String
     field :nama_barang, type: String
     field :nomor_register, type: String
@@ -16,7 +18,9 @@ class Barang::Kibb
     field :asal_usul, type: String
     field :harga_barang, type: String
     field :keterangan, type: String
-    field :status_kib, type: Integer
+    field :status_kib, type: Integer, default: proc { user_pengadaan ?  2 : 0}
 
-    scope :undeleted, -> { where(status_kib: Enums::KibStatus::NEW) }
+    scope :undeleted, -> { where(status_kib: Enums::Kib::NEW) }
+    scope :pengadaan, -> { where(status_kib: Enums::Kib::PENGADAAN)}
+
 end  

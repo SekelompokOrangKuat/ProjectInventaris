@@ -21,8 +21,8 @@ describe 'Authentication API' do
       response '401', 'Error' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Email salah"},
-                  code: {type: :string, example: "422"}
+                response_message: {type: :string, example: "Email salah"},
+                response_code: {type: :integer, example: 401}
               }
         run_test!
       end
