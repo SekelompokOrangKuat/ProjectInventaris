@@ -64,6 +64,7 @@ const Login = () => {
                                 fullWidth
                                 sx={{ backgroundColor: "themePrimary.darkest", }}
                                 disableElevation
+                                onClick={() => { navigate("/") }}
                             >
                                 Login
                             </Button>
