@@ -11,10 +11,19 @@ const Login = () => {
 
     return (
         <Box sx={{ width: "100%" }}>
-            <Grid container rowSpacing={0}>
+            <Grid
+                container
+                rowSpacing={0}
+            >
                 <Grid item xs={6}>
-                    <Stack sx={{ height: "100vh", background: "white", position: "relative" }}>
-                        <img src={logoBandungDisdik} alt="Bandung & DISDIK Logo" className="header-logo"></img>
+                    <Stack
+                        sx={{
+                            height: "100vh",
+                            background: "white",
+                            position: "relative"
+                        }}
+                    >
+                        <img src={logoBandungDisdik} alt="Logo Bandung & DISDIK" className="header-logo"></img>
                         <Box className="sinbada-section">
                             <img src={logoSinbada} alt="SINBADA Logo" className="sinbada-logo"></img>
                             <h1>Sistem    Inventarisasi    Barang    Daerah</h1>
@@ -23,7 +32,14 @@ const Login = () => {
                     </Stack>
                 </Grid>
                 <Grid item xs={6}>
-                    <Box sx={{ height: "100vh", padding: "16", position: "relative", background: "#009B4C" }}>
+                    <Box
+                        sx={{
+                            height: "100vh",
+                            padding: "16",
+                            position: "relative",
+                            background: "#009B4C"
+                        }}
+                    >
                         <Stack
                             component="form"
                             className="login-section"
@@ -55,13 +71,19 @@ const Login = () => {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                sx={{ backgroundColor: "themePrimary.darkest", }}
+                                sx={{
+                                    backgroundColor: "themePrimary.darkest"
+                                }}
                                 disableElevation
                                 onClick={() => { navigate("/") }}
                             >
                                 <Typography variant="button">Login</Typography>
                             </Button>
-                            <Grid container direction="row" justifyContent="flex-end">
+                            <Grid
+                                container
+                                direction="row"
+                                justifyContent="flex-end"
+                            >
                                 <Typography variant="caption">Forgot your password? &nbsp;</Typography>
                                 <Link
                                     onClick={() => { navigate("/forgot-password") }}
@@ -69,10 +91,10 @@ const Login = () => {
                                     sx={{
                                         fontWeight: "bold",
                                         color: "white",
+                                        cursor: "pointer",
                                         '&:hover': {
                                             color: "themePrimary.darkest"
-                                        },
-                                        cursor: "pointer"
+                                        }
                                     }}
                                     underline="none"
                                 >

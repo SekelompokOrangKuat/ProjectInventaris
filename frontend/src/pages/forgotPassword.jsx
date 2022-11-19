@@ -14,17 +14,30 @@ const ForgotPassword = () => {
         <Box sx={{ width: "100%" }}>
             <Grid container rowSpacing={0}>
                 <Grid item xs={6}>
-                    <Stack sx={{ height: "100vh", background: "white", position: "relative" }}>
-                        <img src={logoBandungDisdik} alt="Bandung & DISDIK Logo" className="header-logo"></img>
+                    <Stack
+                        sx={{
+                            height: "100vh",
+                            background: "white",
+                            position: "relative"
+                        }}
+                    >
+                        <img src={logoBandungDisdik} alt="Logo Bandung & DISDIK" className="header-logo"></img>
                         <Box className="sinbada-section">
-                            <img src={logoSinbada} alt="SINBADA Logo" className="sinbada-logo"></img>
+                            <img src={logoSinbada} alt="Logo SINBADA" className="sinbada-logo"></img>
                             <h1>Sistem    Inventarisasi    Barang    Daerah</h1>
                             <h2>Dinas Pendidikan Pemerintah Daerah Provinsi Jawa Barat</h2>
                         </Box>
                     </Stack>
                 </Grid>
                 <Grid item xs={6}>
-                    <Box sx={{ height: "100vh", padding: "16", position: "relative", background: "#009B4C" }}>
+                    <Box
+                        sx={{
+                            height: "100vh",
+                            padding: "16",
+                            position: "relative",
+                            background: "#009B4C"
+                        }}
+                    >
                         <Stack
                             component="form"
                             className="forgot-password-section"
@@ -33,7 +46,14 @@ const ForgotPassword = () => {
                             spacing={2}
                         >
                             <Typography variant="h1">Lupa Kata Sandi?</Typography>
-                            <Typography variant="body1" sx={{ color: "themeGrey.lightest" }}>Jangan khawatir, kami akan mengirim instruksi untuk mengganti kata sandi anda melalui email.</Typography>
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    color: "themeGrey.lightest"
+                                }}
+                            >
+                                Jangan khawatir, kami akan mengirim instruksi untuk mengganti kata sandi anda melalui email.
+                            </Typography>
                             <TextField
                                 fullWidth
                                 label="Email"
@@ -47,7 +67,9 @@ const ForgotPassword = () => {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                sx={{ backgroundColor: "themePrimary.darkest", }}
+                                sx={{
+                                    backgroundColor: "themePrimary.darkest"
+                                }}
                                 disableElevation
                             >
                                 Kirim
@@ -63,9 +85,24 @@ const ForgotPassword = () => {
                                 underline="none"
                                 onClick={() => { navigate("/login") }}
                             >
-                                <Grid container display="flex" flexDirection="row" justifyContent="center" alignItems="flex-start" gap={1} mt={2}>
+                                <Grid
+                                    container
+                                    display="flex"
+                                    flexDirection="row"
+                                    justifyContent="center"
+                                    alignItems="flex-start"
+                                    gap={1}
+                                    mt={2}
+                                >
                                     <ArrowLeft size={16} />
-                                    <Typography variant="caption" sx={{ fontWeight: "bold" }}> Kembali ke halaman login</Typography>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: "bold"
+                                        }}
+                                    >
+                                        Kembali ke halaman login
+                                    </Typography>
                                 </Grid>
                             </Link>
                         </Stack>
