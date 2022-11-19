@@ -9,10 +9,11 @@ import { Box, Grid, Stack, TextField, Button, Typography, Link } from "@mui/mate
 import { useNavigate } from "react-router-dom";
 import logoBandungDisdik from '../assets/images/bandung_disdik_logo.png';
 import logoSinbada from '../assets/images/sinbada_logo.png';
+import { ArrowLeft } from "react-feather";
 import '../components/login.css';
 import React from "react";
 
-const Login = () => {
+const ForgotPassword = () => {
 
     const navigate = useNavigate();
 
@@ -33,27 +34,18 @@ const Login = () => {
                     <Box sx={{ height: "100vh", padding: "16", position: "relative", background: "#009B4C" }}>
                         <Stack
                             component="form"
-                            className="login-section"
+                            className="forgot-password-section"
                             no-validate
                             autoComplete="off"
                             spacing={2}
                         >
-                            <Typography variant="h4" sx={{ fontWeight: "bold" }}>Login</Typography>
+                            <Typography variant="h4" sx={{ fontWeight: "bold" }}>Lupa Kata Sandi?</Typography>
+                            <Typography variant="body1" sx={{ color: "#E0E0E0" }}>Jangan khawatir, kami akan mengirim instruksi untuk mengganti kata sandi anda melalui email.</Typography>
                             <TextField
                                 fullWidth
                                 label="Email"
                                 variant="filled"
                                 type="email"
-                                InputProps={{
-                                    disableUnderline: true
-                                }}
-                                className="TextField"
-                            />
-                            <TextField
-                                fullWidth
-                                label="Password"
-                                variant="filled"
-                                type="password"
                                 InputProps={{
                                     disableUnderline: true
                                 }}
@@ -65,25 +57,24 @@ const Login = () => {
                                 sx={{ backgroundColor: "themePrimary.darkest", }}
                                 disableElevation
                             >
-                                Login
+                                Kirim
                             </Button>
-                            <Grid container direction="row" justifyContent="flex-end">
-                                <Typography>Forgot your password? &nbsp;</Typography>
-                                <Link
-                                    onClick={() => { navigate("/forgot-password") }}
-                                    sx={{
-                                        fontWeight: "bold",
-                                        color: "white",
-                                        '&:hover': {
-                                            color: "themePrimary.darkest"
-                                        },
-                                        cursor: "pointer"
-                                    }}
-                                    underline="none"
-                                >
-                                    Click Here
-                                </Link>
-                            </Grid>
+                            <Link
+                                component="button"
+                                sx={{
+                                    color: "white",
+                                    '&:hover': {
+                                        color: "themePrimary.darkest"
+                                    }
+                                }}
+                                underline="none"
+                                onClick={() => { navigate("/login") }}
+                            >
+                                <Grid container display="flex" flexDirection="row" justifyContent="center" alignItems="center" gap={1}>
+                                    <ArrowLeft size={16} />
+                                    <Typography sx={{ fontWeight: "bold" }}> Kembali ke halaman login</Typography>
+                                </Grid>
+                            </Link>
                         </Stack>
                     </Box>
                 </Grid>
@@ -92,4 +83,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default ForgotPassword;
