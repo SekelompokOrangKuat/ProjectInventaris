@@ -175,20 +175,27 @@ class V1::Kib::KibdController < ApplicationController
                     response_message: "Id tidak boleh kosong!"
                     }, status: :unprocessable_entity
             else
-                @kib_d = Barang::Kibd.find(params[:id])
-                if not @kib_d.present?
+                if @kib_d = Barang::Kibd.find(_id: params[:id]).status_kib == Enums::KibStatus::DELETED
                     render json: {
                         response_code: 422, 
-                        response_message: "Id tidak dapat ditemukan!"
+                        response_message: "Barang sudah dihapus!"
                         }, status: :unprocessable_entity
                 else
-                    @kib_d.assign_attributes({status_kib: Enums::Kib::DELETED})
-                    @kib_d.save(:validate => false)
-                    render json: {
-                        response_code: 200, 
-                        response_message: "Success",
-                        data: @kib_f
-                        }, status: :ok
+                    @kib_d = Barang::Kibf.undeleted.where(_id: params[:id])
+                    if not @kib_d.present?
+                        render json: {
+                            response_code: 422, 
+                            response_message: "Id tidak dapat ditemukan!"
+                            }, status: :unprocessable_entity
+                    else
+                        @kib_d.assign_attributes({status_kib: Enums::Kib::DELETED})
+                        @kib_d.save(:validate => false)
+                        render json: {
+                            response_code: 200, 
+                            response_message: "Success",
+                            data: @kib_d
+                            }, status: :ok
+                    end
                 end
             end
         end

@@ -22,7 +22,13 @@ Rails.application.routes.draw do
         post "/edit" => "pengadaan#edit"
         post "/delete" => "pengadaan#delete"
         post "/search" => "pengadaan#search"
-
+      end
+      resource :jadwal do
+        get "/findAll" => "jadwal#index"
+        post "/edit" => "jadwal#edit"
+        post "/create" => "jadwal#create"
+        post "/delete" => "jadwal#delete"
+        post "/search" => "jadwal#search"
       end
     end
     namespace :kib do
