@@ -1,10 +1,3 @@
-/**
- * 
- * Dashboard page (content)
- * 
- * 
- */
-
 import { Box, Grid, Stack, TextField, Button, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import logoBandungDisdik from '../assets/images/bandung_disdik_logo.png';
@@ -39,8 +32,8 @@ const ForgotPassword = () => {
                             autoComplete="off"
                             spacing={2}
                         >
-                            <Typography variant="h4" sx={{ fontWeight: "bold" }}>Lupa Kata Sandi?</Typography>
-                            <Typography variant="body1" sx={{ color: "#E0E0E0" }}>Jangan khawatir, kami akan mengirim instruksi untuk mengganti kata sandi anda melalui email.</Typography>
+                            <Typography variant="h1">Lupa Kata Sandi?</Typography>
+                            <Typography variant="body1" sx={{ color: "themeGrey.lightest" }}>Jangan khawatir, kami akan mengirim instruksi untuk mengganti kata sandi anda melalui email.</Typography>
                             <TextField
                                 fullWidth
                                 label="Email"
@@ -70,9 +63,9 @@ const ForgotPassword = () => {
                                 underline="none"
                                 onClick={() => { navigate("/login") }}
                             >
-                                <Grid container display="flex" flexDirection="row" justifyContent="center" alignItems="center" gap={1}>
+                                <Grid container display="flex" flexDirection="row" justifyContent="center" alignItems="flex-start" gap={1} mt={2}>
                                     <ArrowLeft size={16} />
-                                    <Typography sx={{ fontWeight: "bold" }}> Kembali ke halaman login</Typography>
+                                    <Typography variant="caption" sx={{ fontWeight: "bold" }}> Kembali ke halaman login</Typography>
                                 </Grid>
                             </Link>
                         </Stack>

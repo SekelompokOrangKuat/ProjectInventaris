@@ -1,10 +1,3 @@
-/**
- * 
- * Dashboard page (content)
- * 
- * 
- */
-
 import { Box, Grid, Stack, TextField, Button, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import logoBandungDisdik from '../assets/images/bandung_disdik_logo.png';
@@ -38,7 +31,7 @@ const Login = () => {
                             autoComplete="off"
                             spacing={2}
                         >
-                            <Typography variant="h4" sx={{ fontWeight: "bold" }}>Login</Typography>
+                            <Typography variant="h1" sx={{ fontWeight: "bold" }}>Login</Typography>
                             <TextField
                                 fullWidth
                                 label="Email"
@@ -66,12 +59,13 @@ const Login = () => {
                                 disableElevation
                                 onClick={() => { navigate("/") }}
                             >
-                                Login
+                                <Typography variant="button">Login</Typography>
                             </Button>
                             <Grid container direction="row" justifyContent="flex-end">
-                                <Typography>Forgot your password? &nbsp;</Typography>
+                                <Typography variant="caption">Forgot your password? &nbsp;</Typography>
                                 <Link
                                     onClick={() => { navigate("/forgot-password") }}
+                                    variant="caption"
                                     sx={{
                                         fontWeight: "bold",
                                         color: "white",
