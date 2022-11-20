@@ -1,8 +1,14 @@
-import { Routes, Route } from "react-router-dom";
-import Layout from "./components/layout.jsx";
-import Dashboard from "./pages/dashboard.jsx";
-import './App.css';
 import React from "react";
+import { Routes, Route, Outlet } from "react-router-dom";
+
+import Layout from "./components/layout.jsx";
+import PDFViewer from "./components/pdf_viewer.jsx";
+
+import Dashboard from "./pages/dashboard.jsx";
+
+import SOPMutasi from "./assets/pdf/SOP Mutasi.pdf";
+import SOPPengelolaan from "./assets/pdf/SOP Pengelolaan Barang Milik Daerah.pdf";
+import './App.css';
 
 function App() {
   return (
@@ -14,6 +20,12 @@ function App() {
             <Route path="pencatatan" element={<Dashboard />}></Route>
             <Route path="pelaporan" element={<Dashboard />}></Route>
           </Route>
+
+          {/* Exclusive path. Do not change those path! */}
+          <Route path="pdf/mutasi" element={<PDFViewer file={SOPMutasi} />}></Route>
+          <Route path="pdf/pengelolaan" element={<PDFViewer file={SOPPengelolaan} />}></Route>
+          {/* End of exclusive path */}
+
         </Routes>
     </React.Fragment>
   );

@@ -23,8 +23,8 @@ const Dashboard = () => {
     ]
 
     const sopDatas = [
-        {icon: <FileText size={50}/>, title:'SOP Pengelolaan Barang Milik Daerah', url:'/'},
-        {icon: <FileText size={50}/>, title:'SOP Mutasi', url:'/'}
+        {icon: <FileText size={50}/>, title:'SOP Pengelolaan Barang Milik Daerah', url:'/pdf/mutasi'},
+        {icon: <FileText size={50}/>, title:'SOP Mutasi', url:'/pdf/pengelolaan'}
     ]
 
     const [contentHeight, setContentHeight] = useState(0);
@@ -141,7 +141,7 @@ const Dashboard = () => {
                         >
                             {data.icon}
                             <Typography variant="h4">{data.title}</Typography>
-                            <Button variant="contained" onClick={()=>{navigate(data.url)}}>Lihat SOP</Button>
+                            <Button variant="contained" onClick={()=>window.open(data.url, '_blank')}>Lihat SOP</Button>
                         </Box>
                     )}
                 </Box>
