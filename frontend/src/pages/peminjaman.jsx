@@ -1,9 +1,8 @@
 import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox } from "@mui/material";
-import { Box as BoxFeather, Edit, PlusSquare, Trash2 } from "react-feather";
+import { Edit, FileText, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
 const Peminjaman = () => {
-
 
     /* REST API EXAMPLE */
     // const [posts, setPosts] = React.useState([]);
@@ -116,9 +115,9 @@ const Peminjaman = () => {
                     alignItems="center"
                     gap={1}
                 >
-                    <BoxFeather size={20} />
+                    <FileText size={20} />
                     <Typography variant="h2">
-                        Mutasi Barang
+                        Peminjaman
                     </Typography>
                 </Grid>
             </Box>

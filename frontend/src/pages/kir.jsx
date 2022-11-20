@@ -1,8 +1,8 @@
 import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox } from "@mui/material";
-import { Box as BoxFeather, Edit, PlusSquare, Trash2 } from "react-feather";
+import { Edit, FileText, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
-const MutasiBarang = () => {
+const KIR = () => {
 
     /* REST API EXAMPLE */
     // const [posts, setPosts] = React.useState([]);
@@ -35,26 +35,21 @@ const MutasiBarang = () => {
         "Kode Lokasi",
         "Kode Barang",
         "Register",
+        "Nama Ruangan",
         "Nama Barang",
-        "Merk/Type",
+        "Merk/Model",
+        "No. Seri Pabrik",
+        "Ukuran",
         "Bahan",
-        "No. Pabrik, Mesin, Sertifikat",
-        "Asal/Cara Perolehan Barang",
-        "Tahun Beli/Perolehan",
-        "Ukuran, Barang/Konstrukrsi (P,SP,D)",
-        "Satuan",
-        "Kondisi (B, RR, RB)",
-        "Jumlah Awal (Barang)",
-        "Jumlah Awal (Harga)",
-        "Mutasi Berkurang (Jumlah Barang)",
-        "Mutasi Bertambah (Jumlah Harga)",
-        "Mutasi Bertambah (Jumlah Harga)",
-        "Mutasi Berkurang (Jumlah Harga)",
+        "Keadaan Barang",
+        "Tahun Pembuatan/ Pembelian",
+        "Harga Beli/ Perolehan",
+        "Keterangan",
     ];
 
     for (let i = 0; i < labels.length; i++) {
         fields.push(
-            <Grid item xs={4}>
+            <Grid item xs={i == labels.length - 1 ? 12 : 4}>
                 <TextField variant="outlined" label={labels[i]} fullWidth />
             </Grid>
         );
@@ -116,9 +111,9 @@ const MutasiBarang = () => {
                     alignItems="center"
                     gap={1}
                 >
-                    <BoxFeather size={20} />
+                    <FileText size={20} />
                     <Typography variant="h2">
-                        Mutasi Barang
+                        Kartu Inventaris Ruangan (KIR)
                     </Typography>
                 </Grid>
             </Box>
@@ -201,55 +196,34 @@ const MutasiBarang = () => {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={3} sx={{ border: 1, borderBottom: 0 }}>No</StyledTableCell>
-                            <StyledTableCell align="center" colSpan={4} sx={{ border: 1, borderBottom: 0 }}>Spesifikasi Barang</StyledTableCell>
                             <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
                             <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
                             <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
                             <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
                             <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={2} sx={{ border: 1, borderBottom: 0 }}>Jumlah Awal</StyledTableCell>
-                            <StyledTableCell align="center" colSpan={4} sx={{ border: 1, }}>Mutasi Perubahan</StyledTableCell>
-                            <StyledTableCell align="center" colSpan={2} sx={{ border: 1, borderBottom: 0 }}>Jumlah Akir</StyledTableCell>
                             <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                        </TableRow>
-                        <TableRow>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderTop: 0, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={3} sx={{ border: 1, borderTop: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={4} sx={{ border: 1, borderTop: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderTop: 0, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderTop: 0, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderTop: 0, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderTop: 0, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderTop: 0, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={2} sx={{ border: 1, borderTop: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={2} sx={{ border: 1, borderTop: 0 }}>Bertambah</StyledTableCell>
-                            <StyledTableCell align="center" colSpan={2} sx={{ border: 1, borderTop: 0, borderBottom: 1 }}>Berkurang</StyledTableCell>
-                            <StyledTableCell align="center" colSpan={2} sx={{ border: 1, borderTop: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderTop: 0, borderBottom: 0 }}></StyledTableCell>
+                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
+                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
+                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
+                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
+                            <StyledTableCell align="center" colSpan={3} sx={{ border: 1 }}>Keadaan Barang</StyledTableCell>
+                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
                         </TableRow>
                         <TableRow>
                             <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>No</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Kode Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Register</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Nama / Jenis Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Merk Type</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>No. Sertifikat/ No. Pabrik/ No. Chasis/ Mesin</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Bahan</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Asal/Cara Perolehan Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Tahun Beli/ Perolehan</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Ukuran Barang/ Konstruksi (P, SP, D)</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Satuan</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Kondisi (B, RR, RB)</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Harga</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Jumlah Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Jumlah Harga</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Jumlah Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Jumlah Harga</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1 }}>Harga</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>No</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Jenis Barang/ Nama Barang</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Merk/ Model</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>No. Seri Pabrik</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Ukuran</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Bahan</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Tahun Pembuatan/ Pembelian</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>No. Kode Barang</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Jumlah Barang/ Register</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Harga Beli/ Perolehan</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Baik (B)</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Kurang Baik (KB)</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Rusak Berat (RB)</StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Keterangan</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -281,13 +255,6 @@ const MutasiBarang = () => {
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
                             </StyledTableRow>
                         ))}
@@ -298,4 +265,4 @@ const MutasiBarang = () => {
     )
 }
 
-export default MutasiBarang;
+export default KIR;
