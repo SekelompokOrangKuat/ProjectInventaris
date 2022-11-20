@@ -8,7 +8,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { ChevronDown } from "react-feather";
 
-import NavbarLogo from '../assets/images/navbar_logo.PNG';
+import NavbarLogo from '../assets/images/navbar_logo.png';
 
 const Navbar = () => {
 
