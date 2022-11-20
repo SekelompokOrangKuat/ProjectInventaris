@@ -8,10 +8,8 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import { Calendar, FileText, Tool, Trash2, PlusSquare} from "react-feather";
-import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-    const navigate = useNavigate();
 
     var today = new Date();
     const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
