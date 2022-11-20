@@ -27,23 +27,23 @@ describe 'KIB API' do
         },
         required: []
       }
-      response '201', 'Successfull' do
+      response '201', 'Created' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Kesalahan Parameter"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Kesalahan Parameter"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -67,19 +67,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -116,19 +116,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Id tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Id tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -152,19 +152,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -181,19 +181,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Tidak ada data!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Tidak ada data!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -226,23 +226,23 @@ describe 'KIB API' do
         },
         required: []
       }
-      response '201', 'Successfull' do
+      response '201', 'Created' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Kesalahan Parameter"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Kesalahan Parameter"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -266,19 +266,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -315,19 +315,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Id tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Id tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -351,19 +351,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -380,19 +380,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Tidak ada data!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Tidak ada data!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -427,23 +427,23 @@ describe 'KIB API' do
         },
         required: []
       }
-      response '201', 'Successfull' do
+      response '201', 'Created' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Kesalahan Parameter"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Kesalahan Parameter"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -467,19 +467,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -518,19 +518,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Id tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Id tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -554,19 +554,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -583,19 +583,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Tidak ada data!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Tidak ada data!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -630,23 +630,23 @@ describe 'KIB API' do
         },
         required: []
       }
-      response '201', 'Successfull' do
+      response '201', 'Created' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Kesalahan Parameter"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Kesalahan Parameter"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -670,19 +670,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -721,19 +721,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Id tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Id tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -757,19 +757,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -786,19 +786,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Tidak ada data!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Tidak ada data!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -833,23 +833,23 @@ describe 'KIB API' do
         },
         required: []
       }
-      response '201', 'Successfull' do
+      response '201', 'Created' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Kesalahan Parameter"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Kesalahan Parameter"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -873,19 +873,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -924,19 +924,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Id tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Id tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -960,19 +960,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -989,19 +989,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Tidak ada data!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Tidak ada data!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -1036,23 +1036,23 @@ describe 'KIB API' do
         },
         required: []
       }
-      response '201', 'Successfull' do
+      response '201', 'Created' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Kesalahan Parameter"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Kesalahan Parameter"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -1076,19 +1076,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -1128,19 +1128,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Id tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Id tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -1164,19 +1164,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Barang tidak dapat ditemukan!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -1193,19 +1193,19 @@ describe 'KIB API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Tidak ada data!"},
-                  code: {type: :string, example: "422"}
+                  response_message: {type: :string, example: "Tidak ada data!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
               }
         run_test!
       end

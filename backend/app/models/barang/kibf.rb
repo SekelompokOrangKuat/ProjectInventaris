@@ -23,7 +23,7 @@ class Barang::Kibf
   field :asal_usul, type: String
   field :nilai_kontrak, type: String
   field :keterangan, type: String
-  field :status_kib, type: Integer
+  field :status_kib, type: Integer, default: Enums::Kib::NEW
 
-  scope :undeleted, -> { where(status_kib: Enums::KibStatus::NEW) }
+  scope :undeleted, -> { where(status_kib: Enums::Kib::NEW) }
 end  
