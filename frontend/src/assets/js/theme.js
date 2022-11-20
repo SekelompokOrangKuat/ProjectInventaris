@@ -4,26 +4,32 @@ var theme = createTheme({
   typography: {
     h1: {
       fontSize: '34px',
-      fontWeight: 'bold'
+      fontFamily: 'Open Sans, sans-serif',
+      fontWeight: 'bold',
     },
     h2: {
       fontSize: '24px',
+      fontFamily: 'Open Sans, sans-serif',
       fontWeight: 'bold'
     },
     h3: {
       fontSize: '20px',
+      fontFamily: 'Open Sans, sans-serif',
       fontWeight: '600'
     },
     h4: {
       fontSize: '16px',
+      fontFamily: 'Open Sans, sans-serif',
       fontWeight: '600'
     },
     h5: {
       fontSize: '14px',
+      fontFamily: 'Open Sans, sans-serif',
       fontWeight: '600'
     },
     h6: {
       fontSize: '12px',
+      fontFamily: 'Open Sans, sans-serif',
       fontWeight: '600'
     },
     body1: {
@@ -31,10 +37,12 @@ var theme = createTheme({
     },
     caption: {
       fontSize: '12px',
+      fontFamily: 'Open Sans, sans-serif',
       fontWeight: '300'
     },
     button: {
       fontSize: '14px',
+      fontFamily: 'Open Sans, sans-serif',
       fontWeight: '600',
       textTransform: "none",
     }
@@ -59,8 +67,15 @@ var theme = createTheme({
       lightest: '#E0E0E0'
     },
     themeWhite: {
+      darkest:'#E5E5E5',
+      darker: '#EEEEEE',
+      lighter: '#FAFAFA',
       lightest:'#FFFFFF',
-    }, 
+    },
+    themeTable: {
+      dark:'#AAC3F3',
+      light:'#D9E6FF',
+    }
   },
 });
 
