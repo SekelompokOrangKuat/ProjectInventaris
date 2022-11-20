@@ -8,7 +8,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { ChevronDown } from "react-feather";
 
-import NavbarLogo from '../assets/images/navbar_logo.png';
+import NavbarLogo from '../assets/images/navbar_logo.PNG';
 
 const Navbar = () => {
 
@@ -24,21 +24,22 @@ const Navbar = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: "center",
-                justifyContent:"space-between",
+                justifyContent: "space-between",
                 px: 5,
                 boxShadow: "0 4px 4px 0 rgba(0,0,0,0.15)"
             }}
         >
             <img src={NavbarLogo} loading="lazy" height="47px" width="auto" alt="Logo Provinsi Jawa Barat, Disdik Jawa Barat, dan SINBADA" />
             <Box
-            sx={{
-                display:'flex',
-                flexDirection:'row',
-                alignItems:'center',
-                "&:hover":{
-                    cursor:'pointer'
-                }
-            }}>
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    "&:hover": {
+                        cursor: 'pointer'
+                    },
+                    color: 'themeGrey.darkest'
+                }}>
                 <Typography variant="h4">Selamat {greetings}, Admin</Typography>
                 <ChevronDown size={20}></ChevronDown>
             </Box>
