@@ -161,7 +161,7 @@ describe 'Jadwal API' do
       response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                response_message: {type: :string, example: "Jadwal tidak ditemukan!"},
+                response_message: {type: :string, example: "Tidak ada data!"},
                   response_code: {type: :integer, example: 422}
               }
         run_test!

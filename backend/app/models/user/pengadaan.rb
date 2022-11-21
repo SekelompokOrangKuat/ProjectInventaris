@@ -7,8 +7,8 @@ class User::Pengadaan
 
     field :nama_pengusul, type: String
     field :foto_barang, type: String
-    field :status_usulan, type: Integer, default: Enums::KibStatus::NEW
+    field :status_usulan, type: Integer, default: Enums::StatusUsulan::NEW
 
-    scope :new_pengusulan, -> { where(status_usulan: Enums::KibStatus::NEW) }
+    scope :new_pengadaan, -> { where(status_usulan: Enums::StatusUsulan::NEW) }
 
 end

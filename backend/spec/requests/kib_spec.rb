@@ -258,7 +258,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "Kipas Angin"},
+            keywords: {type: :string, example: "Kipas Angin"},
         },
         required: []
       }
@@ -294,7 +294,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636dfb9ae21fac2cd4510353"},
+            id: {type: :string, example: "637912f1e21fac2eb88fd17e"},
             kode_lokasi: {type: :string, example: "02.06.01.04.02"},
             nama_barang: {type: :string, example: "Kipas Angin"},
             nomor_register: {type: :string, example: "0001"},
@@ -343,7 +343,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636dfb9ae21fac2cd4510353"}
+            id: {type: :string, example: "637912f1e21fac2eb88fd17e"}
         },
         required: []
       }

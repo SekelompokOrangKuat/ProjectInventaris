@@ -4,6 +4,9 @@ class Barang::Kibb
     include Mongoid::Attributes::Dynamic
     
     belongs_to :user_pengadaan, class_name: "User::Pengadaan", optional: true
+    belongs_to :user_pengusulan, class_name: "User::Pengusulan"
+    
+    validates :nomor_register, presence: true, uniqueness: true
 
     field :kode_lokasi, type: String
     field :nama_barang, type: String
@@ -22,5 +25,14 @@ class Barang::Kibb
 
     scope :undeleted, -> { where(status_kib: Enums::Kib::NEW) }
     scope :pengadaan, -> { where(status_kib: Enums::Kib::PENGADAAN)}
+    scope :penghapusan, -> { where(status_kib: Enums::Kib::PENGADAAN )}
+    scope :pending_pengusulan, -> { where(user_pengusulan_id: Enums::StatusUsulan::PENDING) }
+
+    before_validation do 
+        if new_record?
+            self.user_pengusulan = User::Pengusulan.create({status_usulan: Enums::StatusUsulan::PENDING})
+            self.user_pengusulan.save(:validate => false)
+        end
+    end
 
 end  

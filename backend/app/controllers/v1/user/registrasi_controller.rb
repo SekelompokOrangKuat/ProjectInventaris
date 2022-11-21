@@ -74,93 +74,57 @@ class V1::User::RegistrasiController < ApplicationController
                         nama = params[:nama]
                         nip = params[:nip]
                         telepon = params[:telepon]
-                        @users = User.find(params[:id])
-                        users_db = User.where(email: params[:email]).first
+                        users = User.where(email: params[:email]).first
                         if params[:user_role].blank? 
-                            user_role = users_db.user_role
-                        end
-                        if params[:nama].blank?
-                            nama = users_db.nama
-                        end
-                        if params[:nip].blank?
-                            nip = users_db.nip
-                        end
-                        if params[:telepon].blank?
-                            telepon = users_db.telepon
-                        end
-                        
-                        if params[:user_role].present?
+                            user_role = users.user_role
+                        else
+                            is_trigger = false
                             if params[:user_role].match(/Admin/).present?
-                                if not params[:user_role].length == 5
+                                if params[:user_role].length == 5
+                                    is_trigger = true
+                                else
                                     render json: {
                                         response_code: 422, 
                                         response_message: "User Role harus Admin/Pengelola/Pengguna"
                                         }, status: :unprocessable_entity
-                                else
-                                    @users.assign_attributes({user_role: user_role, nama: nama, nip: nip, telepon: telepon})
-                                    if @users.save(:validate => false)
-                                        render json: {
-                                            response_code: 200, 
-                                            response_message: "Success", 
-                                            data: @users
-                                            }, status: :ok
-                                    else
-                                        render json: {
-                                            response_code: 422, 
-                                            response_message: "Edit gagal!, silahkan di coba kembali"
-                                            }, status: :unprocessable_entity
-                                    end
                                 end
                             elsif params[:user_role].match(/Pengelola/).present?                            
-                                if not params[:user_role].length == 9
+                                if params[:user_role].length == 9
+                                    is_trigger = true
+                                else
                                     render json: {
                                         response_code: 422, 
                                         response_message: "User Role harus Admin/Pengelola/Pengguna"
                                         }, status: :unprocessable_entity
-                                else
-                                    @users.assign_attributes({user_role: user_role, nama: nama, nip: nip, telepon: telepon})
-                                    if @users.save(:validate => false)
-                                        render json: {
-                                            response_code: 200, 
-                                            response_message: "Success", 
-                                            data: @users
-                                            }, status: :ok
-                                    else
-                                        render json: {
-                                            response_code: 422, 
-                                            response_message: "Edit gagal!, silahkan di coba kembali"
-                                            }, status: :unprocessable_entity
-                                    end
                                 end
-                            else 
-                                if not params[:user_role].length == 8
+                            elsif params[:user_role].match(/Pengguna/).present?
+                                if params[:user_role].length == 8
+                                    is_trigger = true
+                                else
                                     render json: {
                                         response_code: 422, 
                                         response_message: "User Role harus Admin/Pengelola/Pengguna"
                                         }, status: :unprocessable_entity
-                                else
-                                    @users.assign_attributes({user_role: user_role, nama: nama, nip: nip, telepon: telepon})
-                                    if @users.save(:validate => false)
-                                        render json: {
-                                            response_code: 200, 
-                                            response_message: "Success", 
-                                            data: @users
-                                            }, status: :ok
-                                    else
-                                        render json: {
-                                            response_code: 422, 
-                                            response_message: "Edit gagal!, silahkan di coba kembali"
-                                            }, status: :unprocessable_entity
-                                    end
                                 end
                             end
-                        else
-                            @users.assign_attributes({user_role: user_role, nama: nama, nip: nip, telepon: telepon})
-                            if @users.save(:validate => false)
+                        end
+                        if params[:nama].blank?
+                            nama = users.nama
+                        end
+                        if params[:nip].blank?
+                            nip = users.nip
+                        end
+                        if params[:telepon].blank?
+                            telepon = users.telepon
+                        end
+                        
+                        if is_trigger == true
+                            users.assign_attributes({user_role: user_role, nama: nama, nip: nip, telepon: telepon})
+                            if users.save(:validate => false)
                                 render json: {
                                     response_code: 200, 
                                     response_message: "Success", 
-                                    data: @users
+                                    data: users
                                     }, status: :ok
                             else
                                 render json: {
@@ -169,6 +133,7 @@ class V1::User::RegistrasiController < ApplicationController
                                     }, status: :unprocessable_entity
                             end
                         end
+                            
                     rescue Exception => e
                         render json: {
                             response_code: 422, 

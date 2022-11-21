@@ -52,7 +52,7 @@ class V1::User::PengadaanController < ApplicationController
                     response_message: "id tidak boleh kosong!"
                     }, status: :unprocessable_entity
             else
-                @approval_pengadaan = User::Pengadaan.find(params[:id])
+                @approval_pengadaan = User::Pengadaan.new_pengadaan.where(_id: params[:id]).first
                 @kibb = Barang::Kibb.where(user_pengadaan_id: params[:id])
                 if @approval_pengadaan.present? 
                     if params[:is_approve].blank?
@@ -62,25 +62,27 @@ class V1::User::PengadaanController < ApplicationController
                             }, status: :unprocessable_entity
                     else
                         if params[:is_approve] == true
-                            @approval_pengadaan.assign_attributes({status_usulan: Enums::KibStatus::ACCEPTED})
-                            @approval_pengadaan.save!(:validate => false)
-                            @kibb.assign_attributes({status_kib: Enums::Kib::NEW})
-                            @kibb.save!(:validate => false)
-                            render json: {
-                                response_code: 200, 
-                                response_message: "Success", 
-                                data: @approval_pengadaan
-                                }, status: :ok
+                            status_usulan = Enums::StatusUsulan::ACCEPTED
+                            status_kib = Enums::Kib::NEW
                         else
-                            @approval_pengadaan.assign_attributes({status_usulan: Enums::KibStatus::REJECTED})
-                            @approval_pengadaan.save!(:validate => false)
-                            render json: {
-                                response_code: 200, 
-                                response_message: "Success", 
-                                data: @approval_pengadaan
-                                }, status: :ok
+                            status_usulan = Enums::StatusUsulan::REJECTED
+                            status_kib = @kibb.status_kib
                         end
+                        @approval_pengadaan.assign_attributes({status_usulan: status_usulan})
+                        @approval_pengadaan.save!(:validate => false)
+                        @kibb.assign_attributes({status_kib: status_kib})
+                        @kibb.save!(:validate => false)
+                        render json: {
+                            response_code: 200, 
+                            response_message: "Success", 
+                            data: @approval_pengadaan
+                            }, status: :ok
                     end
+                elsif @approval_pengadaan.status_usulan != Enums::StatusUsulan::NEW
+                    render json: {
+                        response_code: 422, 
+                        response_message: "Pengadaan sudah dilakukan Approval!"
+                        }, status: :unprocessable_entity
                 else
                     render json: {
                         response_code: 422, 
@@ -98,7 +100,7 @@ class V1::User::PengadaanController < ApplicationController
                 response_message: "id tidak boleh kosong!"
                 }, status: :unprocessable_entity
         else
-            @pengadaan = User::Pengadaan.new_pengusulan.find(params[:id])
+            @pengadaan = User::Pengadaan.new_pengadaan.find(params[:id])
             if not @pengadaan.present?
                 render json: {
                     response_code: 422, 
@@ -139,8 +141,18 @@ class V1::User::PengadaanController < ApplicationController
                     if params[:nama_barang].blank?
                         nama_barang = @barang.nama_barang
                     end
-                    if params[:nomor_register].blank?
+                    if params[:nomor_register].blank? or params[:nomor_register] == @barang.nomor_register
                         nomor_register = @barang.nomor_register
+                    else
+                        is_trigger = true
+                        nomor_registered = Barang::Kibb.where(nomor_register: params[:nomor_register]).first
+                        if nomor_registered.present?
+                            render json: {
+                                response_code: 422, 
+                                response_message: "Nomor register tidak boleh sama!"
+                                }, status: :unprocessable_entity
+                            is_trigger = false
+                        end
                     end
                     if params[:tipe_barang].blank?
                         tipe_barang = @barang.tipe_barang
@@ -218,7 +230,7 @@ class V1::User::PengadaanController < ApplicationController
                 }, status: :unprocessable_entity
         else
             barang = Barang::Kibb.pengadaan.where(:user_pengadaan_id => params[:id]).first
-            pengadaan = User::Pengadaan.new_pengusulan.where(:_id => params[:id]).first
+            pengadaan = User::Pengadaan.new_pengadaan.where(:_id => params[:id]).first
             if not pengadaan.present?
                 render json: {
                     response_code: 422, 
@@ -241,8 +253,8 @@ class V1::User::PengadaanController < ApplicationController
     end
 
     def index
-        barang = Barang::Kibb.pengadaan.where(:user_pengadaan_id.in => User::Pengadaan.new_pengusulan.pluck(:id))
-        pengadaan = User::Pengadaan.new_pengusulan.where(:_id.in => Barang::Kibb.pengadaan.pluck(:user_pengadaan_id))
+        barang = Barang::Kibb.pengadaan.where(:user_pengadaan_id.in => User::Pengadaan.new_pengadaan.pluck(:id))
+        pengadaan = User::Pengadaan.new_pengadaan.where(:_id.in => Barang::Kibb.pengadaan.pluck(:user_pengadaan_id))
         if pengadaan.present?
             render json: {
                 response_code: 200, 
@@ -258,27 +270,22 @@ class V1::User::PengadaanController < ApplicationController
     end
 
     def search
-        @barang = Barang::Kibb.pengadaan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
-        @pengadaan = User::Pengadaan.new_pengusulan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        @pengadaan = User::Pengadaan.new_pengadaan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if not @barang.present? and not @pengadaan.present?
             render json: {
                 response_code: 422, 
                 response_message: "Keyword tidak dapat ditemukan!"
                 }, status: :unprocessable_entity
-        elsif params[:keywords].blank?
-            render json: {
-                response_code: 422, 
-                response_message: "keywords tidak boleh kosong!"
-                }, status: :unprocessable_entity
-        elsif @pengadaan.present? and not @barang.present?
+        elsif @pengadaan.present?
             barang = Barang::Kibb.pengadaan.where(:user_pengadaan_id.in => @pengadaan.pluck(:id))
             render json: {
                 response_code: 200, 
                 response_message: "Success", 
                 data: {barang: barang, pengadaan: @pengadaan}
                 }, status: :ok
-        elsif @barang.present? and not @pengadaan.present?
-            pengadaan = User::Pengadaan.new_pengusulan.where(:_id.in => @barang.pluck(:user_pengadaan_id))
+        elsif not @pengadaan.present?
+            @barang = Barang::Kibb.pengadaan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+            pengadaan = User::Pengadaan.new_pengadaan.where(:_id.in => @barang.pluck(:user_pengadaan_id))
             render json: {
                 response_code: 200, 
                 response_message: "Success", 
