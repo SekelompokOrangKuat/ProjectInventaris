@@ -86,8 +86,18 @@ class V1::Kib::KibaController < ApplicationController
                         if params[:nama_barang].blank?
                             nama_barang = @kib_a.nama_barang
                         end
-                        if params[:nomor_register].blank?
+                        if params[:nomor_register].blank? or params[:nomor_register] == @barang.nomor_register
                             nomor_register = @kib_a.nomor_register
+                        else
+                            is_trigger = true
+                            nomor_registered = Barang::Kiba.where(nomor_register: params[:nomor_register]).first
+                            if nomor_registered.present?
+                                render json: {
+                                    response_code: 422, 
+                                    response_message: "Nomor register tidak boleh sama!"
+                                    }, status: :unprocessable_entity
+                                is_trigger = false
+                            end
                         end
                         if params[:luas].blank?
                             luas = @kib_a.luas
@@ -133,17 +143,19 @@ class V1::Kib::KibaController < ApplicationController
                             asal_usul: asal_usul,
                             nilai_perolehan: nilai_perolehan, 
                             keterangan: keterangan})
-                        if @kib_a.save(:validate => false)
-                            render json: {
-                                response_code: 200, 
-                                response_message: "Success", 
-                                data: @kib_a
-                                }, status: :ok
-                        else
-                            render json: {
-                                response_code: 422, 
-                                response_message: "Edit gagal!, silahkan di coba kembali"
-                                }, status: :unprocessable_entity
+                        if is_trigger == true
+                            if @kib_a.save(:validate => false)
+                                render json: {
+                                    response_code: 200, 
+                                    response_message: "Success", 
+                                    data: @kib_a
+                                    }, status: :ok
+                            else
+                                render json: {
+                                    response_code: 422, 
+                                    response_message: "Edit gagal!, silahkan di coba kembali"
+                                    }, status: :unprocessable_entity
+                            end
                         end
                     rescue Exception => e
                         render json: {

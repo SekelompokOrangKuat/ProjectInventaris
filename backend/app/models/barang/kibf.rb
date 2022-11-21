@@ -7,6 +7,7 @@ class Barang::Kibf
   validates_inclusion_of :tingkat_bangunan, in: %w(Bertingkat Tidak), message: "harus Bertingkat/Tidak"
   validates_inclusion_of :beton_bangunan, in: %w(Beton Tidak), message: "harus Beton/Tidak"
   validates_inclusion_of :status, in: %w(SHM AJB HGB), message: "harus SHM/AJB/HGB"
+  validates :nomor_register, presence: true, uniqueness: true
 
   field :kode_lokasi, type: String
   field :nama_barang, type: String

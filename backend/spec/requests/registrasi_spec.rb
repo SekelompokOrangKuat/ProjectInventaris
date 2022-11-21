@@ -90,7 +90,7 @@ describe 'Registrasi API' do
         properties: {
             id: {type: :string, example: "636cfd59e21fac2ab08223c3"},
             email: {type: :string, example: "sinbada@gmail.com"},
-            user_role: {type: :string, example: "SuperAdmin"},
+            user_role: {type: :string, example: "Admin"},
             nama: {type: :string, example: "Admin Sinbada"},
             nip: {type: :string, example: "019231234329102"},
             telepon: {type: :string, example: "081232132318"},
@@ -169,7 +169,7 @@ describe 'Registrasi API' do
       response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                response_message: {type: :string, example: "User tidak ditemukan!"},
+                response_message: {type: :string, example: "Tidak ada data!"},
                   response_code: {type: :integer, example: 422}
               }
         run_test!

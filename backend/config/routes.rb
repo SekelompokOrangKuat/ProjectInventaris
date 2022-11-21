@@ -30,6 +30,16 @@ Rails.application.routes.draw do
         post "/delete" => "jadwal#delete"
         post "/search" => "jadwal#search"
       end
+      resource :pengusulan do
+        get "/find_penghapusan" => "pengusulan#index_penghapusan"
+        get "/find_pemeliharaan" => "pengusulan#index_pemeliharaan"
+        post "/create" => "pengusulan#create"
+        post "/approval" => "pengusulan#approval"
+        post "/edit" => "pengusulan#edit"
+        post "/delete" => "pengusulan#delete"
+        post "/search_penghapusan" => "pengusulan#search_penghapusan"
+        post "/search_pemeliharaan" => "pengusulan#search_pemeliharaan"
+      end
     end
     namespace :kib do
       resource :kiba do
