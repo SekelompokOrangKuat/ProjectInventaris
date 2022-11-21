@@ -1,33 +1,75 @@
-import React from 'react';
-import { Box, Button, Container, IconButton } from '@mui/material';
-import { Edit, Trash2, Plus, RefreshCcw } from 'react-feather';
-
+import React, { useState } from 'react';
+import { Box, Button, Container, FormControl, TextField, Typography } from '@mui/material';
+import { Plus } from 'react-feather';
 import CustomizedTables from "../../components/table.jsx";
 import SearchBar from "../../components/search_bar.jsx";
 
+const Form = (props) => {
+	return(
+    	<Box
+    		id=""
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                p:5,
+                gap:2
+            }}
+        >
+        	<Typography variant="h4">
+        		{props.title}
+        	</Typography>
+			<FormControl>
+                <Box 
+                	sx={{
+                		display:'flex',
+                		flexDirection:'column',
+                		gap:2,
+                	}}
+				>
+					<Box 
+	                	sx={{
+	                		display:'flex',
+	                		flexDirection:'column',
+	                		gap:2,
+	                	}}
+					>
+                		<TextField 
+	                		fullWidth
+	                		label="Nama"
+	                	/>
+	                	<TextField 
+	                		fullWidth
+	                		label="NIP"
+	                	/>
+	                	<TextField 
+	                		fullWidth
+	                		label="Email"
+	                	/>
+	                	<TextField 
+	                		fullWidth
+	                		label="Nomor Telepon"
+                		/>
+                	</Box>
+                	<Box 
+	                	sx={{
+	                		display:'flex',
+	                		flexDirection:'row',
+	                		gap:2,
+	                		justifyContent:'end'
+	                	}}
+					>
+					<Button variant="text" color="warning" onClick={()=>props.setShowForm(!props.showForm)}>Batal</Button>
+					<Button variant="contained">Tambah</Button>
+					</Box>
+            	</Box>
+    		</FormControl>
+        </Box>
+	)
+}
+
 const Account = () => {
-	function createData(Nama, NIP, Email, Telepon) {
-	  return { Nama, NIP, Email, Telepon };
-	}
 
-	const rows = [
-	  createData('Jajang', 19820511122014111001, "-", "081234567890", "222"),
-	  createData('Jajang', 19820511122014111001, "-", "081234567890", "222"),
-	  createData('Jajang', 19820511122014111001, "-", "081234567890", "222"),
-	  createData('Jajang', 19820511122014111001, "-", "081234567890", "222"),
-	  createData('Jajang', 19820511122014111001, "-", "081234567890", "222"),
-	  createData('Jasng', 19820511122014111001, "-", "081234567890", "222")
-	];
-
-	var dataTable = 
-	{
-		actions:[
-			<IconButton><Edit size={20}/></IconButton>,
-          	<IconButton><Trash2 size={20}/></IconButton>,
-          	<IconButton><RefreshCcw size={20}/></IconButton>
-		],
-		rows: rows
-	}
+	const [showForm, setShowForm] = useState(false);
 
 	return (
 		<Container
@@ -38,6 +80,7 @@ const Account = () => {
                 height: '100%',
             }}
         >
+        	{ showForm && <Form title="Tambah Akun" setShowForm={setShowForm} showForm={showForm}/> }
             <Box
                 sx={{
                     display: 'flex',
@@ -54,9 +97,9 @@ const Account = () => {
 	                    alignItems: 'end'
 	                }}
                 >
-                	<Box>
+                	<Typography variant="h4">
                 		Preview
-                	</Box>
+                	</Typography>
                 	<Box
                 		sx={{
 		                    display: 'flex',
@@ -64,16 +107,16 @@ const Account = () => {
 		                    gap:3
 		                }}
                 	>
-                		<Button variant="contained" startIcon={<Plus size={20}/>}>Tambah Entri</Button>
+                		{!showForm ? <Button variant="contained" startIcon={<Plus size={20}/>} onClick={()=>setShowForm(!showForm)}>Tambah Entri</Button> : <React.Fragment></React.Fragment>}
                 		<SearchBar></SearchBar>
                 	</Box>
                 </Box>
                 <Box>
-                	<CustomizedTables data={dataTable}/>
+                	<CustomizedTables/>
                 </Box>
             </Box>
         </Container>
 	)
-};
+}
 
 export default Account;
