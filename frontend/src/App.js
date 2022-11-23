@@ -8,6 +8,7 @@ import ForgotPassword from "./pages/forgotPassword.jsx";
 import MutasiBarang from "./pages/mutasiBarang.jsx";
 import Peminjaman from "./pages/peminjaman";
 import KIR from "./pages/kir";
+import Pemeliharaan from "./pages/pemeliharaan";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Dashboard />}></Route>
           <Route path="/pendataan" element={<Dashboard />}></Route>
+          <Route path="/pendataan/pemeliharaan" element={<Pemeliharaan />}></Route>
           <Route path="/pencatatan" element={<Dashboard />}></Route>
           <Route path="/pelaporan" element={<Dashboard />}></Route>
           <Route path="/pencatatan/mutasi-barang" element={<MutasiBarang />}></Route>
