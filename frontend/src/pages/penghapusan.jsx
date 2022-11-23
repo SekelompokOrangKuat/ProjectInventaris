@@ -1,8 +1,8 @@
 import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox } from "@mui/material";
-import { Edit, PlusSquare, Tool, Trash2 } from "react-feather";
+import { Edit, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
-const Pemeliharaan = () => {
+const Penghapusan = () => {
 
     /* REST API EXAMPLE */
     // const [posts, setPosts] = React.useState([]);
@@ -107,9 +107,9 @@ const Pemeliharaan = () => {
                     alignItems="center"
                     gap={1}
                 >
-                    <Tool size={20} />
+                    <Trash2 size={20} />
                     <Typography variant="h2">
-                        Pemeliharaan Barang
+                        Penghapusan Barang
                     </Typography>
                 </Grid>
             </Box>
@@ -145,7 +145,7 @@ const Pemeliharaan = () => {
                 >
                     <PlusSquare size={24} color="#757575" />
                     <Typography variant="h2" sx={{ color: "themeGrey.darker" }}>
-                        Tambah Barang
+                        Hapus Barang
                     </Typography>
                 </Grid>
                 <Grid
@@ -232,7 +232,6 @@ const Pemeliharaan = () => {
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
@@ -242,4 +241,4 @@ const Pemeliharaan = () => {
     )
 }
 
-export default Pemeliharaan;
+export default Penghapusan;

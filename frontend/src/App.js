@@ -9,6 +9,7 @@ import MutasiBarang from "./pages/mutasiBarang.jsx";
 import Peminjaman from "./pages/peminjaman";
 import KIR from "./pages/kir";
 import Pemeliharaan from "./pages/pemeliharaan";
+import Penghapusan from "./pages/penghapusan";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Dashboard />}></Route>
           <Route path="/pendataan" element={<Dashboard />}></Route>
           <Route path="/pendataan/pemeliharaan" element={<Pemeliharaan />}></Route>
+          <Route path="/pendataan/penghapusan" element={<Penghapusan />}></Route>
           <Route path="/pencatatan" element={<Dashboard />}></Route>
           <Route path="/pelaporan" element={<Dashboard />}></Route>
           <Route path="/pencatatan/mutasi-barang" element={<MutasiBarang />}></Route>
