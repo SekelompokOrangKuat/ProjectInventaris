@@ -12,15 +12,26 @@ class V1::User::PengusulanController < ApplicationController
                 response_code: 422, 
                 response_message: "Jenis usulan tidak boleh kosong!"
                 }, status: :unprocessable_entity
+        elsif params[:nama_barang].blank?
+            render json: {
+                response_code: 422, 
+                response_message: "Nama barang tidak boleh kosong!"
+                }, status: :unprocessable_entity
+        elsif params[:nomor_register].blank?
+            render json: {
+                response_code: 422, 
+                response_message: "Nomor register tidak boleh kosong!"
+                }, status: :unprocessable_entity
         else
-            @barang = Barang::Kibb.undeleted.where(nomor_register: params[:nomor_register])
+            @barang = Barang::Kibb.where(nama_barang: params[:nama_barang])
+            @barang = @barang.where(nomor_register: params[:nomor_register]).first
             if not @barang.present?
                 render json: {
                     response_code: 422, 
                     response_message: "Nomor register tidak dapat ditemukan!"
                     }, status: :unprocessable_entity
             else
-                @pengusulan = User::Pengusulan.pending.find(@barang.pluck(:user_pengusulan_id)).first
+                @pengusulan = User::Pengusulan.pending.find(@barang.user_pengusulan_id)
                 if not @pengusulan.present?
                     render json: {
                         response_code: 422,
@@ -31,6 +42,7 @@ class V1::User::PengusulanController < ApplicationController
                         nama_pengusul: params[:nama_pengusul],
                         jenis_usulan: params[:jenis_usulan],
                         kondisi_barang: params[:kondisi_barang],
+                        keterangan: params[:keterangan],
                         foto_barang: params[:foto_barang],
                         status_usulan: Enums::StatusUsulan::NEW
                     })
@@ -127,6 +139,7 @@ class V1::User::PengusulanController < ApplicationController
                 begin
                     nama_pengusul = params[:nama_pengusul]
                     kondisi_barang = params[:kondisi_barang]
+                    keterangan = params[:keterangan]
                     foto_barang = params[:foto_barang]
                     if params[:nama_pengusul].blank?
                         nama_pengusul = @pengusulan.nama_pengusul
@@ -134,12 +147,16 @@ class V1::User::PengusulanController < ApplicationController
                     if params[:kondisi_barang].blank?
                         kondisi_barang = @pengusulan.kondisi_barang
                     end
+                    if params[:keterangan].blank?
+                        keterangan = @pengusulan.keterangan
+                    end
                     if params[:foto_barang].blank?
                         foto_barang = @pengusulan.foto_barang
                     end
                     @pengusulan.assign_attributes({
                         nama_pengusul: nama_pengusul,
                         kondisi_barang: kondisi_barang,
+                        keterangan: keterangan,
                         foto_barang: foto_barang
                     })
                     
