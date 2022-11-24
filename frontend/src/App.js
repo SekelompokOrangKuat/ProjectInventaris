@@ -7,6 +7,7 @@ import PDFViewer from "./components/pdf_viewer.jsx";
 import Dashboard from "./pages/dashboard.jsx";
 import Account from "./pages/admin/account.jsx";
 import RoomCode from "./pages/admin/room-code.jsx";
+import GoodsCode from "./pages/admin/goods-code.jsx";
 
 import SOPMutasi from "./assets/pdf/SOP Mutasi.pdf";
 import SOPPengelolaan from "./assets/pdf/SOP Pengelolaan Barang Milik Daerah.pdf";
@@ -24,6 +25,7 @@ function App() {
           </Route>
           <Route path="admin" element={<Layout isAdmin={true}/>}>
             <Route path="ruangan" element={<RoomCode/>}></Route>
+            <Route path="barang" element={<GoodsCode/>}></Route>
             <Route path="akun" element={<Account/>}></Route>
           </Route>
           
