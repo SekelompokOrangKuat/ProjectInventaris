@@ -2730,6 +2730,9 @@ paths:
         schema:
           type: object
           properties:
+            nama_barang:
+              type: string
+              example: Sedan
             nomor_register:
               type: string
               example: '0001'
@@ -2741,7 +2744,10 @@ paths:
               example: Pemeliharaan
             kondisi_barang:
               type: string
-              example: R
+              example: Rusak
+            keterangan:
+              type: string
+              example: "-"
             foto_barang:
               type: string
               example: img.jpg
@@ -2897,13 +2903,16 @@ paths:
               example: 637923e0e21fac2eb88fd183
             nama_pengusul:
               type: string
-              example: Pengelola Sinbada
+              example: Admin Sinbada
             kondisi_barang:
               type: string
-              example: RB
+              example: Rusak
+            keterangan:
+              type: string
+              example: "-"
             foto_barang:
               type: string
-              example: Sinbada.svg
+              example: img.png
           required: []
       responses:
         '200':
