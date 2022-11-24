@@ -5,9 +5,11 @@ class Barang::Kibb
     
     belongs_to :user_pengadaan, class_name: "User::Pengadaan", optional: true
     belongs_to :user_pengusulan, class_name: "User::Pengusulan"
+    belongs_to :peminjaman, class_name: "Peminjaman"
     
     validates :nomor_register, presence: true, uniqueness: true
 
+    field :nama_ruangan, type: String
     field :kode_lokasi, type: String
     field :nama_barang, type: String
     field :nomor_register, type: String
@@ -32,6 +34,8 @@ class Barang::Kibb
         if new_record?
             self.user_pengusulan = User::Pengusulan.create({status_usulan: Enums::StatusUsulan::PENDING})
             self.user_pengusulan.save(:validate => false)
+            self.peminjaman = Peminjaman.create({status_peminjaman: Enums::StatusPeminjaman::PENDING})
+            self.peminjaman.save(:validate => false)
         end
     end
 
