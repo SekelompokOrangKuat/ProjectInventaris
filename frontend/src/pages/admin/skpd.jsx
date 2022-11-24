@@ -129,6 +129,9 @@ const UserCard = () => {
 								<TextField label="Nama" value="Warman"/>
 								<TextField label="NIP" value="19820511122014111001"/>
 								<TextField label="Pangkat/gol/ruang"  value="Pengurus Barang"/>
+								<TextField label="Provinsi" value=""/>
+								<TextField label="Unit" value=""/>
+								<TextField label="Satuan Kerja"  value=""/>
 							</Box>
 						</form>
 					</DialogContentText>
