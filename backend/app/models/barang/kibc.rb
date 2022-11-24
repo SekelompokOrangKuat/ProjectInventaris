@@ -3,12 +3,13 @@ class Barang::Kibc
   include Mongoid::Timestamps
   include Mongoid::Attributes::Dynamic
   
-  validates_inclusion_of :kondisi_bangunan, in: %w(B KB RB), message: "harus B/KB/RB"
-  validates_inclusion_of :tingkat_bangunan, in: %w(Bertingkat Tidak), message: "harus Bertingkat/Tidak"
-  validates_inclusion_of :beton_bangunan, in: %w(Beton Tidak), message: "harus Beton/Tidak"
+  validates_inclusion_of :tingkat_bangunan, in: %w(Bertingkat tidak), message: "harus Bertingkat/tidak"
+  validates_inclusion_of :beton_bangunan, in: %w(Beton tidak), message: "harus Beton/tidak"
   validates_inclusion_of :status, in: %w(SHM AJB HGB), message: "harus SHM/AJB/HGB"
-  validates :nomor_register, presence: true, uniqueness: true
+  validates :nomor_register, presence: true
+  validates :nama_barang, presence: true
 
+  field :kode_barang, type: String
   field :kode_lokasi, type: String
   field :nama_barang, type: String
   field :nomor_register, type: String
@@ -17,7 +18,8 @@ class Barang::Kibc
   field :beton_bangunan, type: String
   field :luas_lantai, type: String
   field :alamat, type: String
-  field :dokumen_gedung, type: String
+  field :tanggal_dokumen, type: String
+  field :nomor_dokumen, type: String
   field :luas, type: String
   field :status, type: String
   field :nomor_tanah, type: String

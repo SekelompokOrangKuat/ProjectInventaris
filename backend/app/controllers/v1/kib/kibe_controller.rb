@@ -25,17 +25,25 @@ class V1::Kib::KibeController < ApplicationController
                 }, status: :unauthorized
         else
             @kib_e = Barang::Kibe.new(user_params)
-            if @kib_e.save
-                render json: {
-                    response_code: 201, 
-                    response_message: "Success", 
-                    data: @kib_e
-                    }, status: :created
-            else
+            nomor_registered = Barang::Kibe.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+            if nomor_registered.present?
                 render json: {
                     response_code: 422,
-                    response_message: @kib_e.errors.full_messages
-                    }, status: :unprocessable_entity
+                    response_message: "Nomor register tidak boleh sama!"
+                    }, status: :unprocessable_entity 
+            else
+                if @kib_e.save
+                    render json: {
+                        response_code: 201, 
+                        response_message: "Success", 
+                        data: @kib_e
+                        }, status: :created
+                else
+                    render json: {
+                        response_code: 422,
+                        response_message: @kib_e.errors.full_messages
+                        }, status: :unprocessable_entity
+                end
             end
         end
     end
@@ -67,6 +75,7 @@ class V1::Kib::KibeController < ApplicationController
                 else
                     begin
                         @kib_e = Barang::Kibe.find(params[:id])
+                        kode_barang = params[:kode_barang]
                         kode_lokasi = params[:kode_lokasi]
                         nama_barang = params[:nama_barang]
                         nomor_register = params[:nomor_register]
@@ -82,6 +91,9 @@ class V1::Kib::KibeController < ApplicationController
                         asal_usul = params[:asal_usul]
                         harga = params[:harga]
                         keterangan = params[:keterangan]
+                        if params[:kode_barang].blank?
+                            kode_barang = @kib_e.kode_barang
+                        end
                         if params[:kode_lokasi].blank? 
                             kode_lokasi = @kib_e.kode_lokasi
                         end
@@ -92,7 +104,7 @@ class V1::Kib::KibeController < ApplicationController
                             nomor_register = @kib_e.nomor_register
                         else
                             is_trigger = true
-                            nomor_registered = Barang::Kibe.where(nomor_register: params[:nomor_register]).first
+                            nomor_registered = Barang::Kibe.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
                             if nomor_registered.present?
                                 render json: {
                                     response_code: 422, 
@@ -135,6 +147,7 @@ class V1::Kib::KibeController < ApplicationController
                             keterangan = @kib_e.keterangan
                         end
                         @kib_e.assign_attributes({
+                            kode_barang: kode_barang,
                             kode_lokasi: kode_lokasi, 
                             nama_barang: nama_barang, 
                             nomor_register: nomor_register,
@@ -231,7 +244,7 @@ class V1::Kib::KibeController < ApplicationController
     private
   
     def user_params
-        params.permit(:kode_lokasi, :nama_barang, :nomor_register, :judul_buku, :spesifikasi_buku, :asal_kesenian, :pencipta_kesenian, 
+        params.permit(:kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :judul_buku, :spesifikasi_buku, :asal_kesenian, :pencipta_kesenian, 
             :bahan_kesenian, :jenis, :ukuran, :jumlah, :tahun_pembelian, :asal_usul, 
             :harga, :keterangan)
     end

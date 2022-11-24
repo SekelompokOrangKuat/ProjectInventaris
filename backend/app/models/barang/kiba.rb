@@ -4,8 +4,10 @@ class Barang::Kiba
   include Mongoid::Attributes::Dynamic
   
   validates_inclusion_of :status_tanah, in: %w(SHM AJB), message: "harus SHM/AJB"
-  validates :nomor_register, presence: true, uniqueness: true
+  validates :nomor_register, presence: true
+  validates :nama_barang, presence: true
 
+  field :kode_barang, type: String
   field :kode_lokasi, type: String
   field :nama_barang, type: String
   field :nomor_register, type: String
