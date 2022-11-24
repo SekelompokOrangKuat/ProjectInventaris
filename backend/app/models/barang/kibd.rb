@@ -3,10 +3,11 @@ class Barang::Kibd
   include Mongoid::Timestamps
   include Mongoid::Attributes::Dynamic
   
-  validates_inclusion_of :kondisi, in: %w(B KB RB), message: "harus B/KB/RB"
   validates_inclusion_of :status, in: %w(SHM AJB HGB), message: "harus SHM/AJB/HGB"
-  validates :nomor_register, presence: true, uniqueness: true
+  validates :nomor_register, presence: true
+  validates :nama_barang, presence: true
 
+  field :kode_barang, type: String
   field :kode_lokasi, type: String
   field :nama_barang, type: String
   field :nomor_register, type: String
@@ -14,6 +15,7 @@ class Barang::Kibd
   field :panjang, type: String
   field :lebar, type: String
   field :luas, type: String
+  field :alamat, type: String
   field :nomor_dokumen, type: String
   field :tanggal_dokumen, type: String
   field :status, type: String
