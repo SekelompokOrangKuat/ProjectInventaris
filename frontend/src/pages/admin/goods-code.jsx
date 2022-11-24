@@ -39,11 +39,23 @@ const Form = (props) => {
 						/>
 						<TextField
 							fullWidth
+							label="Bidang"
+						/>
+						<TextField
+							fullWidth
 							label="Kelompok"
 						/>
 						<TextField
 							fullWidth
-							label="Nama Ruangan"
+							label="Sub Kelompok"
+						/>
+						<TextField
+							fullWidth
+							label="Sub Sub Kelompok"
+						/>
+						<TextField
+							fullWidth
+							label="Nama Barang"
 						/>
 					</Box>
 					<Box
@@ -76,7 +88,7 @@ const GoodsCode = () => {
 				height: '100%',
 			}}
 		>
-			{showForm && <Form title="Tambah Ruangan" setShowForm={setShowForm} showForm={showForm} />}
+			{showForm && <Form title="Tambah Barang" setShowForm={setShowForm} showForm={showForm} />}
 			<Box
 				sx={{
 					display: 'flex',
