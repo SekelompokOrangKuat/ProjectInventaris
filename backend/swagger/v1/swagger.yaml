@@ -2324,48 +2324,63 @@ paths:
             nama_pengusul:
               type: string
               example: Pengelola Sinbada
+            spesifikasi_barang:
+              type: string
+              example: "-"
             foto_barang:
               type: string
               example: img.jpg
+            nama_ruangan:
+              type: string
+              example: 02.001 KEPALA BIDANG GTK
+            kode_barang:
+              type: string
+              example: 1.3.2.10.02.03.003
             kode_lokasi:
               type: string
-              example: 02.06.01.04.02
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Kipas Angin
+              example: Printer
             nomor_register:
               type: string
               example: '0001'
             tipe_barang:
               type: string
-              example: Harian
+              example: Epson L1455
+            ukuran_barang:
+              type: string
+              example: 220 W
             bahan_barang:
               type: string
-              example: Plastik
+              example: Ebonit
             tahun_pembelian:
               type: string
-              example: '2018'
+              example: '2020'
             nomor_pabrik:
               type: string
-              example: SKDJ1231
+              example: Epson
             nomor_rangka:
               type: string
-              example: MHFAB3EM1G0004620
+              example: Z87464539Y
             nomor_mesin:
               type: string
-              example: 2GDC109312
+              example: "-"
             nomor_polisi:
               type: string
-              example: D 2019 PTP
+              example: "-"
+            nomor_bpkb:
+              type: string
+              example: "-"
             asal_usul:
               type: string
               example: APBD
             harga_barang:
               type: string
-              example: Rp. 150000
+              example: 22.330.000
             keterangan:
               type: string
-              example: Barang Baik
+              example: "-"
           required: []
       responses:
         '201':
@@ -2465,52 +2480,67 @@ paths:
           properties:
             id:
               type: string
-              example: 6375eae5e21fac17c48f1612
+              example: 637f8565e21fac03c0e36abf
             nama_pengusul:
               type: string
-              example: Pengelola Sinbada
+              example: Admin Sinbada
+            spesifikasi_barang:
+              type: string
+              example: "-"
             foto_barang:
               type: string
-              example: Sinbada.svg
+              example: img.jpg
+            nama_ruangan:
+              type: string
+              example: 02.001 KEPALA BIDANG GTK
+            kode_barang:
+              type: string
+              example: 1.3.2.01.03.05.010
             kode_lokasi:
               type: string
-              example: 02.06.01.04.02
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Motor
+              example: Portable Generating Set
             nomor_register:
               type: string
-              example: '0002'
+              example: '0001'
             tipe_barang:
               type: string
-              example: Harian
+              example: Genset
+            ukuran_barang:
+              type: string
+              example: 150 KVA
             bahan_barang:
               type: string
-              example: Plastik
+              example: Besi
             tahun_pembelian:
               type: string
-              example: '2017'
+              example: '2021'
             nomor_pabrik:
               type: string
-              example: SKDJ123SA1
+              example: Canghong
             nomor_rangka:
               type: string
-              example: MHAS412M1G0004620
+              example: A15438GH7
             nomor_mesin:
               type: string
-              example: 2GDC109312ASD
+              example: "-"
             nomor_polisi:
               type: string
-              example: D 2019 PTP
+              example: "-"
+            nomor_bpkb:
+              type: string
+              example: "-"
             asal_usul:
               type: string
               example: APBD
             harga_barang:
               type: string
-              example: Rp. 1700000
+              example: 193.600.000
             keterangan:
               type: string
-              example: Barang Baik
+              example: "-"
           required: []
       responses:
         '200':
@@ -2560,7 +2590,7 @@ paths:
           properties:
             id:
               type: string
-              example: 6375eae5e21fac17c48f1612
+              example: 637f8565e21fac03c0e36abf
           required: []
       responses:
         '200':
@@ -2607,7 +2637,7 @@ paths:
         name: id
         type: string
         required: true
-        example: 63786512e21fac2eb88fd153
+        example: 637f8565e21fac03c0e36abf
       - in: formData
         name: is_approve
         type: boolean
