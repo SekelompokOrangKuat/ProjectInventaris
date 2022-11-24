@@ -35,7 +35,7 @@ class Barang::Kibb
 
     before_validation do 
         if new_record?
-            self.user_pengusulan = User::Pengusulan.create({status_usulan: Enums::StatusUsulan::PENDING})
+            self.user_pengusulan = User::Pengusulan.new({status_usulan: Enums::StatusUsulan::PENDING})
             self.user_pengusulan.save(:validate => false)
         end
     end
