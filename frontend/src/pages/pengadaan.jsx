@@ -1,8 +1,8 @@
 import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox } from "@mui/material";
-import { Edit, FileText, PlusSquare, Trash2 } from "react-feather";
+import { Edit, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
-const KIR = () => {
+const Pengadaan = () => {
 
     /* REST API EXAMPLE */
     // const [posts, setPosts] = React.useState([]);
@@ -32,24 +32,20 @@ const KIR = () => {
     const fields = [];
 
     const labels = [
-        "Kode Lokasi",
-        "Kode Barang",
-        "Register",
         "Nama Ruangan",
-        "Nama Barang",
-        "Merk/Model",
-        "No. Seri Pabrik",
-        "Ukuran",
-        "Bahan",
-        "Keadaan Barang",
-        "Tahun Pembuatan/ Pembelian",
-        "Harga Beli/ Perolehan",
+        "Spesifikasi",
+        "Nama Penanggung Jawab",
+        "Merk/Type",
+        "Kode Barang",
         "Keterangan",
+        "Nama Barang",
+        "Upload Gambar",
+        "Jumlah Barang",
     ];
 
     for (let i = 0; i < labels.length; i++) {
         fields.push(
-            <Grid item xs={i === labels.length - 1 ? 12 : 4}>
+            <Grid item xs={4}>
                 <TextField variant="outlined" label={labels[i]} fullWidth />
             </Grid>
         );
@@ -86,6 +82,14 @@ const KIR = () => {
         createData('Eclair', 262, 16.0, 24, 6.0),
         createData('Cupcake', 305, 3.7, 67, 4.3),
         createData('Gingerbread', 356, 16.0, 49, 3.9),
+        createData('Cupcake', 305, 3.7, 67, 4.3),
+        createData('Gingerbread', 356, 16.0, 49, 3.9),
+        createData('Cupcake', 305, 3.7, 67, 4.3),
+        createData('Gingerbread', 356, 16.0, 49, 3.9),
+        createData('Cupcake', 305, 3.7, 67, 4.3),
+        createData('Gingerbread', 356, 16.0, 49, 3.9),
+        createData('Cupcake', 305, 3.7, 67, 4.3),
+        createData('Gingerbread', 356, 16.0, 49, 3.9),
     ];
 
     return (
@@ -111,9 +115,9 @@ const KIR = () => {
                     alignItems="center"
                     gap={1}
                 >
-                    <FileText size={20} />
+                    <Trash2 size={20} />
                     <Typography variant="h2">
-                        Kartu Inventaris Ruangan (KIR)
+                        Pengadaan Barang
                     </Typography>
                 </Grid>
             </Box>
@@ -195,36 +199,18 @@ const KIR = () => {
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={3} sx={{ border: 1 }}>Keadaan Barang</StyledTableCell>
-                            <StyledTableCell align="center" colSpan={1} sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
-                        </TableRow>
-                        <TableRow>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}></StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>No</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Jenis Barang/ Nama Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Merk/ Model</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>No. Seri Pabrik</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Ukuran</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Bahan</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Tahun Pembuatan/ Pembelian</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>No. Kode Barang</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Jumlah Barang/ Register</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Harga Beli/ Perolehan</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Baik (B)</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Kurang Baik (KB)</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Rusak Berat (RB)</StyledTableCell>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Keterangan</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>No</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Nama Ruangan</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Nama Penanggung Jawab</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Kode Barang</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Nama barang</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Jumlah Barang</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Spesifikasi</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Merk/Type</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Keterangan</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Foto</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Status</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -252,10 +238,6 @@ const KIR = () => {
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
@@ -265,4 +247,4 @@ const KIR = () => {
     )
 }
 
-export default KIR;
+export default Pengadaan;
