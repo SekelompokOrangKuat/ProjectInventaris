@@ -92,6 +92,17 @@ Rails.application.routes.draw do
         post "/delete" => "ruangans#destroy"
         post "/edit" => "ruangans#editById"
       end
+      resource :kir do
+        post "/findbyruangan" => "kir#getByRuangan"
+      end
+    end
+    namespace :peminjaman do 
+      resource :peminjamans do
+        get "/findAll" => "peminjamans#getAll" 
+        post "/create" => "peminjamans#create"
+        post "/delete" => "peminjamans#destroy"
+        post "/edit" => "peminjamans#editById"
+      end
     end
   end
 end
