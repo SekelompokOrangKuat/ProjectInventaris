@@ -3,6 +3,10 @@ class Barang::Kibe
   include Mongoid::Timestamps
   include Mongoid::Attributes::Dynamic
   
+  validates :nomor_register, presence: true
+  validates :nama_barang, presence: true
+  
+  field :kode_barang, type: String
   field :kode_lokasi, type: String
   field :nama_barang, type: String
   field :nomor_register, type: String

@@ -1,0 +1,59 @@
+h1 {
+    font-size: 2.55vw;
+    font-weight: bold;
+    margin: 0;
+}
+
+h2 {
+    font-size: 1.7vw;
+    font-weight: normal;
+    margin: 0;
+}
+
+.header-logo {
+    max-width: 20%;
+    height: auto;
+    margin: 16px;
+}
+
+.sinbada-section {
+    width: 85%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #0F2C64;
+}
+
+.sinbada-logo {
+    margin: 0;
+    max-width: 100%;
+    height: auto;
+}
+
+.login-section {
+    width: 80%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+.TextField {
+    background: white;
+    border-radius: 4px;
+}
+
+.forgot-password-section {
+    width: 60%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
