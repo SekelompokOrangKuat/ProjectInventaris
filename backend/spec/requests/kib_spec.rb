@@ -11,19 +11,20 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            kode_lokasi: {type: :string, example: "01.02.03.04.05"},
-            nama_barang: {type: :string, example: "Sepeda"},
-            nomor_register: {type: :string, example: "0003"},
-            luas: {type: :string, example: "1m"},
-            tahun_pengadaan: {type: :string, example: "2021"},
-            alamat: {type: :string, example: "Rancamanyar"},
-            kota: {type: :string, example: "Kabupaten Bandung"},
-            status_tanah: {type: :string, example: "AJB"},
-            nomor_sertifikat: {type: :string, example: "210380183129"},
-            penggunaan: {type: :string, example: "Alat Transportasi"},
+            kode_barang: {type: :string, example: "1.3.1.01.01.04.002"},
+            kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+            nama_barang: {type: :string, example: "Tanah Bangunan Kantor Pemerintah"},
+            nomor_register: {type: :string, example: "0001"},
+            luas: {type: :string, example: "27.600"},
+            tahun_pengadaan: {type: :string, example: "1978"},
+            alamat: {type: :string, example: "Jl. Dr. Radjiman No. 6"},
+            kota: {type: :string, example: "Kota Bandung"},
+            status_tanah: {type: :string, example: "SHM"},
+            nomor_sertifikat: {type: :string, example: "2380, 17/05/1978"},
+            penggunaan: {type: :string, example: "Perkantoran"},
             asal_usul: {type: :string, example: "APBD"},
-            nilai_perolehan: {type: :string, example: "Rp. 250000"},
-            keterangan: {type: :string, example: "Layak Pakai"},
+            nilai_perolehan: {type: :string, example: "31.657.200.000,00"},
+            keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -95,20 +96,21 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          id: {type: :string, example: "636dfb9ae21fac2cd4510353"},
-          kode_lokasi: {type: :string, example: "01.02.03.04.05"},
-          nama_barang: {type: :string, example: "Motor"},
-          nomor_register: {type: :string, example: "0003"},
-          luas: {type: :string, example: "2m"},
-          tahun_pengadaan: {type: :string, example: "2021"},
-          alamat: {type: :string, example: "Rancamanyar"},
-          kota: {type: :string, example: "Kabupaten Bandung"},
-          status_tanah: {type: :string, example: "SHM"},
-          nomor_sertifikat: {type: :string, example: "210380183129"},
-          penggunaan: {type: :string, example: "Alat Trasportasi"},
+          id: {type: :string, example: "637f70cde21fac03c0e36a91"},
+          kode_barang: {type: :string, example: "1.3.1.01.01.04.003"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          nama_barang: {type: :string, example: "Tanah Bangunan Pendidikan dan Latihan (Sekolah)"},
+          nomor_register: {type: :string, example: "0002"},
+          luas: {type: :string, example: "6754"},
+          tahun_pengadaan: {type: :string, example: "2017"},
+          alamat: {type: :string, example: "Jl. Baturengat No. 10"},
+          kota: {type: :string, example: "Kota Bandung"},
+          status_tanah: {type: :string, example: "AJB"},
+          nomor_sertifikat: {type: :string, example: "3231, 18/05/1978"},
+          penggunaan: {type: :string, example: "Pelatihan"},
           asal_usul: {type: :string, example: "APBD"},
-          nilai_perolehan: {type: :string, example: "Rp. 14000000"},
-          keterangan: {type: :string, example: "Layak Pakai"},
+          nilai_perolehan: {type: :string, example: "8.686.872.550"},
+          keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -144,7 +146,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636dfb9ae21fac2cd4510353"}
+            id: {type: :string, example: "637f70cde21fac03c0e36a91"}
         },
         required: []
       }
@@ -210,19 +212,22 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          kode_lokasi: {type: :string, example: "02.06.01.04.02"},
-          nama_barang: {type: :string, example: "Kipas Angin"},
+          kode_barang: {type: :string, example: "1.3.2.02.01.01.001"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          nama_barang: {type: :string, example: "Sedan"},
           nomor_register: {type: :string, example: "0001"},
-          tipe_barang: {type: :string, example: "Harian"},
-          bahan_barang: {type: :string, example: "Plastik"},
-          tahun_pembelian: {type: :string, example: "2018"},
-          nomor_pabrik: {type: :string, example: "SKDJ1231"},
-          nomor_rangka: {type: :string, example: "MHFAB3EM1G0004620"},
-          nomor_mesin: {type: :string, example: "2GDC109312"},
-          nomor_polisi: {type: :string, example: "D 2019 PTP"},
+          tipe_barang: {type: :string, example: "Toyota Altis"},
+          ukuran_barang: {type: :string, example: "1800"},
+          bahan_barang: {type: :string, example: "Besi"},
+          tahun_pembelian: {type: :string, example: "2008"},
+          nomor_pabrik: {type: :string, example: "Toyota"},
+          nomor_rangka: {type: :string, example: "BGHF123JJHNH6354"},
+          nomor_mesin: {type: :string, example: "MH1GHKHTEEYU234"},
+          nomor_polisi: {type: :string, example: "D 1763 E"},
+          nomor_bpkb: {type: :string, example: "L-050345455"},
           asal_usul: {type: :string, example: "APBD"},
-          harga_barang: {type: :string, example: "Rp. 150000"},
-          keterangan: {type: :string, example: "Barang Baik"},
+          harga_barang: {type: :string, example: "239.000.000"},
+          keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -294,20 +299,23 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "637912f1e21fac2eb88fd17e"},
-            kode_lokasi: {type: :string, example: "02.06.01.04.02"},
-            nama_barang: {type: :string, example: "Kipas Angin"},
+            id: {type: :string, example: "637f720ce21fac03c0e36a9d"},
+            kode_barang: {type: :string, example: "1.3.2.02.01.01.001"},
+            kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+            nama_barang: {type: :string, example: "Jeep"},
             nomor_register: {type: :string, example: "0001"},
-            tipe_barang: {type: :string, example: "Harian"},
-            bahan_barang: {type: :string, example: "Plastik"},
-            tahun_pembelian: {type: :string, example: "2018"},
-            nomor_pabrik: {type: :string, example: "SKDJ1231"},
-            nomor_rangka: {type: :string, example: "MHFAB3EM1G0004620"},
-            nomor_mesin: {type: :string, example: "2GDC109312"},
-            nomor_polisi: {type: :string, example: "D 2019 SFC"},
+            tipe_barang: {type: :string, example: "Toyota Rush"},
+            ukuran_barang: {type: :string, example: "1500"},
+            bahan_barang: {type: :string, example: "Besi"},
+            tahun_pembelian: {type: :string, example: "2010"},
+            nomor_pabrik: {type: :string, example: "Toyota"},
+            nomor_rangka: {type: :string, example: "BXZT123JJHNH6355"},
+            nomor_mesin: {type: :string, example: "MH1GHKHTEEYU235"},
+            nomor_polisi: {type: :string, example: "D 1763 E"},
+            nomor_bpkb: {type: :string, example: "L-050345456"},
             asal_usul: {type: :string, example: "APBD"},
-            harga_barang: {type: :string, example: "Rp. 250000"},
-            keterangan: {type: :string, example: "Barang Kurang Baik"},
+            harga_barang: {type: :string, example: "239.000.000"},
+            keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -343,7 +351,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "637912f1e21fac2eb88fd17e"}
+            id: {type: :string, example: "637f720ce21fac03c0e36a9d"}
         },
         required: []
       }
@@ -409,21 +417,23 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          kode_lokasi: {type: :string, example: "01.02.03.04.05"},
-          nama_barang: {type: :string, example: "Rumah"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          nama_barang: {type: :string, example: "Bangunan Olah Raga Terbuka Permanen"},
+          kode_barang: {type: :string, example: "1.3.3.01.01.11.001"},
           nomor_register: {type: :string, example: "0001"},
-          kondisi_bangunan: {type: :string, example: "B"},
-          tingkat_bangunan: {type: :string, example: "Bertingkat"},
-          beton_bangunan: {type: :string, example: "Beton"},
-          luas_lantai: {type: :string, example: "20m2"},
-          alamat: {type: :string, example: "Bandung"},
-          dokumen_gedung: {type: :string, example: "1000/13012001"},
-          luas: {type: :string, example: "20m2"},
-          status: {type: :string, example: "AJB"},
-          nomor_tanah: {type: :string, example: "32155324"},
+          kondisi_bangunan: {type: :string, example: "Baik"},
+          tingkat_bangunan: {type: :string, example: "tidak"},
+          beton_bangunan: {type: :string, example: "tidak"},
+          luas_lantai: {type: :string, example: "300"},
+          alamat: {type: :string, example: "Jl. Dr. Radjiman No. 6 Kota Bandung"},
+          nomor_dokumen: {type: :string, example: "234/pd-disdik/1996"},
+          tanggal_dokumen: {type: :string, example: "17/05/1996"},
+          luas: {type: :string, example: "300"},
+          status: {type: :string, example: "SHM"},
+          nomor_tanah: {type: :string, example: "2380"},
           asal_usul: {type: :string, example: "APBD"},
-          harga: {type: :string, example: "Rp. 1000000000"},
-          keterangan: {type: :string, example: "Layak Huni"},
+          harga: {type: :string, example: "539.064.736"},
+          keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -495,22 +505,24 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e51c8e21fac163c3e0cc7"},
-            kode_lokasi: {type: :string, example: "03.02.01.04.05"},
-            nama_barang: {type: :string, example: "Rumah"},
-            nomor_register: {type: :string, example: "0002"},
-            kondisi_bangunan: {type: :string, example: "KB"},
-            tingkat_bangunan: {type: :string, example: "Tidak"},
-            beton_bangunan: {type: :string, example: "Tidak"},
-            luas_lantai: {type: :string, example: "20m2"},
-            alamat: {type: :string, example: "Bandung"},
-            dokumen_gedung: {type: :string, example: "1000/13012001"},
-            luas: {type: :string, example: "20m2"},
-            status: {type: :string, example: "HGB"},
-            nomor_tanah: {type: :string, example: "32155324"},
+            id: {type: :string, example: "637f7292e21fac03c0e36a9f"},
+            kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+            nama_barang: {type: :string, example: "Bangunan Garasi/Pool Permanen"},
+            kode_barang: {type: :string, example: "1.3.3.01.01.14.001"},
+            nomor_register: {type: :string, example: "0001"},
+            kondisi_bangunan: {type: :string, example: "Baik"},
+            tingkat_bangunan: {type: :string, example: "tidak"},
+            beton_bangunan: {type: :string, example: "Beton"},
+            luas_lantai: {type: :string, example: "500"},
+            alamat: {type: :string, example: "Jl. Dr. Radjiman No. 6 Kota Bandung"},
+            nomor_dokumen: {type: :string, example: "110pd-disdik/1997"},
+            tanggal_dokumen: {type: :string, example: "18/10/1996"},
+            luas: {type: :string, example: "500"},
+            status: {type: :string, example: "SHM"},
+            nomor_tanah: {type: :string, example: "2380"},
             asal_usul: {type: :string, example: "APBD"},
-            harga: {type: :string, example: "Rp. 1000000000"},
-            keterangan: {type: :string, example: "Layak Huni"},
+            harga: {type: :string, example: "879.444.500"},
+            keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -546,7 +558,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e51c8e21fac163c3e0cc7"}
+            id: {type: :string, example: "637f7292e21fac03c0e36a9f"}
         },
         required: []
       }
@@ -612,21 +624,23 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          kode_lokasi: {type: :string, example: "01.02.03.04.05"},
-          nama_barang: {type: :string, example: "Rumah"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          nama_barang: {type: :string, example: "Instalasi penangkal petir manual"},
+          kode_barang: {type: :string, example: "1.3.2.05.01.05.084"},
           nomor_register: {type: :string, example: "0001"},
-          konstruksi: {type: :string, example: "Bangunan"},
-          panjang: {type: :string, example: "5m"},
-          lebar: {type: :string, example: "5m"},
-          luas: {type: :string, example: "25m2"},
-          nomor_dokumen: {type: :string, example: "14343322"},
-          tanggal_dokumen: {type: :string, example: "13/12/2022"},
-          status: {type: :string, example: "AJB"},
-          nomor_tanah: {type: :string, example: "32155324"},
+          konstruksi: {type: :string, example: "-"},
+          panjang: {type: :string, example: "5.000"},
+          lebar: {type: :string, example: "-"},
+          luas: {type: :string, example: "-"},
+          alamat: {type: :string, example: "Jl. Dr. Radjiman No. 6 Kota Bandung"},
+          nomor_dokumen: {type: :string, example: "234/pd-disdik/1996"},
+          tanggal_dokumen: {type: :string, example: "17/05/1996"},
+          status: {type: :string, example: "SHM"},
+          nomor_tanah: {type: :string, example: "2380"},
           asal_usul: {type: :string, example: "APBD"},
-          harga: {type: :string, example: "Rp. 100000000"},
-          kondisi: {type: :string, example: "KB"},
-          keterangan: {type: :string, example: "Layak Huni"},
+          harga: {type: :string, example: "7.500.000"},
+          kondisi: {type: :string, example: "Baik"},
+          keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -698,22 +712,24 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e5ae2e21fac2f6846f8d7"},
-            kode_lokasi: {type: :string, example: "01.02.03.04.05"},
-            nama_barang: {type: :string, example: "Rumah"},
+            id: {type: :string, example: "637f72f7e21fac03c0e36aa1"},
+            kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+            nama_barang: {type: :string, example: "Mainframe (Komputer jaringan)"},
+            kode_barang: {type: :string, example: "1.3.2.10.01.01.001"},
             nomor_register: {type: :string, example: "0001"},
-            konstruksi: {type: :string, example: "Bangunan"},
-            panjang: {type: :string, example: "5m"},
-            lebar: {type: :string, example: "5m"},
-            luas: {type: :string, example: "25m2"},
-            nomor_dokumen: {type: :string, example: "14343322"},
-            tanggal_dokumen: {type: :string, example: "13/12/2022"},
-            status: {type: :string, example: "AJB"},
-            nomor_tanah: {type: :string, example: "32155324"},
+            konstruksi: {type: :string, example: "-"},
+            panjang: {type: :string, example: "50.000"},
+            lebar: {type: :string, example: "-"},
+            luas: {type: :string, example: "-"},
+            alamat: {type: :string, example: "Jl. Dr. Radjiman No. 6 Kota Bandung"},
+            nomor_dokumen: {type: :string, example: "110pd-disdik/1997"},
+            tanggal_dokumen: {type: :string, example: "18/10/1997"},
+            status: {type: :string, example: "SHM"},
+            nomor_tanah: {type: :string, example: "2380"},
             asal_usul: {type: :string, example: "APBD"},
-            harga: {type: :string, example: "Rp. 100000000"},
-            kondisi: {type: :string, example: "KB"},
-            keterangan: {type: :string, example: "Layak Huni"},
+            harga: {type: :string, example: "59.116.000"},
+            kondisi: {type: :string, example: "Baik"},
+            keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -749,7 +765,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e5ae2e21fac2f6846f8d7"}
+            id: {type: :string, example: "637f72f7e21fac03c0e36aa1"}
         },
         required: []
       }
@@ -815,7 +831,8 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          kode_lokasi: {type: :string, example: "5.2.05.01.01.001"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          kode_barang: {type: :string, example: "5.2.05.01.01.001"},
           nama_barang: {type: :string, example: "Agama Islam"},
           nomor_register: {type: :string, example: "001"},
           judul_buku: {type: :string, example: "Ahmad Dahlan"},
@@ -901,21 +918,22 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          id: {type: :string, example: "636e72bbe21fac2f6846f8e3"},
-          kode_lokasi: {type: :string, example: "5.2.05.01.01.002"},
+          id: {type: :string, example: "637f7353e21fac03c0e36aa4"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          kode_barang: {type: :string, example: "5.2.05.01.01.002"},
           nama_barang: {type: :string, example: "Sejarah"},
-          nomor_register: {type: :string, example: "002"},
+          nomor_register: {type: :string, example: "001"},
           judul_buku: {type: :string, example: "Sembada"},
-          spesifikasi_buku: {type: :string, example: "Novel"},
+          spesifikasi_buku: {type: :string, example: "Kertas HVS 70 gram"},
           asal_kesenian: {type: :string, example: "-"},
-          pencipta_kesenian: {type: :string, example: "Pembada"},
-          bahan_kesenian: {type: :string, example: "Buku"},
-          jenis: {type: :string, example: "Fiksi"},
+          pencipta_kesenian: {type: :string, example: "Sembada"},
+          bahan_kesenian: {type: :string, example: "-"},
+          jenis: {type: :string, example: "-"},
           jumlah: {type: :string, example: "2"},
-          ukuran: {type: :string, example: "15x20 cm"},
-          tahun_pembelian: {type: :string, example: "2017"},
+          ukuran: {type: :string, example: "-"},
+          tahun_pembelian: {type: :string, example: "2021"},
           asal_usul: {type: :string, example: "APBD"},
-          harga: {type: :string, example: "Rp. 48000"},
+          harga: {type: :string, example: "24000"},
           keterangan: {type: :string, example: "-"},
         },
         required: []
@@ -952,7 +970,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e72bbe21fac2f6846f8e3"}
+            id: {type: :string, example: "637f7353e21fac03c0e36aa4"}
         },
         required: []
       }
@@ -1017,22 +1035,23 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          kode_lokasi: {type: :string, example: "03.02.01.04.05"},
-          nama_barang: {type: :string, example: "Rumah"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          kode_barang: {type: :string, example: "03.02.01.04.05"},
+          nama_barang: {type: :string, example: "Gedung Kesenian"},
           nomor_register: {type: :string, example: "0002"},
-          bangunan: {type: :string, example: "S"},
-          tingkat_bangunan: {type: :string, example: "Tidak"},
-          beton_bangunan: {type: :string, example: "Tidak"},
-          luas: {type: :string, example: "20m2"},
-          alamat: {type: :string, example: "Kosambi"},
-          nomor_dokumen: {type: :string, example: "12312412"},
-          tanggal_dokumen: {type: :string, example: "13/01/2001"},
-          tanggal_mulai: {type: :string, example: "13/01/2001"},
-          status: {type: :string, example: "HGB"},
-          nomor_tanah: {type: :string, example: "32155324"},
+          bangunan: {type: :string, example: "P"},
+          tingkat_bangunan: {type: :string, example: "tidak"},
+          beton_bangunan: {type: :string, example: "tidak"},
+          luas: {type: :string, example: "1000"},
+          alamat: {type: :string, example: "Jl. Dr. Radjiman No. 6 Kota Bandung"},
+          nomor_dokumen: {type: :string, example: "234/pd-disdik/1996"},
+          tanggal_dokumen: {type: :string, example: "17/05/1996"},
+          tanggal_mulai: {type: :string, example: "12/04/1996"},
+          status: {type: :string, example: "SHM"},
+          nomor_tanah: {type: :string, example: "3342"},
           asal_usul: {type: :string, example: "APBD"},
-          nilai_kontrak: {type: :string, example: "Rp. 10000"},
-          keterangan: {type: :string, example: "Layak Huni"},
+          nilai_kontrak: {type: :string, example: "190.884.500"},
+          keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -1104,23 +1123,24 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          id: {type: :string, example: "636e6497e21fac2f6846f8db"},
-          kode_lokasi: {type: :string, example: "03.02.01.04.05"},
-          nama_barang: {type: :string, example: "Rumah"},
+          id: {type: :string, example: "637f738fe21fac03c0e36aa6"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          kode_barang: {type: :string, example: "03.02.01.04.05"},
+          nama_barang: {type: :string, example: "Pos Jaga"},
           nomor_register: {type: :string, example: "0002"},
-          bangunan: {type: :string, example: "S"},
-          tingkat_bangunan: {type: :string, example: "Tidak"},
-          beton_bangunan: {type: :string, example: "Tidak"},
-          luas: {type: :string, example: "20m2"},
-          alamat: {type: :string, example: "Kosambi"},
-          nomor_dokumen: {type: :string, example: "12312412"},
-          tanggal_dokumen: {type: :string, example: "13/01/2001"},
-          tanggal_mulai: {type: :string, example: "13/01/2001"},
-          status: {type: :string, example: "HGB"},
-          nomor_tanah: {type: :string, example: "32155324"},
+          bangunan: {type: :string, example: "P"},
+          tingkat_bangunan: {type: :string, example: "tidak"},
+          beton_bangunan: {type: :string, example: "Beton"},
+          luas: {type: :string, example: "25"},
+          alamat: {type: :string, example: "Jl. Dr. Radjiman No. 6 Kota Bandung"},
+          nomor_dokumen: {type: :string, example: "110pd-disdik/1997"},
+          tanggal_dokumen: {type: :string, example: "18/10/1997"},
+          tanggal_mulai: {type: :string, example: "17/09/1997"},
+          status: {type: :string, example: "SHM"},
+          nomor_tanah: {type: :string, example: "3552"},
           asal_usul: {type: :string, example: "APBD"},
-          nilai_kontrak: {type: :string, example: "Rp. 10000"},
-          keterangan: {type: :string, example: "Layak Huni"},
+          nilai_kontrak: {type: :string, example: "18.600.000"},
+          keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -1156,7 +1176,7 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "636e6497e21fac2f6846f8db"}
+            id: {type: :string, example: "637f738fe21fac03c0e36aa6"}
         },
         required: []
       }

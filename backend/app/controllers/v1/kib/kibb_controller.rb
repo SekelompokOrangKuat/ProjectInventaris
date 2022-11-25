@@ -24,18 +24,26 @@ class V1::Kib::KibbController < ApplicationController
                 response_message: "Tidak memiliki akses!"
                 }, status: :unauthorized
         else
-            @kib_b = Barang::Kibb.create(user_params)
-            if @kib_b.save
-                render json: {
-                    response_code: 201, 
-                    response_message: "Success", 
-                    data: @kib_b
-                    }, status: :created
-            else
+            @kib_b = Barang::Kibb.new(user_params)
+            nomor_registered = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+            if nomor_registered.present?
                 render json: {
                     response_code: 422,
-                    response_message: @kib_b.errors.full_messages
-                    }, status: :unprocessable_entity
+                    response_message: "Nomor register tidak boleh sama!"
+                    }, status: :unprocessable_entity 
+            else
+                if @kib_b.save
+                    render json: {
+                        response_code: 201, 
+                        response_message: "Success", 
+                        data: @kib_b
+                        }, status: :created
+                else
+                    render json: {
+                        response_code: 422,
+                        response_message: @kib_b.errors.full_messages
+                        }, status: :unprocessable_entity
+                end
             end
         end
     end
@@ -67,19 +75,25 @@ class V1::Kib::KibbController < ApplicationController
                 else
                     begin
                         @kib_b = Barang::Kibb.find(params[:id])
+                        kode_barang = params[:kode_barang]
                         kode_lokasi = params[:kode_lokasi]
                         nama_barang = params[:nama_barang]
                         nomor_register = params[:nomor_register]
                         tipe_barang = params[:tipe_barang]
+                        ukuran_barang = params[:ukuran_barang]
                         bahan_barang = params[:bahan_barang]
                         tahun_pembelian = params[:tahun_pembelian]
                         nomor_pabrik = params[:nomor_pabrik]
                         nomor_rangka = params[:nomor_rangka]
                         nomor_mesin = params[:nomor_mesin]
                         nomor_polisi = params[:nomor_polisi]
+                        nomor_bpkb = params[:nomor_bpkb]
                         asal_usul = params[:asal_usul]
                         harga_barang = params[:harga_barang]
                         keterangan = params[:keterangan]
+                        if params[:kode_barang].blank?
+                            kode_barang = @kib_b.kode_barang
+                        end
                         if params[:kode_lokasi].blank? 
                             kode_lokasi = @kib_b.kode_lokasi
                         end
@@ -90,7 +104,7 @@ class V1::Kib::KibbController < ApplicationController
                             nomor_register = @kib_b.nomor_register
                         else
                             is_trigger = true
-                            nomor_registered = Barang::Kibb.where(nomor_register: params[:nomor_register]).first
+                            nomor_registered = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
                             if nomor_registered.present?
                                 render json: {
                                     response_code: 422, 
@@ -101,6 +115,9 @@ class V1::Kib::KibbController < ApplicationController
                         end
                         if params[:tipe_barang].blank?
                             tipe_barang = @kib_b.tipe_barang
+                        end
+                        if params[:ukuran_barang].blank?
+                            ukuran_barang = @kib_b.ukuran_barang
                         end
                         if params[:bahan_barang].blank?
                             bahan_barang = @kib_b.bahan_barang
@@ -120,6 +137,9 @@ class V1::Kib::KibbController < ApplicationController
                         if params[:nomor_polisi].blank?
                             nomor_polisi = @kib_b.nomor_polisi
                         end
+                        if params[:nomor_bpkb].blank?
+                            nomor_bpkb = @kib_b.nomor_bpkb
+                        end
                         if params[:asal_usul].blank?
                             asal_usul = @kib_b.asal_usul
                         end
@@ -130,16 +150,19 @@ class V1::Kib::KibbController < ApplicationController
                             keterangan = @kib_b.keterangan
                         end
                         @kib_b.assign_attributes({
+                            kode_barang: kode_barang,
                             kode_lokasi: kode_lokasi, 
                             nama_barang: nama_barang, 
                             nomor_register: nomor_register,
                             tipe_barang: tipe_barang, 
+                            ukuran_barang: ukuran_barang,
                             bahan_barang: bahan_barang, 
                             tahun_pembelian: tahun_pembelian, 
                             nomor_pabrik: nomor_pabrik, 
                             nomor_rangka: nomor_rangka, 
                             nomor_mesin: nomor_mesin, 
-                            nomor_polisi: nomor_polisi, 
+                            nomor_polisi: nomor_polisi,
+                            nomor_bpkb: nomor_bpkb,
                             asal_usul: asal_usul, 
                             harga_barang: harga_barang, keterangan: keterangan})
                         if is_trigger == true
@@ -225,7 +248,7 @@ class V1::Kib::KibbController < ApplicationController
     private
 
     def user_params
-        params.permit(:kode_lokasi, :nama_barang, :nomor_register, :tipe_barang, :bahan_barang, :tahun_pembelian, :nomor_pabrik, :nomor_rangka,
-            :nomor_mesin, :nomor_polisi, :asal_usul, :harga_barang, :keterangan)
+        params.permit(:kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :ukuran_barang, :tipe_barang, :bahan_barang, 
+            :tahun_pembelian, :nomor_pabrik, :nomor_rangka, :nomor_mesin, :nomor_polisi, :nomor_bpkb, :asal_usul, :harga_barang, :keterangan)
     end
 end

@@ -11,20 +11,25 @@ describe 'Pengadaan API' do
         type: :object,
         properties: {
           nama_pengusul: {type: :string, example: "Pengelola Sinbada"},
+          spesifikasi_barang: {type: :string, example: "-"},
           foto_barang: {type: :string, example: "img.jpg"},
-          kode_lokasi: {type: :string, example: "02.06.01.04.02"},
-          nama_barang: {type: :string, example: "Kipas Angin"},
+          nama_ruangan: {type: :string, example: "02.001 KEPALA BIDANG GTK"},
+          kode_barang: {type: :string, example: "1.3.2.10.02.03.003"},
+          kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+          nama_barang: {type: :string, example: "Printer"},
           nomor_register: {type: :string, example: "0001"},
-          tipe_barang: {type: :string, example: "Harian"},
-          bahan_barang: {type: :string, example: "Plastik"},
-          tahun_pembelian: {type: :string, example: "2018"},
-          nomor_pabrik: {type: :string, example: "SKDJ1231"},
-          nomor_rangka: {type: :string, example: "MHFAB3EM1G0004620"},
-          nomor_mesin: {type: :string, example: "2GDC109312"},
-          nomor_polisi: {type: :string, example: "D 2019 PTP"},
+          tipe_barang: {type: :string, example: "Epson L1455"},
+          ukuran_barang: {type: :string, example: "220 W"},
+          bahan_barang: {type: :string, example: "Ebonit"},
+          tahun_pembelian: {type: :string, example: "2020"},
+          nomor_pabrik: {type: :string, example: "Epson"},
+          nomor_rangka: {type: :string, example: "Z87464539Y"},
+          nomor_mesin: {type: :string, example: "-"},
+          nomor_polisi: {type: :string, example: "-"},
+          nomor_bpkb: {type: :string, example: "-"},
           asal_usul: {type: :string, example: "APBD"},
-          harga_barang: {type: :string, example: "Rp. 150000"},
-          keterangan: {type: :string, example: "Barang Baik"},
+          harga_barang: {type: :string, example: "22.330.000"},
+          keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -96,22 +101,27 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "6375eae5e21fac17c48f1612"},
-            nama_pengusul: {type: :string, example: "Pengelola Sinbada"},
-            foto_barang: {type: :string, example: "Sinbada.svg"},
-            kode_lokasi: {type: :string, example: "02.06.01.04.02"},
-            nama_barang: {type: :string, example: "Motor"},
-            nomor_register: {type: :string, example: "0002"},
-            tipe_barang: {type: :string, example: "Harian"},
-            bahan_barang: {type: :string, example: "Plastik"},
-            tahun_pembelian: {type: :string, example: "2017"},
-            nomor_pabrik: {type: :string, example: "SKDJ123SA1"},
-            nomor_rangka: {type: :string, example: "MHAS412M1G0004620"},
-            nomor_mesin: {type: :string, example: "2GDC109312ASD"},
-            nomor_polisi: {type: :string, example: "D 2019 PTP"},
+            id: {type: :string, example: "637f8565e21fac03c0e36abf"},
+            nama_pengusul: {type: :string, example: "Admin Sinbada"},
+            spesifikasi_barang: {type: :string, example: "-"},
+            foto_barang: {type: :string, example: "img.jpg"},
+            nama_ruangan: {type: :string, example: "02.001 KEPALA BIDANG GTK"},
+            kode_barang: {type: :string, example: "1.3.2.01.03.05.010"},
+            kode_lokasi: {type: :string, example: "11.01.32.05.000001.00020.2022"},
+            nama_barang: {type: :string, example: "Portable Generating Set"},
+            nomor_register: {type: :string, example: "0001"},
+            tipe_barang: {type: :string, example: "Genset"},
+            ukuran_barang: {type: :string, example: "150 KVA"},
+            bahan_barang: {type: :string, example: "Besi"},
+            tahun_pembelian: {type: :string, example: "2021"},
+            nomor_pabrik: {type: :string, example: "Canghong"},
+            nomor_rangka: {type: :string, example: "A15438GH7"},
+            nomor_mesin: {type: :string, example: "-"},
+            nomor_polisi: {type: :string, example: "-"},
+            nomor_bpkb: {type: :string, example: "-"},
             asal_usul: {type: :string, example: "APBD"},
-            harga_barang: {type: :string, example: "Rp. 1700000"},
-            keterangan: {type: :string, example: "Barang Baik"},
+            harga_barang: {type: :string, example: "193.600.000"},
+            keterangan: {type: :string, example: "-"},
         },
         required: []
       }
@@ -147,7 +157,7 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "6375eae5e21fac17c48f1612"}
+            id: {type: :string, example: "637f8565e21fac03c0e36abf"}
         },
         required: []
       }
@@ -180,7 +190,7 @@ describe 'Pengadaan API' do
       consumes 'application/json'
       produces 'application/json'
       parameter name: 'Authorization', in: :header, type: :string, required: true
-      parameter in: :formData, name: :id, type: :string, required: true, example: "63786512e21fac2eb88fd153"
+      parameter in: :formData, name: :id, type: :string, required: true, example: "637f8565e21fac03c0e36abf"
       parameter in: :formData, name: :is_approve, type: :boolean, required: true, example: :true
       response '200', 'Successfull' do
         schema type: :object

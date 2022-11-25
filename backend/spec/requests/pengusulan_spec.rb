@@ -10,10 +10,12 @@ describe 'Pengusulan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
+            nama_barang: {type: :string, example: "Sedan"},
             nomor_register: {type: :string, example: "0001"}, 
             nama_pengusul: {type: :string, example: "Admin Sinbada"},
             jenis_usulan: {type: :string, example: "Pemeliharaan"},
-            kondisi_barang: {type: :string, example: "R"},
+            kondisi_barang: {type: :string, example: "Rusak"},
+            keterangan: {type: :string, example: "-"},
             foto_barang: {type: :string, example: "img.jpg"}
         },
         required: []
@@ -122,10 +124,11 @@ describe 'Pengusulan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "637923e0e21fac2eb88fd183"},
-            nama_pengusul: {type: :string, example: "Pengelola Sinbada"},
-            kondisi_barang: {type: :string, example: "RB"},
-            foto_barang: {type: :string, example: "Sinbada.svg"},
+            id: {type: :string, example: "637923e0e21fac2eb88fd183"}, 
+            nama_pengusul: {type: :string, example: "Admin Sinbada"},
+            kondisi_barang: {type: :string, example: "Rusak"},
+            keterangan: {type: :string, example: "-"},
+            foto_barang: {type: :string, example: "img.png"}
         },
         required: []
       }

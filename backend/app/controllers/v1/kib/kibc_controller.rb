@@ -25,17 +25,25 @@ class V1::Kib::KibcController < ApplicationController
                 }, status: :unauthorized
         else
             @kib_c = Barang::Kibc.new(user_params)
-            if @kib_c.save
-                render json: {
-                    response_code: 201, 
-                    response_message: "Success", 
-                    data: @kib_c
-                    }, status: :created
-            else
+            nomor_registered = Barang::Kibc.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+            if nomor_registered.present?
                 render json: {
                     response_code: 422,
-                    response_message: @kib_c.errors.full_messages
-                    }, status: :unprocessable_entity
+                    response_message: "Nomor register tidak boleh sama!"
+                    }, status: :unprocessable_entity 
+            else
+                if @kib_c.save
+                    render json: {
+                        response_code: 201, 
+                        response_message: "Success", 
+                        data: @kib_c
+                        }, status: :created
+                else
+                    render json: {
+                        response_code: 422,
+                        response_message: @kib_c.errors.full_messages
+                        }, status: :unprocessable_entity
+                end
             end
         end
     end
@@ -67,6 +75,7 @@ class V1::Kib::KibcController < ApplicationController
                 else
                     begin
                         @kib_c = Barang::Kibc.find(params[:id])
+                        kode_barang = params[:kode_barang]
                         kode_lokasi = params[:kode_lokasi]
                         nama_barang = params[:nama_barang]
                         nomor_register = params[:nomor_register]
@@ -75,13 +84,17 @@ class V1::Kib::KibcController < ApplicationController
                         beton_bangunan = params[:beton_bangunan]
                         luas_lantai = params[:luas_lantai]
                         alamat = params[:alamat]
-                        dokumen_gedung = params[:dokumen_gedung]
+                        nomor_dokumen = params[:tanggal_dokumen]
+                        tanggal_dokumen = params[:tanggal_dokumen]
                         luas = params[:luas]
                         status = params[:status]
                         nomor_tanah = params[:nomor_tanah]
                         asal_usul = params[:asal_usul]
                         harga = params[:harga]
                         keterangan = params[:keterangan]
+                        if params[:kode_barang].blank?
+                            kode_barang = kib_c.kode_barang
+                        end
                         if params[:kode_lokasi].blank? 
                             kode_lokasi = @kib_c.kode_lokasi
                         end
@@ -92,7 +105,7 @@ class V1::Kib::KibcController < ApplicationController
                             nomor_register = @kib_c.nomor_register
                         else
                             is_trigger = true
-                            nomor_registered = Barang::Kibc.where(nomor_register: params[:nomor_register]).first
+                            nomor_registered = Barang::Kibc.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
                             if nomor_registered.present?
                                 render json: {
                                     response_code: 422, 
@@ -116,8 +129,11 @@ class V1::Kib::KibcController < ApplicationController
                         if params[:alamat].blank?
                             alamat = @kib_c.alamat
                         end
-                        if params[:dokumen_gedung].blank?
-                            dokumen_gedung = @kib_c.dokumen_gedung
+                        if params[:nomor_dokumen].blank?
+                            nomor_dokumen = @kib_c.nomor_dokumen
+                        end
+                        if params[:tanggal_dokumen].blank?
+                            tanggal_dokumen = @kib_c.tanggal_dokumen
                         end
                         if params[:luas].blank?
                             luas = @kib_c.luas
@@ -135,6 +151,7 @@ class V1::Kib::KibcController < ApplicationController
                             keterangan = @kib_c.keterangan
                         end
                         @kib_c.assign_attributes({
+                            kode_barang: kode_barang,
                             kode_lokasi: kode_lokasi, 
                             nama_barang: nama_barang, 
                             nomor_register: nomor_register,
@@ -143,7 +160,8 @@ class V1::Kib::KibcController < ApplicationController
                             beton_bangunan: beton_bangunan, 
                             luas_lantai: luas_lantai, 
                             alamat: alamat, 
-                            dokumen_gedung: dokumen_gedung, 
+                            nomor_dokumen: nomor_dokumen,
+                            tanggal_dokumen: tanggal_dokumen,
                             luas: luas, 
                             status: status,
                             asal_usul: asal_usul, 
@@ -232,8 +250,7 @@ class V1::Kib::KibcController < ApplicationController
     private
   
     def user_params
-        params.permit(:kode_lokasi, :nama_barang, :nomor_register, :kondisi_bangunan, :tingkat_bangunan, :beton_bangunan, 
-            :luas_lantai, :alamat, :dokumen_gedung, :luas, :status, :nomor_tanah, :asal_usul, :harga,
-             :keterangan)
+        params.permit(:kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :kondisi_bangunan, :tingkat_bangunan, :beton_bangunan, 
+            :luas_lantai, :alamat, :nomor_dokumen, :tanggal_dokumen, :luas, :status, :nomor_tanah, :asal_usul, :harga, :keterangan)
     end
 end
