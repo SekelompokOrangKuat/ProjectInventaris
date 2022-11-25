@@ -9,30 +9,25 @@ class V1::Peminjaman::PeminjamansController < ApplicationController
       if params[:_id].blank?
         render json: { error: "ID tidak boleh kosong!"}, status: :unprocessable_entity
       else
-        ruangan = Ruangan.where(_id: params[:_id]).first
-        if not ruangan.present?
+        peminjaman = Peminjaman.where(_id: params[:_id]).first
+        if not peminjaman.present?
           render json: { error: "Data peminjaman tidak terdaftar!"}, status: :unprocessable_entity
         else
           begin
-            @ruangans = Ruangan.find(params[:_id])
-            if params[:nama_ruangan].blank?
-              nama_ruangan = ruangan.nama_ruangan
+            @peminjaman = Peminjaman.find(params[:_id])
+            if params[:tanggal_peminjaman].blank?
+              tanggal_peminjaman = peminjaman.tanggal_peminjaman
             else
-              nama_ruangan = params[:nama_ruangan]
+              tanggal_peminjaman = params[:tanggal_peminjaman]
             end
-            if params[:bidang_ruangan].blank?
-              bidang_ruangan = ruangan.bidang_ruangan
+            if params[:tanggal_pengembalian].blank?
+              tanggal_pengembalian = peminjaman.tanggal_pengembalian
             else
-              bidang_ruangan = params[:bidang_ruangan]
+              tanggal_pengembalian = params[:tanggal_pengembalian]
             end
-            if params[:kelompok_ruangan].blank?
-              kelompok_ruangan = ruangan.kelompok_ruangan
-            else
-              kelompok_ruangan = params[:kelompok_ruangan]
-            end
-            @ruangans.assign_attributes({nama_ruangan: nama_ruangan, bidang_ruangan: bidang_ruangan, kelompok_ruangan: kelompok_ruangan})
-            @ruangans.save(:validate => false)
-            render json: { success: @ruangans }, status: :ok
+            @peminjaman.assign_attributes({tanggal_peminjaman: tanggal_peminjaman, tanggal_pengembalian: tanggal_pengembalian})
+            @peminjaman.save(:validate => false)
+            render json: { success: @peminjaman }, status: :ok
           rescue Exception => e
             render json: { error: "Edit gagal, silahkan coba kembali!"}, status: :unprocessable_entity
           end
@@ -41,11 +36,18 @@ class V1::Peminjaman::PeminjamansController < ApplicationController
     end
   
     def create
-      @peminjaman = Peminjaman.new(peminjaman_params)
-      if @peminjaman.save
-        render json: @peminjaman, status: :created
+      @barang = Barang::Kibb.undeleted.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+      @barang.assign_attributes({status_kib: Enums::Kib::PEMINJAMAN})
+      @peminjaman = Peminjaman.pending.find(@barang.peminjaman_id)
+      @peminjaman.assign_attributes({
+        tanggal_peminjaman: params[:tanggal_peminjaman],
+        tanggal_pengembalian: params[:tanggal_pengembalian],
+        status_peminjaman: Enums::StatusPeminjaman::BORROWED
+        })
+      if @barang.save(:validate => false) and @peminjaman.save(:validate => false) 
+        render json: {barang: @barang, peminjaman: @peminjaman}, status: :ok
       else 
-        render json: { errors: @peminjaman.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors_barang: @barang.errors.full_messages, errors_peminjaman: @peminjaman.errors.full_messages }, status: :unprocessable_entity
       end
     end
   
