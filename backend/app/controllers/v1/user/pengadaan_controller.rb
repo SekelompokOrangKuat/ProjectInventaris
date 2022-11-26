@@ -173,6 +173,9 @@ class V1::User::PengadaanController < ApplicationController
                     asal_usul = params[:asal_usul]
                     harga_barang = params[:harga_barang]
                     keterangan = params[:keterangan]
+                    if nama_ruangan[:nama_ruangan].blank?
+                        nama_ruangan = @barang.nama_ruangan
+                    end
                     if params[:kode_barang].blank?
                         kode_barang = @barang.kode_barang
                     end
