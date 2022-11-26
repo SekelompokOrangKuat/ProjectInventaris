@@ -25,6 +25,7 @@ import SOPMutasi from "./assets/pdf/SOP Mutasi.pdf";
 import SOPPengelolaan from "./assets/pdf/SOP Pengelolaan Barang Milik Daerah.pdf";
 import './App.css';
 import Laporan from "./pages/laporan";
+import Pendataan from "./pages/pendataan";
 
 function App() {
   return (
@@ -34,9 +35,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/" element={<Layout isAdmin={false} />}>
           <Route path="" element={<Dashboard />}></Route>
-          <Route path="pendataan" element={<Dashboard />}></Route>
+          <Route path="pendataan" element={<Pendataan />}></Route>
           <Route path="pencatatan" element={<Dashboard />}></Route>
-          <Route path="pendataan" element={<Dashboard />}></Route>
           <Route path="pelaporan" element={<Laporan />}></Route>
           <Route path="pendataan/pemeliharaan" element={<Pemeliharaan />}></Route>
           <Route path="pendataan/penghapusan" element={<Penghapusan />}></Route>
