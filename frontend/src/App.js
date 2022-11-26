@@ -20,6 +20,12 @@ import Pemeliharaan from "./pages/pemeliharaan";
 import Penghapusan from "./pages/penghapusan";
 import Pengadaan from "./pages/pengadaan";
 import Jadwal from "./pages/jadwal";
+import Tanah from "./pages/kib/tanah.jsx";
+import PeralatanMesin from "./pages/kib/peralatanmesin.jsx";
+import GedungBangunan from "./pages/kib/gedungbangunan.jsx";
+import JalanIrigasiJaringan from "./pages/kib/jalanirigasi.jsx";
+import AsetTetap from "./pages/kib/asettetap.jsx";
+import Konstruksi from "./pages/kib/konstruksi.jsx";
 
 import SOPMutasi from "./assets/pdf/SOP Mutasi.pdf";
 import SOPPengelolaan from "./assets/pdf/SOP Pengelolaan Barang Milik Daerah.pdf";
@@ -46,6 +52,12 @@ function App() {
           <Route path="pencatatan/mutasi-barang" element={<MutasiBarang />}></Route>
           <Route path="pencatatan/peminjaman" element={<Peminjaman />}></Route>
           <Route path="pencatatan/kir" element={<KIR />}></Route>
+          <Route path="kib/a" element={<Tanah />} />
+          <Route path="kib/b" element={<PeralatanMesin />} />
+          <Route path="kib/c" element={<GedungBangunan />} />
+          <Route path="kib/d" element={<JalanIrigasiJaringan />} />
+          <Route path="kib/e" element={<AsetTetap />} />
+          <Route path="kib/f" element={<Konstruksi />} />
         </Route>
         <Route path="admin" element={<Layout isAdmin={true} />}>
           <Route path="skpd" element={<Skpd />}></Route>
