@@ -10,33 +10,33 @@ describe 'Registrasi API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            email: {type: :string, example: "simbadainv@gmail.com"},
+            email: {type: :string, example: "sinbada@gmail.com"},
             password: {type: :string, example: "12345678"},
             password_confirmation: {type: :string, example: "12345678"},
             user_role: {type: :string, example: "Admin"},
-            nama: {type: :string, example: "Admin Simbada"},
+            nama: {type: :string, example: "Admin Sinbada"},
             nip: {type: :string, example: "019231234329102"},
             telepon: {type: :string, example: "081232132318"},
         },
         required: []
       }
-      response '201', 'Successfull' do
+      response '201', 'Created' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Email is Already Taken"},
-                  code: {type: :string, example: "422"}
+                response_message: {type: :string, example: "Email is Already Taken"},
+                response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -52,7 +52,7 @@ describe 'Registrasi API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "simbada@gmail.com"},
+            keywords: {type: :string, example: "sinbada@gmail.com"},
         },
         required: []
       }
@@ -60,19 +60,19 @@ describe 'Registrasi API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "User tidak ditemukan!"},
-                  code: {type: :string, example: "422"}
+                response_message: {type: :string, example: "User tidak ditemukan!"},
+                response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -89,9 +89,9 @@ describe 'Registrasi API' do
         type: :object,
         properties: {
             id: {type: :string, example: "636cfd59e21fac2ab08223c3"},
-            email: {type: :string, example: "simbada@gmail.com"},
-            user_role: {type: :string, example: "SuperAdmin"},
-            nama: {type: :string, example: "Admin Simbada"},
+            email: {type: :string, example: "sinbada@gmail.com"},
+            user_role: {type: :string, example: "Admin"},
+            nama: {type: :string, example: "Admin Sinbada"},
             nip: {type: :string, example: "019231234329102"},
             telepon: {type: :string, example: "081232132318"},
         },
@@ -101,19 +101,19 @@ describe 'Registrasi API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "User tidak ditemukan!"},
-                  code: {type: :string, example: "422"}
+                response_message: {type: :string, example: "User tidak ditemukan!"},
+                response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -129,7 +129,7 @@ describe 'Registrasi API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            email: {type: :string, example: "simbada@gmail.com"}
+            email: {type: :string, example: "sinbada@gmail.com"}
         },
         required: []
       }
@@ -137,19 +137,19 @@ describe 'Registrasi API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "User tidak ditemukan!"},
-                  code: {type: :string, example: "422"}
+                response_message: {type: :string, example: "User tidak ditemukan!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
               }
         run_test!
       end
@@ -166,19 +166,19 @@ describe 'Registrasi API' do
         schema type: :object
         run_test!
       end
-      response '422', 'Error' do
+      response '422', 'Unprocessable Entity' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "User tidak ditemukan!"},
-                  code: {type: :string, example: "422"}
+                response_message: {type: :string, example: "Tidak ada data!"},
+                  response_code: {type: :integer, example: 422}
               }
         run_test!
       end
       response '401', 'Unauthorized' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Invalid Header"},
-                  code: {type: :string, example: "X-401"}
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
               }
         run_test!
       end

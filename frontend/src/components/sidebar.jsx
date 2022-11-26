@@ -6,19 +6,10 @@
 */
 
 import { Box, MenuItem } from "@mui/material";
-import { Box as BoxFeather, FilePlus, FileText, Home } from "react-feather";
 import { useNavigate, useLocation } from "react-router-dom";
 import React from "react";
 
-const Sidebar = () => {
-    
-    const menuLists = [
-        { name: "Dashboard", url: "/", icon: <Home size={20} color="#E0E0E0" /> },
-        { name: "Pendataan", url: "/pendataan", icon: <FilePlus size={20} color="#E0E0E0" /> },
-        { name: "Pencatatan", url: "/pencatatan", icon: <BoxFeather size={20} color="#E0E0E0" /> },
-        { name: "Pelaporan", url: "/pelaporan", icon: <FileText size={20} color="#E0E0E0" /> }
-    ];
-
+const Sidebar = (props) => {
     // Route-related functions 
     const navigate = useNavigate();
     const location = useLocation();
@@ -35,7 +26,7 @@ const Sidebar = () => {
                     p: 5
                 }}
             >
-                {menuLists.map((data, index) => {
+                {props.menu.map((data, index) => {
                     return <MenuItem
                         key={"key" + index + "_" + data.name}
                         className="active"

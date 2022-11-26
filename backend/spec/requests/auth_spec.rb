@@ -9,7 +9,7 @@ describe 'Authentication API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            email: {type: :string, example: "simbada@gmail.com"},
+            email: {type: :string, example: "sinbada@gmail.com"},
             password: {type: :string, example: "12345678"},
         },
         required: []
@@ -21,8 +21,8 @@ describe 'Authentication API' do
       response '401', 'Error' do
         schema type: :object,
               properties: {
-                  message: {type: :string, example: "Email salah"},
-                  code: {type: :string, example: "422"}
+                response_message: {type: :string, example: "Email salah"},
+                response_code: {type: :integer, example: 401}
               }
         run_test!
       end

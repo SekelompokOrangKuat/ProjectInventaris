@@ -15,6 +15,31 @@ Rails.application.routes.draw do
         post "/delete" => "registrasi#delete"
         post "/search" => "registrasi#search"
       end
+      resource :pengadaan do
+        get "/findAll" => "pengadaan#index"
+        post "/create" => "pengadaan#create"
+        post "/approval" => "pengadaan#approval"
+        post "/edit" => "pengadaan#edit"
+        post "/delete" => "pengadaan#delete"
+        post "/search" => "pengadaan#search"
+      end
+      resource :jadwal do
+        get "/findAll" => "jadwal#index"
+        post "/edit" => "jadwal#edit"
+        post "/create" => "jadwal#create"
+        post "/delete" => "jadwal#delete"
+        post "/search" => "jadwal#search"
+      end
+      resource :pengusulan do
+        get "/find_penghapusan" => "pengusulan#index_penghapusan"
+        get "/find_pemeliharaan" => "pengusulan#index_pemeliharaan"
+        post "/create" => "pengusulan#create"
+        post "/approval" => "pengusulan#approval"
+        post "/edit" => "pengusulan#edit"
+        post "/delete" => "pengusulan#delete"
+        post "/search_penghapusan" => "pengusulan#search_penghapusan"
+        post "/search_pemeliharaan" => "pengusulan#search_pemeliharaan"
+      end
     end
     namespace :kib do
       resource :kiba do
@@ -58,6 +83,25 @@ Rails.application.routes.draw do
         post "/create" => "kibf#create"
         post "/delete" => "kibf#delete"
         post "/search" => "kibe#search"
+      end
+    end
+    namespace :ruangan do 
+      resource :ruangans do
+        get "/findAll" => "ruangans#getAll" 
+        post "/create" => "ruangans#create"
+        post "/delete" => "ruangans#destroy"
+        post "/edit" => "ruangans#editById"
+      end
+      resource :kir do
+        post "/findbyruangan" => "kir#getByRuangan"
+      end
+    end
+    namespace :peminjaman do 
+      resource :peminjamans do
+        get "/findAll" => "peminjamans#getAll" 
+        post "/create" => "peminjamans#create"
+        post "/delete" => "peminjamans#destroy"
+        post "/edit" => "peminjamans#editById"
       end
     end
   end

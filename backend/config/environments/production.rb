@@ -2,7 +2,12 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  config.hosts = [
+    IPAddr.new("0.0.0.0/0"), # All IPv4 addresses.
+    IPAddr.new("::/0"),      # All IPv6 addresses.
+    "localhost",             # The localhost reserved domain.
+    "backend.icygrass-3ea20227.eastasia.azurecontainerapps.io"  # Allow this to be addressed when running in containers via docker-compose.yml.
+  ]
   # Code is not reloaded between requests.
   config.cache_classes = true
 

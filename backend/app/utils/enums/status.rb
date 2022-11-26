@@ -1,7 +1,6 @@
 module Enums
-    module KibStatus
+    module Status
         NEW = 0
         DELETED = 1
-        PEMELIHARAAN = 2
     end
 end

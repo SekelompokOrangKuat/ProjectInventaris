@@ -21,7 +21,7 @@ paths:
           properties:
             email:
               type: string
-              example: simbada@gmail.com
+              example: sinbada@gmail.com
             password:
               type: string
               example: '12345678'
@@ -36,12 +36,262 @@ paths:
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Email salah
-              code:
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/jadwal/create":
+    post:
+      summary: Create Jadwal
+      tags:
+      - Jadwal
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            tanggal:
+              type: string
+              example: 19-11-2022
+            keterangan:
+              type: string
+              example: Pengusulan Barang
+          required: []
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
                 type: string
-                example: '422'
+                example: Tanggal is Invalid
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/jadwal/search":
+    post:
+      summary: Search Jadwal
+      tags:
+      - Jadwal
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Pengusulan Barang
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Jadwal tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/jadwal/edit":
+    post:
+      summary: Edit Jadwal
+      tags:
+      - Jadwal
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 6378d035e21fac2eb88fd15d
+            tanggal:
+              type: string
+              example: 19-11-2022
+            keterangan:
+              type: string
+              example: Pengusulan Barang
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Jadwal tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/jadwal/delete":
+    post:
+      summary: Delete Jadwal
+      tags:
+      - Jadwal
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 6378d035e21fac2eb88fd15d
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Jadwal tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/jadwal/findAll":
+    get:
+      summary: Find All Jadwal
+      tags:
+      - Jadwal
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kiba/create":
     post:
       summary: Create KIB A
@@ -61,73 +311,76 @@ paths:
         schema:
           type: object
           properties:
+            kode_barang:
+              type: string
+              example: 1.3.1.01.01.04.002
             kode_lokasi:
               type: string
-              example: 01.02.03.04.05
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Sepeda
+              example: Tanah Bangunan Kantor Pemerintah
             nomor_register:
               type: string
-              example: '0003'
+              example: '0001'
             luas:
               type: string
-              example: 1m
+              example: '27.600'
             tahun_pengadaan:
               type: string
-              example: '2021'
+              example: '1978'
             alamat:
               type: string
-              example: Rancamanyar
+              example: Jl. Dr. Radjiman No. 6
             kota:
               type: string
-              example: Kabupaten Bandung
+              example: Kota Bandung
             status_tanah:
               type: string
-              example: AJB
+              example: SHM
             nomor_sertifikat:
               type: string
-              example: '210380183129'
+              example: 2380, 17/05/1978
             penggunaan:
               type: string
-              example: Alat Transportasi
+              example: Perkantoran
             asal_usul:
               type: string
               example: APBD
             nilai_perolehan:
               type: string
-              example: Rp. 250000
+              example: 31.657.200.000,00
             keterangan:
               type: string
-              example: Layak Pakai
+              example: "-"
           required: []
       responses:
         '201':
-          description: Successfull
+          description: Created
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Kesalahan Parameter
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kiba/search":
     post:
       summary: Search KIB A
@@ -157,27 +410,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kiba/edit":
     post:
       summary: Edit KIB A
@@ -199,46 +452,49 @@ paths:
           properties:
             id:
               type: string
-              example: 636dfb9ae21fac2cd4510353
+              example: 637f70cde21fac03c0e36a91
+            kode_barang:
+              type: string
+              example: 1.3.1.01.01.04.003
             kode_lokasi:
               type: string
-              example: 01.02.03.04.05
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Motor
+              example: Tanah Bangunan Pendidikan dan Latihan (Sekolah)
             nomor_register:
               type: string
-              example: '0003'
+              example: '0002'
             luas:
               type: string
-              example: 2m
+              example: '6754'
             tahun_pengadaan:
               type: string
-              example: '2021'
+              example: '2017'
             alamat:
               type: string
-              example: Rancamanyar
+              example: Jl. Baturengat No. 10
             kota:
               type: string
-              example: Kabupaten Bandung
+              example: Kota Bandung
             status_tanah:
               type: string
-              example: SHM
+              example: AJB
             nomor_sertifikat:
               type: string
-              example: '210380183129'
+              example: 3231, 18/05/1978
             penggunaan:
               type: string
-              example: Alat Trasportasi
+              example: Pelatihan
             asal_usul:
               type: string
               example: APBD
             nilai_perolehan:
               type: string
-              example: Rp. 14000000
+              example: 8.686.872.550
             keterangan:
               type: string
-              example: Layak Pakai
+              example: "-"
           required: []
       responses:
         '200':
@@ -246,27 +502,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Id tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kiba/delete":
     post:
       summary: Delete KIB A
@@ -288,7 +544,7 @@ paths:
           properties:
             id:
               type: string
-              example: 636dfb9ae21fac2cd4510353
+              example: 637f70cde21fac03c0e36a91
           required: []
       responses:
         '200':
@@ -296,27 +552,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kiba/findAll":
     get:
       summary: Find All KIB A
@@ -337,27 +593,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Tidak ada data!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibb/create":
     post:
       summary: Create KIB B
@@ -377,73 +633,82 @@ paths:
         schema:
           type: object
           properties:
+            kode_barang:
+              type: string
+              example: 1.3.2.02.01.01.001
             kode_lokasi:
               type: string
-              example: 02.06.01.04.02
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Kipas Angin
+              example: Sedan
             nomor_register:
               type: string
               example: '0001'
             tipe_barang:
               type: string
-              example: Harian
+              example: Toyota Altis
+            ukuran_barang:
+              type: string
+              example: '1800'
             bahan_barang:
               type: string
-              example: Plastik
+              example: Besi
             tahun_pembelian:
               type: string
-              example: '2018'
+              example: '2008'
             nomor_pabrik:
               type: string
-              example: SKDJ1231
+              example: Toyota
             nomor_rangka:
               type: string
-              example: MHFAB3EM1G0004620
+              example: BGHF123JJHNH6354
             nomor_mesin:
               type: string
-              example: 2GDC109312
+              example: MH1GHKHTEEYU234
             nomor_polisi:
               type: string
-              example: D 2019 PTP
+              example: D 1763 E
+            nomor_bpkb:
+              type: string
+              example: L-050345455
             asal_usul:
               type: string
               example: APBD
             harga_barang:
               type: string
-              example: Rp. 150000
+              example: 239.000.000
             keterangan:
               type: string
-              example: Barang Baik
+              example: "-"
           required: []
       responses:
         '201':
-          description: Successfull
+          description: Created
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Kesalahan Parameter
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibb/search":
     post:
       summary: Search KIB B
@@ -463,7 +728,7 @@ paths:
         schema:
           type: object
           properties:
-            id:
+            keywords:
               type: string
               example: Kipas Angin
           required: []
@@ -473,27 +738,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibb/edit":
     post:
       summary: Edit KIB B
@@ -515,46 +780,55 @@ paths:
           properties:
             id:
               type: string
-              example: 636dfb9ae21fac2cd4510353
+              example: 637f720ce21fac03c0e36a9d
+            kode_barang:
+              type: string
+              example: 1.3.2.02.01.01.001
             kode_lokasi:
               type: string
-              example: 02.06.01.04.02
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Kipas Angin
+              example: Jeep
             nomor_register:
               type: string
               example: '0001'
             tipe_barang:
               type: string
-              example: Harian
+              example: Toyota Rush
+            ukuran_barang:
+              type: string
+              example: '1500'
             bahan_barang:
               type: string
-              example: Plastik
+              example: Besi
             tahun_pembelian:
               type: string
-              example: '2018'
+              example: '2010'
             nomor_pabrik:
               type: string
-              example: SKDJ1231
+              example: Toyota
             nomor_rangka:
               type: string
-              example: MHFAB3EM1G0004620
+              example: BXZT123JJHNH6355
             nomor_mesin:
               type: string
-              example: 2GDC109312
+              example: MH1GHKHTEEYU235
             nomor_polisi:
               type: string
-              example: D 2019 SFC
+              example: D 1763 E
+            nomor_bpkb:
+              type: string
+              example: L-050345456
             asal_usul:
               type: string
               example: APBD
             harga_barang:
               type: string
-              example: Rp. 250000
+              example: 239.000.000
             keterangan:
               type: string
-              example: Barang Kurang Baik
+              example: "-"
           required: []
       responses:
         '200':
@@ -562,27 +836,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Id tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibb/delete":
     post:
       summary: Delete KIB B
@@ -604,7 +878,7 @@ paths:
           properties:
             id:
               type: string
-              example: 636dfb9ae21fac2cd4510353
+              example: 637f720ce21fac03c0e36a9d
           required: []
       responses:
         '200':
@@ -612,27 +886,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibb/findAll":
     get:
       summary: Find All KIB B
@@ -653,27 +927,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Tidak ada data!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibc/create":
     post:
       summary: Create KIB C
@@ -695,77 +969,83 @@ paths:
           properties:
             kode_lokasi:
               type: string
-              example: 01.02.03.04.05
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Rumah
+              example: Bangunan Olah Raga Terbuka Permanen
+            kode_barang:
+              type: string
+              example: 1.3.3.01.01.11.001
             nomor_register:
               type: string
               example: '0001'
             kondisi_bangunan:
               type: string
-              example: B
+              example: Baik
             tingkat_bangunan:
               type: string
-              example: Bertingkat
+              example: tidak
             beton_bangunan:
               type: string
-              example: Beton
+              example: tidak
             luas_lantai:
               type: string
-              example: 20m2
+              example: '300'
             alamat:
               type: string
-              example: Bandung
-            dokumen_gedung:
+              example: Jl. Dr. Radjiman No. 6 Kota Bandung
+            nomor_dokumen:
               type: string
-              example: 1000/13012001
+              example: 234/pd-disdik/1996
+            tanggal_dokumen:
+              type: string
+              example: 17/05/1996
             luas:
               type: string
-              example: 20m2
+              example: '300'
             status:
               type: string
-              example: AJB
+              example: SHM
             nomor_tanah:
               type: string
-              example: '32155324'
+              example: '2380'
             asal_usul:
               type: string
               example: APBD
             harga:
               type: string
-              example: Rp. 1000000000
+              example: 539.064.736
             keterangan:
               type: string
-              example: Layak Huni
+              example: "-"
           required: []
       responses:
         '201':
-          description: Successfull
+          description: Created
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Kesalahan Parameter
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibc/search":
     post:
       summary: Search KIB C
@@ -795,27 +1075,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibc/edit":
     post:
       summary: Edit KIB C
@@ -837,52 +1117,58 @@ paths:
           properties:
             id:
               type: string
-              example: 636e51c8e21fac163c3e0cc7
+              example: 637f7292e21fac03c0e36a9f
             kode_lokasi:
               type: string
-              example: 03.02.01.04.05
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Rumah
+              example: Bangunan Garasi/Pool Permanen
+            kode_barang:
+              type: string
+              example: 1.3.3.01.01.14.001
             nomor_register:
               type: string
-              example: '0002'
+              example: '0001'
             kondisi_bangunan:
               type: string
-              example: KB
+              example: Baik
             tingkat_bangunan:
               type: string
-              example: Tidak
+              example: tidak
             beton_bangunan:
               type: string
-              example: Tidak
+              example: Beton
             luas_lantai:
               type: string
-              example: 20m2
+              example: '500'
             alamat:
               type: string
-              example: Bandung
-            dokumen_gedung:
+              example: Jl. Dr. Radjiman No. 6 Kota Bandung
+            nomor_dokumen:
               type: string
-              example: 1000/13012001
+              example: 110pd-disdik/1997
+            tanggal_dokumen:
+              type: string
+              example: 18/10/1996
             luas:
               type: string
-              example: 20m2
+              example: '500'
             status:
               type: string
-              example: HGB
+              example: SHM
             nomor_tanah:
               type: string
-              example: '32155324'
+              example: '2380'
             asal_usul:
               type: string
               example: APBD
             harga:
               type: string
-              example: Rp. 1000000000
+              example: 879.444.500
             keterangan:
               type: string
-              example: Layak Huni
+              example: "-"
           required: []
       responses:
         '200':
@@ -890,27 +1176,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Id tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibc/delete":
     post:
       summary: Delete KIB C
@@ -932,7 +1218,7 @@ paths:
           properties:
             id:
               type: string
-              example: 636e51c8e21fac163c3e0cc7
+              example: 637f7292e21fac03c0e36a9f
           required: []
       responses:
         '200':
@@ -940,27 +1226,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibc/findAll":
     get:
       summary: Find All KIB C
@@ -981,27 +1267,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Tidak ada data!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibd/create":
     post:
       summary: Create KIB D
@@ -1023,77 +1309,83 @@ paths:
           properties:
             kode_lokasi:
               type: string
-              example: 01.02.03.04.05
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Rumah
+              example: Instalasi penangkal petir manual
+            kode_barang:
+              type: string
+              example: 1.3.2.05.01.05.084
             nomor_register:
               type: string
               example: '0001'
             konstruksi:
               type: string
-              example: Bangunan
+              example: "-"
             panjang:
               type: string
-              example: 5m
+              example: '5.000'
             lebar:
               type: string
-              example: 5m
+              example: "-"
             luas:
               type: string
-              example: 25m2
+              example: "-"
+            alamat:
+              type: string
+              example: Jl. Dr. Radjiman No. 6 Kota Bandung
             nomor_dokumen:
               type: string
-              example: '14343322'
+              example: 234/pd-disdik/1996
             tanggal_dokumen:
               type: string
-              example: 13/12/2022
+              example: 17/05/1996
             status:
               type: string
-              example: AJB
+              example: SHM
             nomor_tanah:
               type: string
-              example: '32155324'
+              example: '2380'
             asal_usul:
               type: string
               example: APBD
             harga:
               type: string
-              example: Rp. 100000000
+              example: 7.500.000
             kondisi:
               type: string
-              example: KB
+              example: Baik
             keterangan:
               type: string
-              example: Layak Huni
+              example: "-"
           required: []
       responses:
         '201':
-          description: Successfull
+          description: Created
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Kesalahan Parameter
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibd/search":
     post:
       summary: Search KIB D
@@ -1123,27 +1415,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibd/edit":
     post:
       summary: Edit KIB D
@@ -1165,52 +1457,58 @@ paths:
           properties:
             id:
               type: string
-              example: 636e5ae2e21fac2f6846f8d7
+              example: 637f72f7e21fac03c0e36aa1
             kode_lokasi:
               type: string
-              example: 01.02.03.04.05
+              example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Rumah
+              example: Mainframe (Komputer jaringan)
+            kode_barang:
+              type: string
+              example: 1.3.2.10.01.01.001
             nomor_register:
               type: string
               example: '0001'
             konstruksi:
               type: string
-              example: Bangunan
+              example: "-"
             panjang:
               type: string
-              example: 5m
+              example: '50.000'
             lebar:
               type: string
-              example: 5m
+              example: "-"
             luas:
               type: string
-              example: 25m2
+              example: "-"
+            alamat:
+              type: string
+              example: Jl. Dr. Radjiman No. 6 Kota Bandung
             nomor_dokumen:
               type: string
-              example: '14343322'
+              example: 110pd-disdik/1997
             tanggal_dokumen:
               type: string
-              example: 13/12/2022
+              example: 18/10/1997
             status:
               type: string
-              example: AJB
+              example: SHM
             nomor_tanah:
               type: string
-              example: '32155324'
+              example: '2380'
             asal_usul:
               type: string
               example: APBD
             harga:
               type: string
-              example: Rp. 100000000
+              example: 59.116.000
             kondisi:
               type: string
-              example: KB
+              example: Baik
             keterangan:
               type: string
-              example: Layak Huni
+              example: "-"
           required: []
       responses:
         '200':
@@ -1218,27 +1516,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Id tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibd/delete":
     post:
       summary: Delete KIB D
@@ -1260,7 +1558,7 @@ paths:
           properties:
             id:
               type: string
-              example: 636e5ae2e21fac2f6846f8d7
+              example: 637f72f7e21fac03c0e36aa1
           required: []
       responses:
         '200':
@@ -1268,27 +1566,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibd/findAll":
     get:
       summary: Find All KIB D
@@ -1309,27 +1607,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Tidak ada data!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibe/create":
     post:
       summary: Create KIB E
@@ -1350,6 +1648,9 @@ paths:
           type: object
           properties:
             kode_lokasi:
+              type: string
+              example: 11.01.32.05.000001.00020.2022
+            kode_barang:
               type: string
               example: 5.2.05.01.01.001
             nama_barang:
@@ -1397,31 +1698,31 @@ paths:
           required: []
       responses:
         '201':
-          description: Successfull
+          description: Created
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Kesalahan Parameter
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibe/search":
     post:
       summary: Search KIB E
@@ -1451,27 +1752,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibe/edit":
     post:
       summary: Edit KIB E
@@ -1493,8 +1794,11 @@ paths:
           properties:
             id:
               type: string
-              example: 636e72bbe21fac2f6846f8e3
+              example: 637f7353e21fac03c0e36aa4
             kode_lokasi:
+              type: string
+              example: 11.01.32.05.000001.00020.2022
+            kode_barang:
               type: string
               example: 5.2.05.01.01.002
             nama_barang:
@@ -1502,40 +1806,40 @@ paths:
               example: Sejarah
             nomor_register:
               type: string
-              example: '002'
+              example: '001'
             judul_buku:
               type: string
               example: Sembada
             spesifikasi_buku:
               type: string
-              example: Novel
+              example: Kertas HVS 70 gram
             asal_kesenian:
               type: string
               example: "-"
             pencipta_kesenian:
               type: string
-              example: Pembada
+              example: Sembada
             bahan_kesenian:
               type: string
-              example: Buku
+              example: "-"
             jenis:
               type: string
-              example: Fiksi
+              example: "-"
             jumlah:
               type: string
               example: '2'
             ukuran:
               type: string
-              example: 15x20 cm
+              example: "-"
             tahun_pembelian:
               type: string
-              example: '2017'
+              example: '2021'
             asal_usul:
               type: string
               example: APBD
             harga:
               type: string
-              example: Rp. 48000
+              example: '24000'
             keterangan:
               type: string
               example: "-"
@@ -1546,27 +1850,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Id tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibe/delete":
     post:
       summary: Delete KIB E
@@ -1588,7 +1892,7 @@ paths:
           properties:
             id:
               type: string
-              example: 636e72bbe21fac2f6846f8e3
+              example: 637f7353e21fac03c0e36aa4
           required: []
       responses:
         '200':
@@ -1596,27 +1900,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibe/findAll":
     get:
       summary: Find All KIB E
@@ -1637,27 +1941,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Tidak ada data!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibf/create":
     post:
       summary: Create KIB F
@@ -1679,80 +1983,83 @@ paths:
           properties:
             kode_lokasi:
               type: string
+              example: 11.01.32.05.000001.00020.2022
+            kode_barang:
+              type: string
               example: 03.02.01.04.05
             nama_barang:
               type: string
-              example: Rumah
+              example: Gedung Kesenian
             nomor_register:
               type: string
               example: '0002'
             bangunan:
               type: string
-              example: S
+              example: P
             tingkat_bangunan:
               type: string
-              example: Tidak
+              example: tidak
             beton_bangunan:
               type: string
-              example: Tidak
+              example: tidak
             luas:
               type: string
-              example: 20m2
+              example: '1000'
             alamat:
               type: string
-              example: Kosambi
+              example: Jl. Dr. Radjiman No. 6 Kota Bandung
             nomor_dokumen:
               type: string
-              example: '12312412'
+              example: 234/pd-disdik/1996
             tanggal_dokumen:
               type: string
-              example: 13/01/2001
+              example: 17/05/1996
             tanggal_mulai:
               type: string
-              example: 13/01/2001
+              example: 12/04/1996
             status:
               type: string
-              example: HGB
+              example: SHM
             nomor_tanah:
               type: string
-              example: '32155324'
+              example: '3342'
             asal_usul:
               type: string
               example: APBD
             nilai_kontrak:
               type: string
-              example: Rp. 10000
+              example: 190.884.500
             keterangan:
               type: string
-              example: Layak Huni
+              example: "-"
           required: []
       responses:
         '201':
-          description: Successfull
+          description: Created
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Kesalahan Parameter
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibf/search":
     post:
       summary: Search KIB F
@@ -1782,27 +2089,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibf/edit":
     post:
       summary: Edit KIB F
@@ -1824,55 +2131,58 @@ paths:
           properties:
             id:
               type: string
-              example: 636e6497e21fac2f6846f8db
+              example: 637f738fe21fac03c0e36aa6
             kode_lokasi:
+              type: string
+              example: 11.01.32.05.000001.00020.2022
+            kode_barang:
               type: string
               example: 03.02.01.04.05
             nama_barang:
               type: string
-              example: Rumah
+              example: Pos Jaga
             nomor_register:
               type: string
               example: '0002'
             bangunan:
               type: string
-              example: S
+              example: P
             tingkat_bangunan:
               type: string
-              example: Tidak
+              example: tidak
             beton_bangunan:
               type: string
-              example: Tidak
+              example: Beton
             luas:
               type: string
-              example: 20m2
+              example: '25'
             alamat:
               type: string
-              example: Kosambi
+              example: Jl. Dr. Radjiman No. 6 Kota Bandung
             nomor_dokumen:
               type: string
-              example: '12312412'
+              example: 110pd-disdik/1997
             tanggal_dokumen:
               type: string
-              example: 13/01/2001
+              example: 18/10/1997
             tanggal_mulai:
               type: string
-              example: 13/01/2001
+              example: 17/09/1997
             status:
               type: string
-              example: HGB
+              example: SHM
             nomor_tanah:
               type: string
-              example: '32155324'
+              example: '3552'
             asal_usul:
               type: string
               example: APBD
             nilai_kontrak:
               type: string
-              example: Rp. 10000
+              example: 18.600.000
             keterangan:
               type: string
-              example: Layak Huni
+              example: "-"
           required: []
       responses:
         '200':
@@ -1880,27 +2190,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Id tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibf/delete":
     post:
       summary: Delete KIB F
@@ -1922,7 +2232,7 @@ paths:
           properties:
             id:
               type: string
-              example: 636e6497e21fac2f6846f8db
+              example: 637f738fe21fac03c0e36aa6
           required: []
       responses:
         '200':
@@ -1930,27 +2240,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/kib/kibf/findAll":
     get:
       summary: Find All KIB F
@@ -1971,27 +2281,1052 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Tidak ada data!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/peminjaman/peminjamans/create":
+    post:
+      summary: Create Peminjaman
+      tags:
+      - Peminjaman
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            nama_barang:
+              type: string
+              example: Sedan
+            nomor_register:
+              type: string
+              example: '0001'
+            tanggal_peminjaman:
+              type: string
+              example: 19-11-2022
+            tanggal_pengembalian:
+              type: string
+              example: 20-11-2022
+          required: []
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
                 type: string
-                example: X-401
+                example: Data is invalid!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/peminjaman/peminjamanas/edit":
+    post:
+      summary: Edit Peminjaman
+      tags:
+      - Peminjaman
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: 6380c1c51680f40cc0b142ea
+            tanggal_pengembalian:
+              type: string
+              example: 14/02/2022
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Peminjaman tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/peminjaman/peminjamans/delete":
+    post:
+      summary: Hapus Peminjaman
+      tags:
+      - Peminjaman
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: 6380c1c51680f40cc0b142ea
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Jadwal tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/peminjaman/peminjamans/findAll":
+    get:
+      summary: Get Peminjaman
+      tags:
+      - Peminjaman
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Jadwal tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengadaan/create":
+    post:
+      summary: Create Pengadaan
+      tags:
+      - Pengadaan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            nama_pengusul:
+              type: string
+              example: Pengelola Sinbada
+            spesifikasi_barang:
+              type: string
+              example: "-"
+            foto_barang:
+              type: string
+              example: img.jpg
+            nama_ruangan:
+              type: string
+              example: 02.001 KEPALA BIDANG GTK
+            kode_barang:
+              type: string
+              example: 1.3.2.10.02.03.003
+            kode_lokasi:
+              type: string
+              example: 11.01.32.05.000001.00020.2022
+            nama_barang:
+              type: string
+              example: Printer
+            nomor_register:
+              type: string
+              example: '0001'
+            tipe_barang:
+              type: string
+              example: Epson L1455
+            ukuran_barang:
+              type: string
+              example: 220 W
+            bahan_barang:
+              type: string
+              example: Ebonit
+            tahun_pembelian:
+              type: string
+              example: '2020'
+            nomor_pabrik:
+              type: string
+              example: Epson
+            nomor_rangka:
+              type: string
+              example: Z87464539Y
+            nomor_mesin:
+              type: string
+              example: "-"
+            nomor_polisi:
+              type: string
+              example: "-"
+            nomor_bpkb:
+              type: string
+              example: "-"
+            asal_usul:
+              type: string
+              example: APBD
+            harga_barang:
+              type: string
+              example: 22.330.000
+            keterangan:
+              type: string
+              example: "-"
+          required: []
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Nama pengusul tidak boleh kosong!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengadaan/search":
+    post:
+      summary: Search Pengadaan
+      tags:
+      - Pengadaan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: sinbada
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengadaan/edit":
+    post:
+      summary: Edit Pengadaan
+      tags:
+      - Pengadaan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 637f8565e21fac03c0e36abf
+            nama_pengusul:
+              type: string
+              example: Admin Sinbada
+            spesifikasi_barang:
+              type: string
+              example: "-"
+            foto_barang:
+              type: string
+              example: img.jpg
+            nama_ruangan:
+              type: string
+              example: 02.001 KEPALA BIDANG GTK
+            kode_barang:
+              type: string
+              example: 1.3.2.01.03.05.010
+            kode_lokasi:
+              type: string
+              example: 11.01.32.05.000001.00020.2022
+            nama_barang:
+              type: string
+              example: Portable Generating Set
+            nomor_register:
+              type: string
+              example: '0001'
+            tipe_barang:
+              type: string
+              example: Genset
+            ukuran_barang:
+              type: string
+              example: 150 KVA
+            bahan_barang:
+              type: string
+              example: Besi
+            tahun_pembelian:
+              type: string
+              example: '2021'
+            nomor_pabrik:
+              type: string
+              example: Canghong
+            nomor_rangka:
+              type: string
+              example: A15438GH7
+            nomor_mesin:
+              type: string
+              example: "-"
+            nomor_polisi:
+              type: string
+              example: "-"
+            nomor_bpkb:
+              type: string
+              example: "-"
+            asal_usul:
+              type: string
+              example: APBD
+            harga_barang:
+              type: string
+              example: 193.600.000
+            keterangan:
+              type: string
+              example: "-"
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengadaan/delete":
+    post:
+      summary: Delete Pengadaan
+      tags:
+      - Pengadaan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 637f8565e21fac03c0e36abf
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengadaan/approval":
+    post:
+      summary: Approval Pengadaan
+      tags:
+      - Pengadaan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - in: formData
+        name: id
+        type: string
+        required: true
+        example: 637f8565e21fac03c0e36abf
+      - in: formData
+        name: is_approve
+        type: boolean
+        required: true
+        example: 'true'
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengadaan/findAll":
+    get:
+      summary: Find All Pengadaan
+      tags:
+      - Pengadaan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/create":
+    post:
+      summary: Create Pengusulan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            nama_barang:
+              type: string
+              example: Sedan
+            nomor_register:
+              type: string
+              example: '0001'
+            nama_pengusul:
+              type: string
+              example: Admin Sinbada
+            jenis_usulan:
+              type: string
+              example: Pemeliharaan
+            kondisi_barang:
+              type: string
+              example: Rusak
+            keterangan:
+              type: string
+              example: "-"
+            foto_barang:
+              type: string
+              example: img.jpg
+          required: []
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Nama pengusul tidak boleh kosong!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/search_penghapusan":
+    post:
+      summary: Search Pengusulan Penghapusan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: sinbada
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/search_pemeliharaan":
+    post:
+      summary: Search Pengusulan Pemeliharaan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: sinbada
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/edit":
+    post:
+      summary: Edit Pengusulan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 637923e0e21fac2eb88fd183
+            nama_pengusul:
+              type: string
+              example: Admin Sinbada
+            kondisi_barang:
+              type: string
+              example: Rusak
+            keterangan:
+              type: string
+              example: "-"
+            foto_barang:
+              type: string
+              example: img.png
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/delete":
+    post:
+      summary: Delete Pengusulan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 637923e0e21fac2eb88fd183
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/approval":
+    post:
+      summary: Approval Pengusulan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - in: formData
+        name: id
+        type: string
+        required: true
+        example: 637923e0e21fac2eb88fd183
+      - in: formData
+        name: is_approve
+        type: boolean
+        required: true
+        example: 'true'
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/find_penghapusan":
+    get:
+      summary: Find All Pengusulan Penghapusan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/find_pemeliharaan":
+    get:
+      summary: Find All Pengusulan Pemeliharaan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/user/registrasi/create":
     post:
       summary: Create User
@@ -2013,7 +3348,7 @@ paths:
           properties:
             email:
               type: string
-              example: simbadainv@gmail.com
+              example: sinbada@gmail.com
             password:
               type: string
               example: '12345678'
@@ -2025,7 +3360,7 @@ paths:
               example: Admin
             nama:
               type: string
-              example: Admin Simbada
+              example: Admin Sinbada
             nip:
               type: string
               example: '019231234329102'
@@ -2035,31 +3370,31 @@ paths:
           required: []
       responses:
         '201':
-          description: Successfull
+          description: Created
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: Email is Already Taken
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/user/registrasi/search":
     post:
       summary: Search User
@@ -2081,7 +3416,7 @@ paths:
           properties:
             keywords:
               type: string
-              example: simbada@gmail.com
+              example: sinbada@gmail.com
           required: []
       responses:
         '200':
@@ -2089,27 +3424,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: User tidak ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/user/registrasi/edit":
     post:
       summary: Edit User
@@ -2134,13 +3469,13 @@ paths:
               example: 636cfd59e21fac2ab08223c3
             email:
               type: string
-              example: simbada@gmail.com
+              example: sinbada@gmail.com
             user_role:
               type: string
-              example: SuperAdmin
+              example: Admin
             nama:
               type: string
-              example: Admin Simbada
+              example: Admin Sinbada
             nip:
               type: string
               example: '019231234329102'
@@ -2154,27 +3489,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: User tidak ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/user/registrasi/delete":
     post:
       summary: Delete User
@@ -2196,7 +3531,7 @@ paths:
           properties:
             email:
               type: string
-              example: simbada@gmail.com
+              example: sinbada@gmail.com
           required: []
       responses:
         '200':
@@ -2204,27 +3539,27 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
                 example: User tidak ditemukan!
-              code:
-                type: string
-                example: '422'
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
-                type: string
-                example: X-401
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/user/registrasi/findAll":
     get:
       summary: Find All User
@@ -2245,24 +3580,271 @@ paths:
           schema:
             type: object
         '422':
-          description: Error
+          description: Unprocessable Entity
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: User tidak ditemukan!
-              code:
-                type: string
-                example: '422'
+                example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
         '401':
           description: Unauthorized
           schema:
             type: object
             properties:
-              message:
+              response_message:
                 type: string
-                example: Invalid Header
-              code:
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/ruangan/ruangans/create":
+    post:
+      summary: Create Ruangan
+      tags:
+      - Ruangan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            nama_ruangan:
+              type: string
+              example: Kepala Bidang GTK
+            bidang_ruangan:
+              type: string
+              example: '02'
+            kelompok_ruangan:
+              type: string
+              example: '001'
+          required: []
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
                 type: string
-                example: X-401
+                example: Data is invalid!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/ruangan/ruangans/edit":
+    post:
+      summary: Edit Ruangan
+      tags:
+      - Ruangan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: 636d3c94a566de364c2a8ebf
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Ruangan tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/ruangan/ruangans/delete":
+    post:
+      summary: Hapus Ruangan
+      tags:
+      - Ruangan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: 636d3c94a566de364c2a8ebf
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Ruangan tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/ruangan/ruangans/findAll":
+    get:
+      summary: Get Ruangan
+      tags:
+      - Ruangan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Ruangan tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/ruangan/kir/findbyruangan":
+    get:
+      summary: Get Barang By Ruangan
+      tags:
+      - KIR
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            nama_ruangan:
+              type: string
+              example: Kepala Seksi Pengembangan
+          required: []
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Ruangan tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401

@@ -4,22 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./assets/js/theme";
 
-const theme = createTheme({
-	typography: {
-		button: {
-			textTransform: "none"
-		}
-	},
-	palette: {
-		themePrimary: {
-			main: '#009B4C',
-			darkest: '#007037'
-		}
-	},
-
-})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

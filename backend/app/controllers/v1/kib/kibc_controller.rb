@@ -4,40 +4,78 @@ class V1::Kib::KibcController < ApplicationController
     def index
         @kib_c = Barang::Kibc.all.undeleted
         if not @kib_c.present?
-            render json: {error: "Tidak ada data!"}, status: :unprocessable_entity
+            render json: {
+                response_code: 422, 
+                response_message: "Tidak ada data!"
+                }, status: :unprocessable_entity
         else
-            render json: @kib_c, status: :ok
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: @kib_c
+                }, status: :ok
         end
     end
   
     def create
         if role.match(/Pengguna/).present?
-            render json: {role: role, error:"Tidak memiliki akses!"}, status: :unauthorized
+            render json: {
+                response_code: 401, 
+                response_message: "Tidak memiliki akses!"
+                }, status: :unauthorized
         else
             @kib_c = Barang::Kibc.new(user_params)
-            if @kib_c.save
-                render json: @kib_c, status: :created
+            nomor_registered = Barang::Kibc.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+            if nomor_registered.present?
+                render json: {
+                    response_code: 422,
+                    response_message: "Nomor register tidak boleh sama!"
+                    }, status: :unprocessable_entity 
             else
-                render json: { errors: @kib_c.errors.full_messages }, status: :unprocessable_entity
+                if @kib_c.save
+                    render json: {
+                        response_code: 201, 
+                        response_message: "Success", 
+                        data: @kib_c
+                        }, status: :created
+                else
+                    render json: {
+                        response_code: 422,
+                        response_message: @kib_c.errors.full_messages
+                        }, status: :unprocessable_entity
+                end
             end
         end
     end
   
     def edit
         if role.match(/Pengguna/).present?
-            render json: {role: role, error:"Tidak memiliki akses!"}, status: :unauthorized
+            render json: {
+                response_code: 401, 
+                response_message: "Tidak memiliki akses!"
+                }, status: :unauthorized
         else
             if params[:id].blank?
-                render json: {error: "Id tidak boleh kosong!"}, status: :unprocessable_entity
+                render json: {
+                    response_code: 422, 
+                    response_message: "Id tidak boleh kosong!"
+                    }, status: :unprocessable_entity
             else 
                 kib_validate = Barang::Kibc.where(_id: params[:id]).first
                 if not kib_validate.present?
-                    render json: {error: "Id tidak dapat ditemukan!"}, status: :unprocessable_entity
-                elsif kib_validate.status_kib == Enums::KibStatus::DELETED
-                    render json: {error: "Barang sudah dihapus, tidak dapat di Edit!"}, status: :unprocessable_entity
+                    render json: {
+                        response_code: 422, 
+                        response_message: "Id tidak dapat ditemukan!"
+                        }, status: :unprocessable_entity
+                elsif kib_validate.status_kib == Enums::Kib::DELETED
+                    render json: {
+                        response_code: 422, 
+                        response_message: "Barang sudah dihapus, tidak dapat di Edit!"
+                        }, status: :unprocessable_entity
                 else
                     begin
                         @kib_c = Barang::Kibc.find(params[:id])
+                        kode_barang = params[:kode_barang]
                         kode_lokasi = params[:kode_lokasi]
                         nama_barang = params[:nama_barang]
                         nomor_register = params[:nomor_register]
@@ -46,21 +84,35 @@ class V1::Kib::KibcController < ApplicationController
                         beton_bangunan = params[:beton_bangunan]
                         luas_lantai = params[:luas_lantai]
                         alamat = params[:alamat]
-                        dokumen_gedung = params[:dokumen_gedung]
+                        nomor_dokumen = params[:tanggal_dokumen]
+                        tanggal_dokumen = params[:tanggal_dokumen]
                         luas = params[:luas]
                         status = params[:status]
                         nomor_tanah = params[:nomor_tanah]
                         asal_usul = params[:asal_usul]
                         harga = params[:harga]
                         keterangan = params[:keterangan]
+                        if params[:kode_barang].blank?
+                            kode_barang = kib_c.kode_barang
+                        end
                         if params[:kode_lokasi].blank? 
                             kode_lokasi = @kib_c.kode_lokasi
                         end
                         if params[:nama_barang].blank?
                             nama_barang = @kib_c.nama_barang
                         end
-                        if params[:nomor_register].blank?
+                        if params[:nomor_register].blank? or params[:nomor_register] == @barang.nomor_register
                             nomor_register = @kib_c.nomor_register
+                        else
+                            is_trigger = true
+                            nomor_registered = Barang::Kibc.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+                            if nomor_registered.present?
+                                render json: {
+                                    response_code: 422, 
+                                    response_message: "Nomor register tidak boleh sama!"
+                                    }, status: :unprocessable_entity
+                                is_trigger = false
+                            end
                         end
                         if params[:kondisi_bangunan].blank?
                             kondisi_bangunan = @kib_c.kondisi_bangunan
@@ -77,8 +129,11 @@ class V1::Kib::KibcController < ApplicationController
                         if params[:alamat].blank?
                             alamat = @kib_c.alamat
                         end
-                        if params[:dokumen_gedung].blank?
-                            dokumen_gedung = @kib_c.dokumen_gedung
+                        if params[:nomor_dokumen].blank?
+                            nomor_dokumen = @kib_c.nomor_dokumen
+                        end
+                        if params[:tanggal_dokumen].blank?
+                            tanggal_dokumen = @kib_c.tanggal_dokumen
                         end
                         if params[:luas].blank?
                             luas = @kib_c.luas
@@ -95,14 +150,42 @@ class V1::Kib::KibcController < ApplicationController
                         if params[:keterangan].blank?
                             keterangan = @kib_c.keterangan
                         end
-                        @kib_c.assign_attributes({kode_lokasi: kode_lokasi, nama_barang: nama_barang, nomor_register: nomor_register,
-                            kondisi_bangunan: kondisi_bangunan, tingkat_bangunan: tingkat_bangunan, beton_bangunan: beton_bangunan, 
-                            luas_lantai: luas_lantai, alamat: alamat, dokumen_gedung: dokumen_gedung, luas: luas, status: status,
-                            asal_usul: asal_usul, harga: harga, keterangan: keterangan})
-                        @kib_c.save(:validate => false)
-                        render json: {succes: @kib_c}, status: :ok                
+                        @kib_c.assign_attributes({
+                            kode_barang: kode_barang,
+                            kode_lokasi: kode_lokasi, 
+                            nama_barang: nama_barang, 
+                            nomor_register: nomor_register,
+                            kondisi_bangunan: kondisi_bangunan, 
+                            tingkat_bangunan: tingkat_bangunan, 
+                            beton_bangunan: beton_bangunan, 
+                            luas_lantai: luas_lantai, 
+                            alamat: alamat, 
+                            nomor_dokumen: nomor_dokumen,
+                            tanggal_dokumen: tanggal_dokumen,
+                            luas: luas, 
+                            status: status,
+                            asal_usul: asal_usul, 
+                            harga: harga, 
+                            keterangan: keterangan})
+                        if is_trigger == true
+                            if @kib_c.save(:validate => false)
+                                render json: {
+                                    response_code: 200, 
+                                    response_message: "Success", 
+                                    data: @kib_c
+                                    }, status: :ok
+                            else
+                                render json: {
+                                    response_code: 422, 
+                                    response_message: "Edit gagal!, silahkan di coba kembali"
+                                    }, status: :unprocessable_entity
+                            end
+                        end
                     rescue Exception => e
-                        render json: {error: "edit gagal #{e}"}, status: :unprocessable_entity
+                        render json: {
+                            response_code: 422, 
+                            response_message: "edit gagal #{e}"
+                            }, status: :unprocessable_entity
                     end
                 end
             end
@@ -111,18 +194,38 @@ class V1::Kib::KibcController < ApplicationController
     
     def delete
         if role.match(/Pengguna/).present?
-            render json: {role: role, error:"Tidak memiliki akses!"}, status: :unauthorized
+            render json: {
+                response_code: 401, 
+                response_message: "Tidak memiliki akses!"
+                }, status: :unauthorized
         else
             if params[:id].blank?
-                render json: {error: "Id harus di isi!"}, status: :unprocessable_entity
+                render json: {
+                    response_code: 422, 
+                    response_message: "Id tidak boleh kosong!"
+                    }, status: :unprocessable_entity
             else
-                @kib_c = Barang::Kibc.find(params[:id])
-                if not @kib_c.present?
-                    render json: {error: "Id tidak ada!"}, status: :unprocessable_entity
+                if @kib_c = Barang::Kibc.find(_id: params[:id]).status_kib == Enums::KibStatus::DELETED
+                    render json: {
+                        response_code: 422, 
+                        response_message: "Barang sudah dihapus!"
+                        }, status: :unprocessable_entity
                 else
-                    @kib_c.assign_attributes({status_kib: Enums::KibStatus::DELETED})
-                    @kib_c.save(:validate => false)
-                    render json: {success: @kib_c}, status: :ok
+                    @kib_c = Barang::Kibc.undeleted.where(_id: params[:id])
+                    if not @kib_c.present?
+                        render json: {
+                            response_code: 422, 
+                            response_message: "Id tidak dapat ditemukan!"
+                            }, status: :unprocessable_entity
+                    else
+                        @kib_c.assign_attributes({status_kib: Enums::Kib::DELETED})
+                        @kib_c.save(:validate => false)
+                        render json: {
+                            response_code: 200, 
+                            response_message: "Success",
+                            data: @kib_c
+                            }, status: :ok
+                    end
                 end
             end
         end
@@ -131,17 +234,23 @@ class V1::Kib::KibcController < ApplicationController
     def search
         @search = Barang::Kibc.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if not @search.present?
-            render json: {error: "Keyword tidak dapat ditemukan!"}, status: :unprocessable_entity
+            render json: {
+                response_code: 422, 
+                response_message: "Keyword tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
         else
-            render json: {success: "Berhasil ditemukan!", response: @search}, status: :ok
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: @search
+                }, status: :ok
         end
     end
   
     private
   
     def user_params
-        params.permit(:kode_lokasi, :nama_barang, :nomor_register, :kondisi_bangunan, :tingkat_bangunan, :beton_bangunan, 
-            :luas_lantai, :alamat, :dokumen_gedung, :luas, :status, :nomor_tanah, :asal_usul, :harga,
-             :keterangan).merge!({status_kib: Enums::KibStatus::NEW})
+        params.permit(:kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :kondisi_bangunan, :tingkat_bangunan, :beton_bangunan, 
+            :luas_lantai, :alamat, :nomor_dokumen, :tanggal_dokumen, :luas, :status, :nomor_tanah, :asal_usul, :harga, :keterangan)
     end
 end
