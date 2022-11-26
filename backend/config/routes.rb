@@ -98,7 +98,7 @@ Rails.application.routes.draw do
     end
     namespace :peminjaman do 
       resource :peminjamans do
-        get "/findAll" => "peminjamans#getAll" 
+        get "/findAll" => "peminjamans#getPeminjaman" 
         post "/create" => "peminjamans#create"
         post "/delete" => "peminjamans#destroy"
         post "/edit" => "peminjamans#editById"

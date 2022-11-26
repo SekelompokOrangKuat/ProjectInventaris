@@ -33,6 +33,7 @@ class Barang::Kibb
     scope :pengadaan, -> { where(status_kib: Enums::Kib::PENGADAAN)}
     scope :penghapusan, -> { where(status_kib: Enums::Kib::PENGADAAN )}
     scope :pending_pengusulan, -> { where(user_pengusulan_id: Enums::StatusUsulan::PENDING) }
+    scope :peminjaman, -> { where(status_kib: Enums::Kib::PEMINJAMAN)}
 
     before_validation do 
         if new_record?
