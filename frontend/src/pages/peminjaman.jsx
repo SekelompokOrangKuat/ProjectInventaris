@@ -5,29 +5,31 @@ import React from "react";
 const Peminjaman = () => {
 
     /* REST API EXAMPLE */
-    // const [posts, setPosts] = React.useState([]);
-    // React.useEffect(() => {
-    //     fetch(
-    //         'https://cors-anywhere.herokuapp.com/http://backend-sinbada.herokuapp.com/v1/kib/kiba/findAll',
-    //         {
-    //             method: 'GET',
-    //             headers: {
-    //                 // 'Accept': 'application/json',
-    //                 'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI2MzcxY2ViNmUyMWZhYzBjNDhlNGUxNmQifSwiZXhwIjoxNjY5MDMyMDE4fQ.PujpxQ882HAwkZjGAwHiUpj_LHf_FcF4OcwDNbBEuAY',
-    //                 'X-Requested-With': 'application/json'
-    //             },
-    //         }
-    //     )
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             setPosts(data);
-    //             console.log(posts[0]['_id']['$oid'])
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         });
-    // }, []);
+    const [dataTable, setDataTable] = React.useState([]);
+    React.useEffect(() => {
+        fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/peminjaman/peminjamans/findAll',
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                },
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                // console.log(data);
+                setDataTable(data);
+                console.log(dataTable);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }, []);
 
     const fields = [];
 
@@ -79,18 +81,6 @@ const Peminjaman = () => {
             backgroundColor: "#D9E6FF",
         },
     }));
-
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-    }
-
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
 
     return (
         <Box
@@ -236,7 +226,7 @@ const Peminjaman = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => (
+                        {dataTable.map((item, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>
                                     <Stack
@@ -251,21 +241,21 @@ const Peminjaman = () => {
                                     </Stack>
                                 </StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{index}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tanggal_peminjaman}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tanggal_pengembalian}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
                             </StyledTableRow>
                         ))}
