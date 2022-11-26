@@ -7,29 +7,29 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
-  typography: {
-    button: {
-      textTransform: "none"
-    }
-  },
-  palette: {
-    themePrimary: {
-      main: '#009B4C',
-      darkest: '#007037'
-    }
-  },
-  
+	typography: {
+		button: {
+			textTransform: "none"
+		}
+	},
+	palette: {
+		themePrimary: {
+			main: '#009B4C',
+			darkest: '#007037'
+		}
+	},
+
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>
+	<React.StrictMode>
+		<ThemeProvider theme={theme}>
+			<BrowserRouter>
+				<App />
+			</BrowserRouter>
+		</ThemeProvider>
+	</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
