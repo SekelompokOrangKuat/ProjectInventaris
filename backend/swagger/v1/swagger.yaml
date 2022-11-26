@@ -2524,9 +2524,6 @@ paths:
         schema:
           type: object
           properties:
-            nama_ruangan:
-              type: string
-              example: 02.001 KEPALA BIDANG GTK
             nama_pengusul:
               type: string
               example: Pengelola Sinbada
@@ -2536,6 +2533,9 @@ paths:
             foto_barang:
               type: string
               example: img.jpg
+            nama_ruangan:
+              type: string
+              example: 02.001 KEPALA BIDANG GTK
             kode_barang:
               type: string
               example: 1.3.2.10.02.03.003
@@ -2684,9 +2684,6 @@ paths:
             id:
               type: string
               example: 637f8565e21fac03c0e36abf
-            nama_ruangan:
-              type: string
-              example: 02.001 KEPALA BIDANG GTK
             nama_pengusul:
               type: string
               example: Admin Sinbada
@@ -2696,6 +2693,9 @@ paths:
             foto_barang:
               type: string
               example: img.jpg
+            nama_ruangan:
+              type: string
+              example: 02.001 KEPALA BIDANG GTK
             kode_barang:
               type: string
               example: 1.3.2.01.03.05.010

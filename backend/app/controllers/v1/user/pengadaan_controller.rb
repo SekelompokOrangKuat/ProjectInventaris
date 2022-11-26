@@ -7,61 +7,57 @@ class V1::User::PengadaanController < ApplicationController
                 response_code: 422, 
                 response_message: "Nama Pengusul tidak boleh kosong!"
                 }, status: :unprocessable_entity
+        elsif params[:nama_barang].blank?
+            render json: {
+                response_code: 422, 
+                response_message: "Nama barang tidak boleh kosong!"
+                }, status: :unprocessable_entity
+        elsif params[:nomor_register].blank?
+            render json: {
+                response_code: 422, 
+                response_message: "Nomor register tidak boleh kosong!"
+                }, status: :unprocessable_entity
         else
-            if params[:nama_barang].blank?
+            nomor_registered = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+            if nomor_registered.present?
                 render json: {
                     response_code: 422, 
-                    response_message: "Nama barang tidak boleh kosong!"
+                    response_message: "Nomor register tidak boleh sama!"
                     }, status: :unprocessable_entity
             else
-                if params[:nomor_register].blank?
+                if barang = Barang::Kibb.create(
+                    nama_ruangan: params[:nama_ruangan],
+                    kode_lokasi: params[:kode_lokasi],
+                    kode_barang: params[:kode_barang],
+                    nama_barang: params[:nama_barang],
+                    nomor_register: params[:nomor_register],
+                    tipe_barang: params[:tipe_barang],
+                    ukuran_barang: params[:ukuran_barang],
+                    bahan_barang: params[:bahan_barang],
+                    tahun_pembelian: params[:tahun_pembelian],
+                    nomor_pabrik: params[:nomor_pabrik],
+                    nomor_rangka: params[:nomor_rangka],
+                    nomor_mesin: params[:nomor_mesin],
+                    nomor_polisi: params[:nomor_polisi],
+                    nomor_bpkb: params[:nomor_bpkb],
+                    asal_usul: params[:asal_usul],
+                    harga_barang: params[:harga_barang],
+                    keterangan: params[:keterangan],
+                    user_pengadaan: User::Pengadaan.create(
+                        nama_pengusul: params[:nama_pengusul],
+                        spesifikasi_barang: params[:spesifikasi_barang],
+                        foto_barang: params[:foto_barang]))
+                
+                    render json: {
+                        response_code: 201, 
+                        response_message: "Success", 
+                        data: {pengadaan: barang.user_pengadaan, barang: barang}
+                        }, status: :created
+                else
                     render json: {
                         response_code: 422, 
-                        response_message: "Nomor register tidak boleh kosong!"
+                        response_message: "Gagal membuat Pengadaan Barang!"
                         }, status: :unprocessable_entity
-                else
-                    nomor_registered = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
-                    if nomor_registered.present?
-                        render json: {
-                            response_code: 422, 
-                            response_message: "Nomor register tidak boleh sama!"
-                            }, status: :unprocessable_entity
-                    else
-                        if barang = Barang::Kibb.create(
-                            nama_ruangan: params[:nama_ruangan],
-                            kode_lokasi: params[:kode_lokasi],
-                            kode_barang: params[:kode_barang],
-                            nama_barang: params[:nama_barang],
-                            nomor_register: params[:nomor_register],
-                            tipe_barang: params[:tipe_barang],
-                            ukuran_barang: params[:ukuran_barang],
-                            bahan_barang: params[:bahan_barang],
-                            tahun_pembelian: params[:tahun_pembelian],
-                            nomor_pabrik: params[:nomor_pabrik],
-                            nomor_rangka: params[:nomor_rangka],
-                            nomor_mesin: params[:nomor_mesin],
-                            nomor_polisi: params[:nomor_polisi],
-                            nomor_bpkb: params[:nomor_bpkb],
-                            asal_usul: params[:asal_usul],
-                            harga_barang: params[:harga_barang],
-                            keterangan: params[:keterangan],
-                            user_pengadaan: User::Pengadaan.create(
-                                nama_pengusul: params[:nama_pengusul],
-                                spesifikasi_barang: params[:spesifikasi_barang],
-                                foto_barang: params[:foto_barang]))
-                        
-                            render json: {
-                                response_code: 201, 
-                                response_message: "Success", 
-                                data: {pengadaan: barang.user_pengadaan, barang: barang}
-                                }, status: :created
-                        else
-                            render json: {
-                                response_code: 422, 
-                                response_message: "Gagal membuat Pengadaan Barang!"
-                                }, status: :unprocessable_entity
-                        end
-                    end
                 end
             end
         end

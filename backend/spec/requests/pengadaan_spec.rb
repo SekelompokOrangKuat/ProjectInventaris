@@ -10,7 +10,6 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-          nama_ruangan: {type: :string, example: "02.001 KEPALA BIDANG GTK"},
           nama_pengusul: {type: :string, example: "Pengelola Sinbada"},
           spesifikasi_barang: {type: :string, example: "-"},
           foto_barang: {type: :string, example: "img.jpg"},
@@ -103,7 +102,6 @@ describe 'Pengadaan API' do
         type: :object,
         properties: {
             id: {type: :string, example: "637f8565e21fac03c0e36abf"},
-            nama_ruangan: {type: :string, example: "02.001 KEPALA BIDANG GTK"},
             nama_pengusul: {type: :string, example: "Admin Sinbada"},
             spesifikasi_barang: {type: :string, example: "-"},
             foto_barang: {type: :string, example: "img.jpg"},
