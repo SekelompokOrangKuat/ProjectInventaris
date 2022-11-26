@@ -1,4 +1,5 @@
-import { Box, Grid, Stack, TextField, Button, Typography, Link } from "@mui/material";
+import { Box, Grid, Stack, TextField, Button, Typography, Link, CircularProgress } from "@mui/material";
+import { red } from '@mui/material/colors';
 import { useNavigate } from "react-router-dom";
 import logoBandungDisdik from '../assets/images/bandung_disdik_logo.png';
 import logoSinbada from '../assets/images/sinbada_logo.png';
@@ -6,6 +7,61 @@ import '../components/login.css';
 import React from "react";
 
 const Login = () => {
+    const [emailPasswordValidation, setEmailPasswordValidation] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    const [email, setEmail] = React.useState('');
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+    const [password, setPassword] = React.useState('');
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
+    /* REST API EXAMPLE */
+    const tryLogin = async () => {
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/login',
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*'
+                },
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                setIsLoading(false);
+                if (data.response_code === 200) {
+                    setEmailPasswordValidation(true);
+                    localStorage.setItem("token", data.data.token_access);
+                    console.log('Success Login\nToken: ' + data.data.token_access);
+                    navigate("/");
+                } else {
+                    setEmailPasswordValidation(false);
+                    console.log('token not found!');
+                }
+
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    };
+
+    const handleLogin = (e) => {
+        setIsLoading(true);
+        console.log(email + password);
+        e.preventDefault();
+        tryLogin();
+    };
 
     const navigate = useNavigate();
 
@@ -57,6 +113,8 @@ const Login = () => {
                                     disableUnderline: true
                                 }}
                                 className="TextField"
+                                value={email}
+                                onChange={handleEmailChange}
                             />
                             <TextField
                                 fullWidth
@@ -67,7 +125,19 @@ const Login = () => {
                                     disableUnderline: true
                                 }}
                                 className="TextField"
+                                value={password}
+                                onChange={handlePasswordChange}
                             />
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    color: red[800],
+                                    textAlign: "left",
+                                    display: emailPasswordValidation ? "none" : "block"
+                                }}
+                            >
+                                Email/Password salah!
+                            </Typography>
                             <Button
                                 variant="contained"
                                 fullWidth
@@ -75,9 +145,9 @@ const Login = () => {
                                     backgroundColor: "themePrimary.darkest"
                                 }}
                                 disableElevation
-                                onClick={() => { navigate("/") }}
+                                onClick={isLoading ? null : handleLogin}
                             >
-                                <Typography variant="button">Login</Typography>
+                                <Typography variant="button">{isLoading ? <CircularProgress size={20} sx={{ color: "white" }} /> : "Login"}</Typography>
                             </Button>
                             <Grid
                                 container
