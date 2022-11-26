@@ -19,12 +19,12 @@ function App() {
 					<Route path="/pendataan" element={<Dashboard />}></Route>
 					<Route path="/pencatatan" element={<Dashboard />}></Route>
 					<Route path="/pelaporan" element={<Dashboard />}></Route>
-					<Route path="/tanah" element={<Tanah />} />
-					<Route path="/peralatanmesin" element={<PeralatanMesin />} />
-					<Route path="/gedungbangunan" element={<GedungBangunan />} />
-					<Route path="/jalanirigasijaringan" element={<JalanIrigasiJaringan />} />
-					<Route path="/asettetap" element={<AsetTetap />} />
-					<Route path="/konstruksi" element={<Konstruksi />} />
+					<Route path="kib/a" element={<Tanah />} />
+					<Route path="kib/b" element={<PeralatanMesin />} />
+					<Route path="kib/c" element={<GedungBangunan />} />
+					<Route path="kib/d" element={<JalanIrigasiJaringan />} />
+					<Route path="kib/e" element={<AsetTetap />} />
+					<Route path="kib/f" element={<Konstruksi />} />
 				</Route>
 			</Routes>
 		</React.Fragment>

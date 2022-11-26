@@ -4,15 +4,15 @@ import { color } from "@mui/system";
 import React from "react";
 
 const columns = [
-	{ id: 'kode', label: 'Kode Barang', minWidth: 90, align: 'center' },
-	{ id: 'register', label: 'Register', minWidth: 90, align: 'center' },
-	{ id: 'judul_buku', label: 'Judul/Pencipta', minWidth: 90, align: 'center' },
-	{ id: 'spesifikasi', label: 'Spesifikasi', minWidth: 90, align: 'center' },
+	{ id: 'kode', label: 'Kode Barang', minWidth: 170, align: 'center' },
+	{ id: 'register', label: 'Register', minWidth: 100, align: 'center' },
+	{ id: 'judul_buku', label: 'Judul/Pencipta', minWidth: 140, align: 'center' },
+	{ id: 'spesifikasi', label: 'Spesifikasi', minWidth: 170, align: 'center' },
 	{ id: 'judul_barang', label: 'Judul/Pencipta', minWidth: 90, align: 'center' },
-	{ id: 'pencipta', label: 'Pencipta', minWidth: 90, align: 'center' },
-	{ id: 'bahan', label: 'Bahan', minWidth: 90, align: 'center' },
-	{ id: 'jenis', label: 'Jenis', minWidth: 90, align: 'center' },
-	{ id: 'ukuran', label: 'Ukuran', minWidth: 90, align: 'center' },
+	{ id: 'pencipta', label: 'Pencipta', minWidth: 40, align: 'center' },
+	{ id: 'bahan', label: 'Bahan', minWidth: 60, align: 'center' },
+	{ id: 'jenis', label: 'Jenis', minWidth: 75, align: 'center' },
+	{ id: 'ukuran', label: 'Ukuran', minWidth: 70, align: 'center' },
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -23,15 +23,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	},
 	[`&.${tableCellClasses.body}`]: {
 		fontSize: 14,
-		backgroundColor: "#AAC3F3"
-
-
 	},
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	'&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
+		backgroundColor: "#AAC3F3",
+		align: "center",
+
+	},
+	'&:nth-of-type(even)': {
+		backgroundColor: "#D9E6FF",
 		align: "center",
 
 	},
@@ -190,25 +192,25 @@ const AsetTetap = () => {
 							<StyledTableCell></StyledTableCell>
 							<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>No</Typography></StyledTableCell>
 							<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Jenis / Nama Barang</Typography></StyledTableCell>
+
 							<TableRow>
-								<TableRow>
-									<StyledTableCell sx={{ border: 1 }} align="center" colSpan={2}><Typography sx={{ color: '#E5E5E5' }}>Nomor</Typography></StyledTableCell>
-									<StyledTableCell sx={{ border: 1 }} align="center" colSpan={2}><Typography sx={{ color: '#E5E5E5' }}>Buku/Perpustakaan</Typography></StyledTableCell>
-									<StyledTableCell sx={{ border: 1 }} align="center" colSpan={3}><Typography sx={{ color: '#E5E5E5' }}>Barang Bercorak Kesenian/Kebudayaan</Typography></StyledTableCell>
-									<StyledTableCell sx={{ border: 1 }} align="center" colSpan={2}><Typography sx={{ color: '#E5E5E5' }}>Hewan/Ternak dan Tumbuhan</Typography></StyledTableCell>
-								</TableRow>
-								<TableRow>
-									{columns.map((column) => (
-										<StyledTableCell
-											key={column.id}
-											align={column.align}
-											style={{ top: 100, minWidth: column.minWidth }}
-										>
-											{column.label}
-										</StyledTableCell>
-									))}
-								</TableRow>
+								<StyledTableCell sx={{ border: 1 }} align="center" colSpan={2}><Typography sx={{ color: '#E5E5E5' }}>Nomor</Typography></StyledTableCell>
+								<StyledTableCell sx={{ border: 1 }} align="center" colSpan={2}><Typography sx={{ color: '#E5E5E5' }}>Buku/Perpustakaan</Typography></StyledTableCell>
+								<StyledTableCell sx={{ border: 1 }} align="center" colSpan={3}><Typography sx={{ color: '#E5E5E5' }}>Barang Bercorak Kesenian/Kebudayaan</Typography></StyledTableCell>
+								<StyledTableCell sx={{ border: 1 }} align="center" colSpan={2}><Typography sx={{ color: '#E5E5E5' }}>Hewan/Ternak dan Tumbuhan</Typography></StyledTableCell>
 							</TableRow>
+							<TableRow>
+								{columns.map((column) => (
+									<StyledTableCell
+										key={column.id}
+										align={column.align}
+										style={{ top: 57, minWidth: column.minWidth }}
+									>
+										{column.label}
+									</StyledTableCell>
+								))}
+							</TableRow>
+
 							<StyledTableCell sx={{ border: 1 }} align="center" ><Typography sx={{ color: '#E5E5E5' }}>Jumlah</Typography></StyledTableCell>
 							<StyledTableCell sx={{ border: 1 }} align="center" ><Typography sx={{ color: '#E5E5E5' }}>Tahun Cetak/Pembelian</Typography></StyledTableCell>
 							<StyledTableCell sx={{ border: 1 }} align="center" ><Typography sx={{ color: '#E5E5E5' }}>Asal Usul Cara Perolehan</Typography></StyledTableCell>
@@ -219,8 +221,7 @@ const AsetTetap = () => {
 					<TableBody>
 						{rows.map((row) => (
 							<StyledTableRow
-								key={row.no}
-								sx={{ '&:last-child td, &:last-child th': { border: 0, width: '100%' } }}
+								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 							>
 								<StyledTableCell>
 									<Box sx={{ display: 'flex' }}>
@@ -239,18 +240,18 @@ const AsetTetap = () => {
 									{row.no}
 								</StyledTableCell>
 								<StyledTableCell align="center">{row.jenis_barang}</StyledTableCell>
-								<StyledTableRow hover role="checkbox" tabIndex={-1} key={row.register}>
+								<TableRow role="checkbox" tabIndex={-1} key={row.register}>
 									{columns.map((column) => {
 										const value = row[column.id];
 										return (
-											<StyledTableCell key={column.id} align={column.align} sx={{ px: 6 }}>
+											<StyledTableCell key={column.id} align={column.align} sx={{ px: 6, border: 0 }} >
 												{column.format && typeof value === 'number'
 													? column.format(value)
 													: value}
 											</StyledTableCell>
 										);
 									})}
-								</StyledTableRow>
+								</TableRow>
 								<StyledTableCell align="center">{row.jumlah}</StyledTableCell>
 								<StyledTableCell align="center">{row.tahun}</StyledTableCell>
 								<StyledTableCell align="center">{row.asal_usul}</StyledTableCell>

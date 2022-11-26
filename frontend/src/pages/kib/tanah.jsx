@@ -2,24 +2,19 @@ import { Box, Grid, Typography, TextField, Button, TableContainer, TableCell, Ta
 import { FileText, Edit, Trash2, PlusSquare } from "react-feather";
 import { color } from "@mui/system";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const columns = [
 
-	{ id: 'kode', label: 'Kode Barang', minWidth: 90, align: 'center' },
-	{ id: 'register', label: 'Register', minWidth: 90, align: 'center' },
+	{ id: 'kode', label: 'Kode Barang', minWidth: 140, align: 'center' },
+	{ id: 'register', label: 'Register', minWidth: 80, align: 'center' },
 
 ];
-
-const columns2 = [
-	{ id: 'hak', label: 'Hak', minWidth: 130, align: 'center' },
-	{ id: 'sertifikat', label: 'Sertifikat', minWidth: 130, align: 'center' },
-]
 
 const columns3 = [
 
 	{ id: 'tanggal', label: 'Tanggal', minWidth: 130, align: 'center' },
-	{ id: 'nomor', label: 'Nomor', minWidth: 130, align: 'center' }
+	{ id: 'nomor', label: 'Nomor', minWidth: 90, align: 'center' }
 ]
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -32,7 +27,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	},
 	[`&.${tableCellClasses.body}`]: {
 		fontSize: 14,
-		backgroundColor: "#AAC3F3",
 		borderColor: "black",
 		align: "center"
 
@@ -42,8 +36,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	'&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
-		align: "center"
+		backgroundColor: "#AAC3F3",
+		align: "center",
+
+	},
+	'&:nth-of-type(even)': {
+		backgroundColor: "#D9E6FF",
+		align: "center",
+
 	},
 	// hide last border
 	'&:last-child td, &:last-child th': {
@@ -101,23 +101,34 @@ for (let i = 0; i < labels.length; i++) {
 		</Grid>
 	)
 }
+
 const Tanah = () => {
 
+	// const [rows, setRows] = useState([]);
 
+	// React.useEffect(() => {
+	// 	fetch(
+	// 		'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kiba/findAll',
+	// 		{
+	// 			method: 'GET',
+	// 			headers: {
+	// 				'Accept': 'application/json',
+	// 				'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI2MzdiODM1N2UyMWZhYzFlYzA2MzhlOWMifSwiZXhwIjoxNjY5NTQwNzEwfQ.FqOkgxGU_0cEY382DM7bnJB65dHxKh7CFWJqg1HbqWQ',
+	// 				'Origin': 'application/json'
+	// 			},
+	// 		}
+	// 	)
+	// 		.then((response) => response.json())
+	// 		.then((data) => {
+	// 			console.log(data);
+	// 			setRows(data);
+	// 			console.log("coba", rows)
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err.message);
+	// 		});
+	// }, []);
 
-	// const [page, setPage] = React.useState(0);
-	// const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-	// const handleChangePage = (event, newPage) => {
-	// 	setPage(newPage);
-	// };
-
-	// const handleChangeRowsPerPage = (event) => {
-	// 	setRowsPerPage(parseInt(event.target.value, 10));
-	// 	setPage(0);
-	// };
-	// const emptyRows =
-	// 	page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 	return (
 		<React.Fragment>
 			<Box sx={{
@@ -132,7 +143,6 @@ const Tanah = () => {
 					>
 						<b>KIB A (Tanah)</b></Typography>
 				</Box>
-
 				<Box sx={{
 					mt: 2,
 					p: 4,
@@ -207,14 +217,13 @@ const Tanah = () => {
 											key={column.id}
 											align={column.align}
 											style={{ top: 57, minWidth: column.minWidth }}
+											sx={{ py: 5.5 }}
 										>
 											{column.label}
-											<StyledTableCell></StyledTableCell>
-
 										</StyledTableCell>
-
 									))}
 								</TableRow>
+
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Luas (M2)</Typography></StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Tahun Pengadaan</Typography></StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Letak / Alamat</Typography></StyledTableCell>
@@ -227,7 +236,6 @@ const Tanah = () => {
 										<TableRow>
 											<StyledTableCell sx={{ border: 1 }} align="center" colSpan={2}><Typography sx={{ color: '#E5E5E5' }}>Sertifikat</Typography></StyledTableCell>
 										</TableRow>
-
 										<TableRow>
 											{columns3.map((column) => (
 												<StyledTableCell
@@ -241,13 +249,7 @@ const Tanah = () => {
 
 										</TableRow>
 									</TableRow>
-
-
-
 								</TableRow>
-
-
-
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Penggunaan</Typography></StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Asal Usul</Typography></StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Harga</Typography></StyledTableCell>
@@ -258,21 +260,18 @@ const Tanah = () => {
 							{rows.map((row) => (
 								<StyledTableRow
 									key={row.no}
-									sx={{ '&:last-child td, &:last-child th': { border: 0, width: '100%' } }}
+									sx={{ '&:last-child td, &:last-child th, &:nth-of-type(odd)': { border: 0 } }}
 								>
 									<StyledTableCell>
 										<Box sx={{ display: 'flex' }}>
 											<Box sx={{ px: 1.5 }}>
 
 												<Edit size={20} color="#0F2C64" />
-
-
 											</Box>
 											<Box sx={{ px: 1.5 }}>
 												<Trash2 size={20} color="#D32F2F" />
 											</Box>
 										</Box>
-
 									</StyledTableCell>
 									<StyledTableCell align="center" component="th" scope="row">
 										{row.no}
@@ -282,7 +281,7 @@ const Tanah = () => {
 										{columns.map((column) => {
 											const value = row[column.id];
 											return (
-												<StyledTableCell key={column.id} align={column.align}>
+												<StyledTableCell key={column.id} align={column.align} sx={{ px: 4, py: 8 }}>
 													{column.format && typeof value === 'number'
 														? column.format(value)
 														: value}
@@ -290,20 +289,15 @@ const Tanah = () => {
 											);
 										})}
 									</TableRow>
-									{/* <StyledTableCell>
-										<StyledTableCell align="center" sx={{ border: 0 }}>{row.kode_barang}</StyledTableCell>
-
-										<StyledTableCell align="center" sx={{ border: 0 }}>{row.register}</StyledTableCell>
-									</StyledTableCell> */}
 									<StyledTableCell align="center">{row.luas}</StyledTableCell>
 									<StyledTableCell align="center">{row.tahun_pengadaan}</StyledTableCell>
 									<StyledTableCell align="center">{row.alamat}</StyledTableCell>
-									<TableRow hover role="checkbox" tabIndex={-1} key={row.kode}>
-										<StyledTableCell align="center" sx={{ border: 0 }}>{row.hak}</StyledTableCell>
+									<TableRow hover role="checkbox" tabIndex={-1} key={row.tanggal}>
+										<StyledTableCell align="center" sx={{ border: 0, px: 4 }}>{row.hak}</StyledTableCell>
 										{columns3.map((column) => {
 											const value = row[column.id];
 											return (
-												<StyledTableCell key={column.id} align={column.align}>
+												<StyledTableCell key={column.id} align={column.align} sx={{ px: 5, border: 0 }}>
 													{column.format && typeof value === 'number'
 														? column.format(value)
 														: value}

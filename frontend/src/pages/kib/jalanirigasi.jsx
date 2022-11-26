@@ -4,13 +4,13 @@ import { color } from "@mui/system";
 import React from "react";
 
 const columns = [
-	{ id: 'kode', label: 'Kode Barang', minWidth: 90, align: 'center' },
+	{ id: 'kode', label: 'Kode Barang', minWidth: 130, align: 'center' },
 	{ id: 'register', label: 'Register', minWidth: 90, align: 'center' },
 ];
 
 const columns1 = [
 	{ id: 'tanggal', label: 'Tanggal', minWidth: 90, align: 'center' },
-	{ id: 'nomor', label: 'Nomor', minWidth: 90, align: 'center' },
+	{ id: 'nomor', label: 'Nomor', minWidth: 130, align: 'center' },
 ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -21,7 +21,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	},
 	[`&.${tableCellClasses.body}`]: {
 		fontSize: 14,
-		backgroundColor: "#AAC3F3",
 		borderColor: "black",
 		align: "center",
 		size: "medium"
@@ -32,7 +31,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	'&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
+		backgroundColor: "#AAC3F3",
+		align: "center",
+
+	},
+	'&:nth-of-type(even)': {
+		backgroundColor: "#D9E6FF",
 		align: "center",
 
 	},
@@ -262,7 +266,7 @@ const PeralatanMesin = () => {
 										{columns.map((column) => {
 											const value = row[column.id];
 											return (
-												<StyledTableCell key={column.id} align={column.align}>
+												<StyledTableCell key={column.id} align={column.align} sx={{ px: 4, py: 6 }}>
 													{column.format && typeof value === 'number'
 														? column.format(value)
 														: value}
@@ -279,7 +283,7 @@ const PeralatanMesin = () => {
 										{columns1.map((column) => {
 											const value = row[column.id];
 											return (
-												<StyledTableCell key={column.id} align={column.align}>
+												<StyledTableCell key={column.id} align={column.align} sx={{ px: 4, py: 6 }}>
 													{column.format && typeof value === 'number'
 														? column.format(value)
 														: value}

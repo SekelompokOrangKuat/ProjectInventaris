@@ -4,8 +4,8 @@ import { color } from "@mui/system";
 import React from "react";
 
 const columns = [
-	{ id: 'tingkat', label: 'Bertingkat/Tidak', minWidth: 90, align: 'center' },
-	{ id: 'beton', label: 'Beton/Tidak', minWidth: 90, align: 'center' },
+	{ id: 'tingkat', label: 'Bertingkat/Tidak', minWidth: 100, align: 'center' },
+	{ id: 'beton', label: 'Beton/Tidak', minWidth: 100, align: 'center' },
 ];
 
 const columns1 = [
@@ -21,15 +21,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	},
 	[`&.${tableCellClasses.body}`]: {
 		fontSize: 14,
-		backgroundColor: "#AAC3F3"
-
-
 	},
+
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	'&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
+		backgroundColor: "#AAC3F3",
+		align: "center",
+
+	},
+	'&:nth-of-type(even)': {
+		backgroundColor: "#D9E6FF",
 		align: "center",
 
 	},
@@ -236,15 +239,13 @@ const Konstruksi = () => {
 						{rows.map((row) => (
 							<StyledTableRow
 								key={row.no}
-								sx={{ '&:last-child td, &:last-child th': { border: 0, width: '100%' } }}
+								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 							>
 								<StyledTableCell>
 									<Box sx={{ display: 'flex' }}>
 										<Box sx={{ p: 1.5 }}>
 
 											<Edit size={20} color="#0F2C64" />
-
-
 										</Box>
 										<Box sx={{ p: 1.5 }}>
 											<Trash2 size={20} color="#D32F2F" />
@@ -256,32 +257,33 @@ const Konstruksi = () => {
 								</StyledTableCell>
 								<StyledTableCell align="center">{row.jenis_barang}</StyledTableCell>
 								<StyledTableCell align="center">{row.bangunan}</StyledTableCell>
-								<StyledTableRow hover role="checkbox" tabIndex={-1} key={row.tingkat}>
+
+								<TableRow tabIndex={-1} key={row.beton}>
 									{columns.map((column) => {
 										const value = row[column.id];
 										return (
-											<StyledTableCell key={column.id} align={column.align}>
+											<TableCell key={column.id} align={column.align} sx={{ px: 6 }}>
 												{column.format && typeof value === 'number'
 													? column.format(value)
 													: value}
-											</StyledTableCell>
+											</TableCell>
 										);
 									})}
-								</StyledTableRow>
+								</TableRow>
 								<StyledTableCell align="center">{row.luas}</StyledTableCell>
 								<StyledTableCell align="center">{row.letak}</StyledTableCell>
-								<StyledTableRow hover role="checkbox" tabIndex={-1} key={row.tanggal}>
+								<TableRow role="checkbox" tabIndex={-1} key={row.tanggal}>
 									{columns1.map((column) => {
 										const value = row[column.id];
 										return (
-											<StyledTableCell key={column.id} align={column.align}>
+											<TableCell key={column.id} align={column.align}>
 												{column.format && typeof value === 'number'
 													? column.format(value)
 													: value}
-											</StyledTableCell>
+											</TableCell>
 										);
 									})}
-								</StyledTableRow>
+								</TableRow>
 								<StyledTableCell align="center">{row.waktu_mulai}</StyledTableCell>
 								<StyledTableCell align="center">{row.status}</StyledTableCell>
 								<StyledTableCell align="center">{row.kode_tanah}</StyledTableCell>

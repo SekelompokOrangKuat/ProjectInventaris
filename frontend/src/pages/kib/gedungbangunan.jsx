@@ -4,18 +4,18 @@ import { color } from "@mui/system";
 import React from "react";
 
 const columns = [
-	{ id: 'kode', label: 'Kode Barang', minWidth: 90, align: 'center' },
-	{ id: 'register', label: 'Register', minWidth: 90, align: 'center' },
+	{ id: 'kode', label: 'Kode Barang', minWidth: 160, align: 'center' },
+	{ id: 'register', label: 'Register', minWidth: 140, align: 'center' },
 ];
 
 const columns1 = [
-	{ id: 'tingkat', label: 'Bertingkat/Tidak', minWidth: 90, align: 'center' },
-	{ id: 'beton', label: 'Beton/Tidak', minWidth: 90, align: 'center' },
+	{ id: 'tingkat', label: 'Bertingkat/Tidak', minWidth: 100, align: 'center' },
+	{ id: 'beton', label: 'Beton/Tidak', minWidth: 100, align: 'center' },
 ];
 
 const columns2 = [
-	{ id: 'tanggal', label: 'Tanggal', minWidth: 90, align: 'center' },
-	{ id: 'nomor', label: 'Nomor', minWidth: 90, align: 'center' },
+	{ id: 'tanggal', label: 'Tanggal', minWidth: 120, align: 'center' },
+	{ id: 'nomor', label: 'Nomor', minWidth: 150, align: 'center' },
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -27,7 +27,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	},
 	[`&.${tableCellClasses.body}`]: {
 		fontSize: 14,
-		backgroundColor: "#AAC3F3",
 		borderColor: "black",
 		align: "center",
 		size: "medium"
@@ -36,7 +35,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	'&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
+		backgroundColor: "#AAC3F3",
+		align: "center",
+
+	},
+	'&:nth-of-type(even)': {
+		backgroundColor: "#D9E6FF",
 		align: "center",
 
 	},
@@ -277,7 +281,7 @@ const GedungBangunan = () => {
 											{columns.map((column) => {
 												const value = row[column.id];
 												return (
-													<StyledTableCell key={column.id} align={column.align}>
+													<StyledTableCell key={column.id} align={column.align} sx={{ py: 6, px: 6 }}>
 														{column.format && typeof value === 'number'
 															? column.format(value)
 															: value}
@@ -287,10 +291,10 @@ const GedungBangunan = () => {
 										</TableRow>
 										<StyledTableCell align="center">{row.kondisi}</StyledTableCell>
 										<TableRow hover role="checkbox" tabIndex={-1} key={row.tingkat}>
-											{columns.map((column) => {
+											{columns1.map((column) => {
 												const value = row[column.id];
 												return (
-													<StyledTableCell key={column.id} align={column.align}>
+													<StyledTableCell key={column.id} align={column.align} sx={{ py: 6, px: 6 }}>
 														{column.format && typeof value === 'number'
 															? column.format(value)
 															: value}
@@ -301,10 +305,10 @@ const GedungBangunan = () => {
 										<StyledTableCell align="center">{row.luas}</StyledTableCell>
 										<StyledTableCell align="center">{row.letak}</StyledTableCell>
 										<TableRow hover role="checkbox" tabIndex={-1} key={row.tanggal}>
-											{columns.map((column) => {
+											{columns2.map((column) => {
 												const value = row[column.id];
 												return (
-													<StyledTableCell key={column.id} align={column.align}>
+													<StyledTableCell key={column.id} align={column.align} sx={{ py: 6, px: 6 }}>
 														{column.format && typeof value === 'number'
 															? column.format(value)
 															: value}
