@@ -70,40 +70,64 @@ const Laporan = () => {
                 alignItems="center"
             >
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - A</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-a', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - A</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - B</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-b', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - B</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - C</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-c', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - C</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - D</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-d', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - D</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - E</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-e', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - E</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - F</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-f', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - F</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
                     <Link

@@ -36,6 +36,13 @@ import RekapPeminjaman from "./assets/pdf/Rekap Peminjaman.pdf";
 import RBIPDF from "./assets/pdf/RBI.pdf";
 import KIRPDF from "./assets/pdf/KIR Bid. GTK.pdf";
 import QRCodeLabelBarang from "./assets/pdf/QR Code Label Barang.pdf";
+import KIBA from "./assets/pdf/KIB A.pdf"
+import KIBB from "./assets/pdf/KIB B.pdf"
+import KIBC from "./assets/pdf/KIB C.pdf"
+import KIBD from "./assets/pdf/KIB D.pdf"
+import KIBE from "./assets/pdf/KIB E.pdf"
+import KIBF from "./assets/pdf/KIB F.pdf"
+
 import './App.css';
 import Laporan from "./pages/laporan";
 import Pendataan from "./pages/pendataan";
@@ -84,6 +91,12 @@ function App() {
         <Route path="pdf/rbi" element={<PDFViewer file={RBIPDF} />}></Route>
         <Route path="pdf/kir-pdf" element={<PDFViewer file={KIRPDF} />}></Route>
         <Route path="pdf/kir-qrcode" element={<PDFViewer file={QRCodeLabelBarang} />}></Route>
+        <Route path="pdf/kib-a" element={<PDFViewer file={KIBA} />}></Route>
+        <Route path="pdf/kib-b" element={<PDFViewer file={KIBB} />}></Route>
+        <Route path="pdf/kib-c" element={<PDFViewer file={KIBC} />}></Route>
+        <Route path="pdf/kib-d" element={<PDFViewer file={KIBD} />}></Route>
+        <Route path="pdf/kib-e" element={<PDFViewer file={KIBE} />}></Route>
+        <Route path="pdf/kib-f" element={<PDFViewer file={KIBF} />}></Route>
         {/* End of exclusive path */}
 
       </Routes>
