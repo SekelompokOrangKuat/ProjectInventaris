@@ -39,6 +39,7 @@ Rails.application.routes.draw do
         post "/delete" => "pengusulan#delete"
         post "/search_penghapusan" => "pengusulan#search_penghapusan"
         post "/search_pemeliharaan" => "pengusulan#search_pemeliharaan"
+        post "/getBarang" => "pengusulan#getBarang"
       end
     end
     namespace :kib do

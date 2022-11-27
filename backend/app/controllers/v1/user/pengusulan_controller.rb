@@ -299,4 +299,21 @@ class V1::User::PengusulanController < ApplicationController
                 }, status: :ok
         end
     end
+
+    def getBarang
+        @barang = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+        if @barang.present?
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: @barang
+                }, status: :ok
+        else 
+            render json: {
+                response_code: 422, 
+                response_message: "Barang tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
+        end
+    end
+
 end

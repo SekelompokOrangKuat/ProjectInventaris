@@ -101,7 +101,7 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "637f8565e21fac03c0e36abf"},
+            id: {type: :string, example: "638235b0e21fac0354b16976"},
             nama_pengusul: {type: :string, example: "Admin Sinbada"},
             spesifikasi_barang: {type: :string, example: "-"},
             foto_barang: {type: :string, example: "img.jpg"},
@@ -157,7 +157,7 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "637f8565e21fac03c0e36abf"}
+            id: {type: :string, example: "638235b0e21fac0354b16976"}
         },
         required: []
       }
@@ -190,7 +190,7 @@ describe 'Pengadaan API' do
       consumes 'application/json'
       produces 'application/json'
       parameter name: 'Authorization', in: :header, type: :string, required: true
-      parameter in: :formData, name: :id, type: :string, required: true, example: "637f8565e21fac03c0e36abf"
+      parameter in: :formData, name: :id, type: :string, required: true, example: "638235b0e21fac0354b16976"
       parameter in: :formData, name: :is_approve, type: :boolean, required: true, example: :true
       response '200', 'Successfull' do
         schema type: :object
