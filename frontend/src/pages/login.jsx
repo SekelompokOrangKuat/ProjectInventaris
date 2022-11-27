@@ -43,7 +43,10 @@ const Login = () => {
                 if (data.response_code === 200) {
                     setEmailPasswordValidation(true);
                     localStorage.setItem("token", data.data.token_access);
-                    console.log('Success Login\nToken: ' + data.data.token_access);
+                    localStorage.setItem("email", data.data.user.email);
+                    localStorage.setItem("nama", data.data.user.nama);
+                    localStorage.setItem("role", data.data.user.user_role);
+                    console.log(data.data);
                     navigate("/");
                 } else {
                     setEmailPasswordValidation(false);
