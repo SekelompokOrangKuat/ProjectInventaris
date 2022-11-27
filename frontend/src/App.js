@@ -48,12 +48,20 @@ import Laporan from "./pages/laporan";
 import Pendataan from "./pages/pendataan";
 
 function App() {
+  var user = {
+    name: '',
+    role: '',
+  };
+  if(localStorage.getItem('token')){
+    user.name = localStorage.getItem('nama');
+    user.role = localStorage.getItem('role');
+  }
   return (
     <React.Fragment>
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
-        <Route path="/" element={<Layout isAdmin={false} />}>
+        <Route path="/" element={<Layout isAdmin={false} user={user}/>}>
           <Route path="" element={<Dashboard />}></Route>
           <Route path="pendataan" element={<Pendataan />}></Route>
           <Route path="pencatatan" element={<Dashboard />}></Route>
@@ -73,7 +81,7 @@ function App() {
           <Route path="kib/e" element={<AsetTetap />} />
           <Route path="kib/f" element={<Konstruksi />} />
         </Route>
-        <Route path="admin" element={<Layout isAdmin={true} />}>
+        <Route path="admin" element={<Layout isAdmin={true} user={user} />}>
           <Route path="skpd" element={<Skpd />}></Route>
           <Route path="ruangan" element={<RoomCode />}></Route>
           <Route path="barang" element={<GoodsCode />}></Route>

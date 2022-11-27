@@ -20,7 +20,7 @@ import Sidebar from './sidebar';
 import { useState } from 'react';
 
 
-const Layout = ({isAdmin}) => {
+const Layout = ({isAdmin, user}) => {
     const publicMenuLists = [
         { name: "Dashboard", url: "/", icon: <Home size={20}/> },
         { name: "Pendataan", url: "/pendataan", icon: <FilePlus size={20}/> },
@@ -62,7 +62,7 @@ const Layout = ({isAdmin}) => {
                 flexDirection: 'column',
                 height: '100vh'
             }}>
-            <Navbar />
+            <Navbar user={user}/>
             <Container
                 disableGutters
                 maxWidth="100vw"
@@ -92,7 +92,9 @@ const Layout = ({isAdmin}) => {
                     </Box>
                     }
                     <Box sx={{ width: '100%', overflowY: 'auto' }}>
-                        <Outlet />
+                        {
+                        isAdmin? user.role === 'Admin' ? <Outlet/>: <h1>Anda tidak memiliki akses halaman ini!</h1> : <Outlet/>
+                        }
                     </Box>
                 </Box>
             </Container>
