@@ -88,8 +88,8 @@ const Pemeliharaan = () => {
         setValueNamaBarang(e);
         setInputNamaBarang(e);
         if (e !== '') {
-            await getNoRegister(e);
             if (isTambahBarang) {
+                await getNoRegister(e);
                 setValueRegisterBarang(dataRegisterBarang[0].label);
                 handleRegisterBarangChange(dataRegisterBarang[0].label);
             }
@@ -101,7 +101,7 @@ const Pemeliharaan = () => {
 
     const handleRegisterBarangChange = (e) => {
         setInputRegisterBarang(e);
-        if (e !== '' && isTambahBarang) {
+        if (e !== '') {
             getBarangData(inputNamaBarang, e);
         }
     }
@@ -114,7 +114,9 @@ const Pemeliharaan = () => {
         setIsTambahBarang(false);
         setCurrentEditBarangId(item.user_pengusulan_id.$oid);
         handleNamaBarangChange(item.nama_barang);
-        handleRegisterBarangChange(item.nomor_register);
+        setInputRegisterBarang(item.nomor_register);
+        setValueRegisterBarang(item.nomor_register);
+        console.log(item.nomor_register);
         setKodeBarang(item.kode_barang);
         setKeterangan(item.keterangan);
         setKondisiBarang(item.kondisi_barang);
