@@ -29,6 +29,13 @@ import Konstruksi from "./pages/kib/konstruksi.jsx";
 
 import SOPMutasi from "./assets/pdf/SOP Mutasi.pdf";
 import SOPPengelolaan from "./assets/pdf/SOP Pengelolaan Barang Milik Daerah.pdf";
+import BeritaAcaraMutasi from "./assets/pdf/BERITA ACARA Mutasi.pdf";
+import BeritaAcaraPeminjaman from "./assets/pdf/BERITA ACARA Peminjaman.pdf";
+import RekapMutasi from "./assets/pdf/Rekap Mutasi.pdf";
+import RekapPeminjaman from "./assets/pdf/Rekap Peminjaman.pdf";
+import RBIPDF from "./assets/pdf/RBI.pdf";
+import KIRPDF from "./assets/pdf/KIR Bid. GTK.pdf";
+import QRCodeLabelBarang from "./assets/pdf/QR Code Label Barang.pdf";
 import './App.css';
 import Laporan from "./pages/laporan";
 import Pendataan from "./pages/pendataan";
@@ -70,6 +77,13 @@ function App() {
         {/* Exclusive path. Do not change those path! */}
         <Route path="pdf/mutasi" element={<PDFViewer file={SOPMutasi} />}></Route>
         <Route path="pdf/pengelolaan" element={<PDFViewer file={SOPPengelolaan} />}></Route>
+        <Route path="pdf/berita-acara-mutasi" element={<PDFViewer file={BeritaAcaraMutasi} />}></Route>
+        <Route path="pdf/berita-acara-peminjaman" element={<PDFViewer file={BeritaAcaraPeminjaman} />}></Route>
+        <Route path="pdf/rekap-mutasi" element={<PDFViewer file={RekapMutasi} />}></Route>
+        <Route path="pdf/rekap-peminjaman" element={<PDFViewer file={RekapPeminjaman} />}></Route>
+        <Route path="pdf/rbi" element={<PDFViewer file={RBIPDF} />}></Route>
+        <Route path="pdf/kir-pdf" element={<PDFViewer file={KIRPDF} />}></Route>
+        <Route path="pdf/kir-qrcode" element={<PDFViewer file={QRCodeLabelBarang} />}></Route>
         {/* End of exclusive path */}
 
       </Routes>
