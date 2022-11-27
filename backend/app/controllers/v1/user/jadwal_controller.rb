@@ -162,7 +162,7 @@ class V1::User::JadwalController < ApplicationController
                     response_message: "Jadwal sudah dihapus!"
                     }, status: :unprocessable_entity
             else
-                @jadwal = User::Jadwal.undeleted.where(_id: params[:id])
+                @jadwal = User::Jadwal.undeleted.where(_id: params[:id]).first
                 if not @jadwal.present?
                     render json: {
                         response_code: 422, 
