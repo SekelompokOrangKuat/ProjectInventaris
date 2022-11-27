@@ -74,6 +74,42 @@ describe 'Jadwal API' do
     end
   end
 
+  path '/v1/user/jadwal/search_riwayat' do
+    post 'Search Riwayat Jadwal' do
+      tags 'Jadwal'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "27 November 2022"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Jadwal tidak ditemukan!"},
+                response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
   path '/v1/user/jadwal/edit' do
     post 'Edit Jadwal' do
       tags 'Jadwal'

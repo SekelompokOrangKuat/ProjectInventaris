@@ -22,6 +22,7 @@ Rails.application.routes.draw do
         post "/edit" => "pengadaan#edit"
         post "/delete" => "pengadaan#delete"
         post "/search" => "pengadaan#search"
+        post "/search_riwayat" => "pengadaan#search_riwayat"
       end
       resource :jadwal do
         get "/findAll" => "jadwal#index"
@@ -39,6 +40,8 @@ Rails.application.routes.draw do
         post "/delete" => "pengusulan#delete"
         post "/search_penghapusan" => "pengusulan#search_penghapusan"
         post "/search_pemeliharaan" => "pengusulan#search_pemeliharaan"
+        post "/search_riwayat_penghapusan" => "pengusulan#search_riwayat_penghapusan"
+        post "/search_riwayat_pemeliharaan" => "pengusulan#search_riwayat_pemeliharaan"
         post "/getBarang" => "pengusulan#getBarang"
       end
     end
@@ -49,6 +52,7 @@ Rails.application.routes.draw do
         post "/create" => "kiba#create"
         post "/delete" => "kiba#delete"
         post "/search" => "kiba#search"
+        post "/search_riwayat" => "kiba#search_riwayat"
       end
       resource :kibb do
         get "/findAll" => "kibb#index"
@@ -56,6 +60,7 @@ Rails.application.routes.draw do
         post "/create" => "kibb#create"
         post "/delete" => "kibb#delete"
         post "/search" => "kibb#search"
+        post "/search_riwayat" => "kibb#search_riwayat"
       end
       resource :kibc do
         get "/findAll" => "kibc#index"
@@ -63,6 +68,7 @@ Rails.application.routes.draw do
         post "/create" => "kibc#create"
         post "/delete" => "kibc#delete"
         post "/search" => "kibc#search"
+        post "/search_riwayat" => "kibc#search_riwayat"
       end
       resource :kibd do
         get "/findAll" => "kibd#index"
@@ -70,6 +76,7 @@ Rails.application.routes.draw do
         post "/create" => "kibd#create"
         post "/delete" => "kibd#delete"
         post "/search" => "kibd#search"
+        post "/search_riwayat" => "kibd#search_riwayat"
       end
       resource :kibe do
         get "/findAll" => "kibe#index"
@@ -77,6 +84,7 @@ Rails.application.routes.draw do
         post "/create" => "kibe#create"
         post "/delete" => "kibe#delete"
         post "/search" => "kibe#search"
+        post "/search_riwayat" => "kibe#search_riwayat"
       end
       resource :kibf do
         get "/findAll" => "kibf#index"
@@ -84,6 +92,7 @@ Rails.application.routes.draw do
         post "/create" => "kibf#create"
         post "/delete" => "kibf#delete"
         post "/search" => "kibe#search"
+        post "/search_riwayat" => "kibe#search_riwayat"
       end
     end
     namespace :ruangan do 

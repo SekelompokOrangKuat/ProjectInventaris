@@ -61,7 +61,43 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "Sepeda"},
+            keywords: {type: :string, example: "Tanah"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
+  path '/v1/kib/kiba/search_riwayat' do
+    post 'Search Riwayat KIB A' do
+      tags 'KIB A'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "Tanah"},
         },
         required: []
       }
@@ -265,7 +301,43 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "Kipas Angin"},
+            keywords: {type: :string, example: "Sedan"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
+  path '/v1/kib/kibb/search_riwayat' do
+    post 'Search Riwayat KIB B' do
+      tags 'KIB B'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "Sedan"},
         },
         required: []
       }
@@ -471,7 +543,43 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "Rumah"},
+            keywords: {type: :string, example: "Bangunan"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
+  path '/v1/kib/kibc/search_riwayat' do
+    post 'Search Riwayat KIB C' do
+      tags 'KIB C'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "Bangunan"},
         },
         required: []
       }
@@ -678,7 +786,43 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "Rumah"},
+            keywords: {type: :string, example: "Instalasi"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
+  path '/v1/kib/kibd/search_riwayat' do
+    post 'Search Riwayat KIB D' do
+      tags 'KIB D'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "Instalasi"},
         },
         required: []
       }
@@ -884,7 +1028,43 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "Buku"},
+            keywords: {type: :string, example: "Agama Islam"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
+  path '/v1/kib/kibe/search_riwayat' do
+    post 'Search Riwayat KIB E' do
+      tags 'KIB E'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "Agama Islam"},
         },
         required: []
       }
@@ -1089,7 +1269,43 @@ describe 'KIB API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "Rumah"},
+            keywords: {type: :string, example: "Gedung Kesenian"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
+  path '/v1/kib/kibf/search_riwayat' do
+    post 'Search Riwayat KIB F' do
+      tags 'KIB F'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "Gedung Kesenian"},
         },
         required: []
       }

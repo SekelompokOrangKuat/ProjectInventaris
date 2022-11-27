@@ -30,8 +30,9 @@ class Barang::Kibb
     field :status_kib, type: Integer, default: proc { user_pengadaan ?  2 : 0}
 
     scope :undeleted, -> { where(status_kib: Enums::Kib::NEW) }
+    scope :deleted, -> { where(status_kib: Enums::Kib::DELETED) }
     scope :pengadaan, -> { where(status_kib: Enums::Kib::PENGADAAN)}
-    scope :penghapusan, -> { where(status_kib: Enums::Kib::PENGADAAN )}
+    scope :penghapusan, -> { where(status_kib: Enums::Kib::PENGHAPUSAN )}
     scope :pending_pengusulan, -> { where(user_pengusulan_id: Enums::StatusUsulan::PENDING) }
     scope :peminjaman, -> { where(status_kib: Enums::Kib::PEMINJAMAN)}
 
