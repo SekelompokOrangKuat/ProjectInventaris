@@ -86,7 +86,7 @@ class V1::User::PengadaanController < ApplicationController
                             response_message: "is_approve tidak boleh kosong!"
                             }, status: :unprocessable_entity
                     else
-                        if params[:is_approve] == true
+                        if params[:is_approve] == "true"
                             status_usulan = Enums::StatusUsulan::ACCEPTED
                             status_kib = Enums::Kib::NEW
                         else
@@ -320,7 +320,7 @@ class V1::User::PengadaanController < ApplicationController
     end
 
     def search_riwayat
-        @pengadaan = User::Pengadaan.done.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        @pengadaan = User::Pengadaan.not.new_pengadaan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if @pengadaan.present?
             barang = Barang::Kibb.pengadaan.where(:user_pengadaan_id.in => @pengadaan.pluck(:id))
             render json: {
@@ -329,7 +329,7 @@ class V1::User::PengadaanController < ApplicationController
                 data: {barang: barang, pengadaan: @pengadaan}
                 }, status: :ok
         else not @pengadaan.present?
-            @barang = Barang::Kibb.pengadaan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+            @barang = Barang::Kibb.not.new_pengadaan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
             pengadaan = User::Pengadaan.done.where(:_id.in => @barang.pluck(:user_pengadaan_id))
             if @barang.present?
                 render json: {

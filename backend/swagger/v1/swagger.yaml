@@ -3242,16 +3242,18 @@ paths:
         in: header
         type: string
         required: true
-      - in: formData
-        name: id
-        type: string
-        required: true
-        example: 638235b0e21fac0354b16976
-      - in: formData
-        name: is_approve
-        type: boolean
-        required: true
-        example: 'true'
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 638235b0e21fac0354b16976
+            is_approve:
+              type: string
+              example: 'true'
+          required: []
       responses:
         '200':
           description: Successfull
@@ -3714,16 +3716,18 @@ paths:
         in: header
         type: string
         required: true
-      - in: formData
-        name: id
-        type: string
-        required: true
-        example: 637923e0e21fac2eb88fd183
-      - in: formData
-        name: is_approve
-        type: boolean
-        required: true
-        example: 'true'
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 637923e0e21fac2eb88fd183
+            is_approve:
+              type: string
+              example: 'true'
+          required: []
       responses:
         '200':
           description: Successfull

@@ -16,7 +16,6 @@ class User::Pengusulan
     field :foto_barang, type: String
 
     scope :new_usulan, -> { where(status_usulan: Enums::StatusUsulan::NEW) }
-    scope :done, -> {where(status_usulan: Enums::StatusUsulan::ACCEPTED).where(status_usulan: Enums::StatusUsulan::REJECTED)}
     scope :pending, -> { where(status_usulan: Enums::StatusUsulan::PENDING) }
     scope :penghapusan, -> { where(jenis_usulan: "Penghapusan") }
     scope :pemeliharaan, -> { where(jenis_usulan: "Pemeliharaan") }
