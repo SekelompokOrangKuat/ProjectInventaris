@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, styled, Typography, InputLabel, MenuItem, FormControl, Select, } from "@mui/material";
+import { Box, Grid, Paper, styled, Typography, InputLabel, MenuItem, FormControl, Select, Link, } from "@mui/material";
 import React from "react";
 import { FileText } from "react-feather";
 
@@ -106,22 +106,37 @@ const Laporan = () => {
                     </Item>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">RIB</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/rbi', '_blank')}
+                        underline="none"
+                    >
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">RBI</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">Mutasi</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/rekap-mutasi', '_blank')}
+                        underline="none"
+                    >
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">Mutasi</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">Peminjaman</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/rekap-peminjaman', '_blank')}
+                        underline="none"
+                    >
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">Peminjaman</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="7">
                     <Item
@@ -139,6 +154,7 @@ const Laporan = () => {
                             spacing={2}
                             justifyContent="center"
                             alignItems="center"
+                            sx={{ color: "themeSecondary.darkest" }}
                         >
                             {/* <Grid item xs="auto">test</Grid>
                             <Grid item xs="auto">test</Grid> */}
@@ -165,32 +181,45 @@ const Laporan = () => {
                                 </FormControl>
                             </Grid>
                             <Grid item xs="auto">
-                                <Typography
-                                    variant="h1"
-                                    sx={{
-                                        transition: "250ms",
-                                        "&:hover": {
-                                            color: "white",
-                                            backgroundColor: "themeSecondary.darkest",
-                                        }
-                                    }}
+                                <Link
+                                    onClick={() => window.open('/pdf/kir-qrcode', 'blank')}
+                                    underline="none"
                                 >
-                                    QR Code
-                                </Typography>
+                                    <Typography
+                                        variant="h1"
+                                        sx={{
+                                            color: "themeSecondary.darkest",
+                                            transition: "250ms",
+                                            "&:hover": {
+                                                color: "white",
+                                                backgroundColor: "themeSecondary.darkest",
+                                            }
+                                        }}
+                                    >
+                                        QR Code
+                                    </Typography>
+                                </Link>
                             </Grid>
                             <Grid item xs="auto">
-                                <Typography
-                                    variant="h1"
-                                    sx={{
-                                        transition: "250ms",
-                                        "&:hover": {
-                                            color: "white",
-                                            backgroundColor: "themeSecondary.darkest",
-                                        }
-                                    }}
+
+                                <Link
+                                    onClick={() => window.open('/pdf/kir-pdf', 'blank')}
+                                    underline="none"
                                 >
-                                    PDF
-                                </Typography>
+                                    <Typography
+                                        variant="h1"
+                                        sx={{
+                                            color: "red",
+                                            transition: "250ms",
+                                            "&:hover": {
+                                                color: "white",
+                                                backgroundColor: "themeSecondary.darkest",
+                                            }
+                                        }}
+                                    >
+                                        PDF
+                                    </Typography>
+                                </Link>
                             </Grid>
                         </Grid>
                     </Item>
