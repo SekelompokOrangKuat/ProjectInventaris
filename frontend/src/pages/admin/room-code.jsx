@@ -30,6 +30,7 @@ const Form = (props) => {
 
 			let resJson = await response.json();
 			props.setShowForm(!props.showForm);
+			window.location.reload();
 		}
 		catch (err) {
 			console.log(err)
@@ -231,7 +232,6 @@ const Tables = () => {
 					<TableBody>
 						{roomData.map((data) => 
 						{
-							console.log(data)
 						return (
 							<StyledTableRow key={data._id.$oid}>
 								<StyledTableCell align="center" width="132px">
