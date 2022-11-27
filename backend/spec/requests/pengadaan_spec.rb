@@ -226,8 +226,14 @@ describe 'Pengadaan API' do
       consumes 'application/json'
       produces 'application/json'
       parameter name: 'Authorization', in: :header, type: :string, required: true
-      parameter in: :formData, name: :id, type: :string, required: true, example: "638235b0e21fac0354b16976"
-      parameter in: :formData, name: :is_approve, type: :boolean, required: true, example: :true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            id: {type: :string, example: "638235b0e21fac0354b16976"},
+            is_approve: {type: :string, example: "true"},
+        },
+        required: []
+      }
       response '200', 'Successfull' do
         schema type: :object
         run_test!

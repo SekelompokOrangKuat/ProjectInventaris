@@ -269,8 +269,14 @@ describe 'Pengusulan API' do
       consumes 'application/json'
       produces 'application/json'
       parameter name: 'Authorization', in: :header, type: :string, required: true
-      parameter in: :formData, name: :id, type: :string, required: true, example: "637923e0e21fac2eb88fd183"
-      parameter in: :formData, name: :is_approve, type: :boolean, required: true, example: :true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            id: {type: :string, example: "637923e0e21fac2eb88fd183"},
+            is_approve: {type: :string, example: "true"},
+        },
+        required: []
+      }
       response '200', 'Successfull' do
         schema type: :object
         run_test!

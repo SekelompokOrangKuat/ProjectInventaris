@@ -96,7 +96,7 @@ class V1::User::PengusulanController < ApplicationController
                             response_message: "is_approve tidak boleh kosong!"
                             }, status: :unprocessable_entity
                     else
-                        if params[:is_approve] == true
+                        if params[:is_approve] == "true"
                             status_usulan = Enums::StatusUsulan::ACCEPTED
                             if @approval_pengusulan.jenis_usulan == "Penghapusan"
                                 status_kib = Enums::Kib::PENGHAPUSAN
@@ -256,7 +256,7 @@ class V1::User::PengusulanController < ApplicationController
     end
 
     def search_riwayat_pemeliharaan
-        @pengusulan = User::Pengusulan.pemeliharaan.done.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        @pengusulan = User::Pengusulan.pemeliharaan.not.new_usulan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if @pengusulan.present?
             barang = Barang::Kibb.undeleted.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
             render json: {
@@ -266,7 +266,7 @@ class V1::User::PengusulanController < ApplicationController
                 }, status: :ok
         else
             @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end            
-            pengusulan = User::Pengusulan.pemeliharaan.done.where(:_id.in => @barang.pluck(:user_pengusulan_id))
+            pengusulan = User::Pengusulan.pemeliharaan.not.new_usulan.where(:_id.in => @barang.pluck(:user_pengusulan_id))
             if @barang.present?
                 render json: {
                     response_code: 200, 
@@ -283,7 +283,7 @@ class V1::User::PengusulanController < ApplicationController
     end
 
     def search_riwayat_penghapusan
-        @pengusulan = User::Pengusulan.penghapusan.done.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        @pengusulan = User::Pengusulan.penghapusan.not.new_usulan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if @pengusulan.present?
             barang = Barang::Kibb.undeleted.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
             render json: {
@@ -293,7 +293,7 @@ class V1::User::PengusulanController < ApplicationController
                 }, status: :ok
         else
             @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end            
-            pengusulan = User::Pengusulan.penghapusan.done.where(:_id.in => @barang.pluck(:user_pengusulan_id))
+            pengusulan = User::Pengusulan.penghapusan.not.new_usulan.where(:_id.in => @barang.pluck(:user_pengusulan_id))
             if @barang.present?
                 render json: {
                     response_code: 200, 

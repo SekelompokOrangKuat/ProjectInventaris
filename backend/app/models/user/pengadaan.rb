@@ -12,5 +12,4 @@ class User::Pengadaan
     field :status_usulan, type: Integer, default: Enums::StatusUsulan::NEW
 
     scope :new_pengadaan, -> { where(status_usulan: Enums::StatusUsulan::NEW) }
-    scope :done, -> { where(status_usulan: Enums::StatusUsulan::ACCEPTED).where(status_usulan: Enums::StatusUsulan::REJECTED) }
 end
