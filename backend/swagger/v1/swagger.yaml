@@ -63,10 +63,10 @@ paths:
           properties:
             tanggal:
               type: string
-              example: 19-11-2022
+              example: 28-11-2022
             keterangan:
               type: string
-              example: Pengusulan Barang
+              example: Pemeliharaan Barang
           required: []
       responses:
         '201':
@@ -116,7 +116,7 @@ paths:
           properties:
             keywords:
               type: string
-              example: Pengusulan Barang
+              example: 27 November 2022
           required: []
       responses:
         '200':
@@ -166,10 +166,10 @@ paths:
           properties:
             id:
               type: string
-              example: 6378d035e21fac2eb88fd15d
+              example: 63834454e21fac263c095d42
             tanggal:
               type: string
-              example: 19-11-2022
+              example: 28-11-2022
             keterangan:
               type: string
               example: Pengusulan Barang
@@ -222,7 +222,7 @@ paths:
           properties:
             id:
               type: string
-              example: 6378d035e21fac2eb88fd15d
+              example: 63834454e21fac263c095d42
           required: []
       responses:
         '200':
