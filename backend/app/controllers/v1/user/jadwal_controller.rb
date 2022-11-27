@@ -2,7 +2,7 @@ class V1::User::JadwalController < ApplicationController
     before_action :authorize_request
     
     def index
-        @jadwal = User::Jadwal.all.undeleted
+        @jadwal = User::Jadwal.undeleted
         if not @jadwal.present?
             render json: {
                 response_code: 422, 
@@ -24,11 +24,31 @@ class V1::User::JadwalController < ApplicationController
                 response_message: "tanggal tidak boleh kosong!"
                 }, status: :unprocessable_entity
         else
-            @jadwal = User::Jadwal.new(tanggal: params[:tanggal], keterangan: params[:keterangan])
-            triwulan = (((@jadwal.tanggal.month - 1) / 3) + 1).to_i
-            semester = (((@jadwal.tanggal.month - 1) / 6) + 1).to_i
+            tanggal = DateTime.parse("#{params[:tanggal]}")
+            triwulan = (((tanggal.month - 1) / 3) + 1).to_i
+            semester = (((tanggal.month - 1) / 6) + 1).to_i
+            bulan = tanggal.strftime("%B")
+            if bulan == "January"
+                bulan = "Januari"
+            elsif bulan == "Febuary"
+                bulan = "Febuari"
+            elsif bulan == "March"
+                bulan = "Maret"
+            elsif bulan == "May"
+                bulan = "Mei"
+            elsif bulan == "June"
+                bulan = "Juni"
+            elsif bulan == "July"
+                bulan = "Juli"
+            elsif bulan == "August"
+                bulan = "Agustus"
+            elsif bulan == "October"
+                bulan = "Oktober"
+            elsif bulan == "December"
+                bulan = "Desember"
+            end
             @jadwal = User::Jadwal.new(
-                tanggal: params[:tanggal],
+                tanggal: "#{tanggal.day} #{bulan} #{tanggal.year}",
                 triwulan: triwulan,
                 semester: semester,
                 keterangan: params[:keterangan])
@@ -68,21 +88,40 @@ class V1::User::JadwalController < ApplicationController
             else
                 begin
                     @jadwal = User::Jadwal.find(params[:id])
-                    tanggal = params[:tanggal]
                     keterangan = params[:keterangan]
-                    if params[:tanggal].blank? 
+                    if params[:tanggal].blank?
                         tanggal = @jadwal.tanggal
                         triwulan = @jadwal.triwulan
-                        triwulan = @jadwal.semester
+                        semester = @jadwal.semester
+                    else
+                        date = DateTime.parse("#{params[:tanggal]}")
+                        triwulan = (((date.month - 1) / 3) + 1).to_i
+                        semester = (((date.month - 1) / 6) + 1).to_i
+                        bulan = date.strftime("%B")
+                        if bulan == "January"
+                            bulan = "Januari"
+                        elsif bulan == "Febuary"
+                            bulan = "Febuari"
+                        elsif bulan == "March"
+                            bulan = "Maret"
+                        elsif bulan == "May"
+                            bulan = "Mei"
+                        elsif bulan == "June"
+                            bulan = "Juni"
+                        elsif bulan == "July"
+                            bulan = "Juli"
+                        elsif bulan == "August"
+                            bulan = "Agustus"
+                        elsif bulan == "October"
+                            bulan = "Oktober"
+                        elsif bulan == "December"
+                            bulan = "Desember"
+                        end
+                        tanggal = "#{date.day} #{bulan} #{date.year}"
                     end
                     if params[:keterangan].blank?
                         keterangan = @jadwal.keterangan
                     end
-                    @jadwal.assign_attributes({
-                        tanggal: tanggal, 
-                        keterangan: keterangan})
-                    triwulan = (((@jadwal.tanggal.month - 1) / 3) + 1).to_i
-                    semester = (((@jadwal.tanggal.month - 1) / 6) + 1).to_i
                     @jadwal.assign_attributes({
                         tanggal: tanggal, 
                         triwulan: triwulan,
@@ -143,8 +182,8 @@ class V1::User::JadwalController < ApplicationController
     end
 
     def search
-        @search = User::Jadwal.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
-        if not @search.present?
+        @search= User::Jadwal.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if not @search.present? 
             render json: {
                 response_code: 422, 
                 response_message: "Keyword tidak dapat ditemukan!"

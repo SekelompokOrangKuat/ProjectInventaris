@@ -10,8 +10,8 @@ describe 'Jadwal API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            tanggal: {type: :string, example: "19-11-2022"},
-            keterangan: {type: :string, example: "Pengusulan Barang"},
+            tanggal: {type: :string, example: "28-11-2022"},
+            keterangan: {type: :string, example: "Pemeliharaan Barang"},
         },
         required: []
       }
@@ -47,7 +47,7 @@ describe 'Jadwal API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "Pengusulan Barang"},
+            keywords: {type: :string, example: "27 November 2022"},
         },
         required: []
       }
@@ -83,8 +83,8 @@ describe 'Jadwal API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "6378d035e21fac2eb88fd15d"},
-            tanggal: {type: :string, example: "19-11-2022"},
+            id: {type: :string, example: "63834454e21fac263c095d42"},
+            tanggal: {type: :string, example: "28-11-2022"},
             keterangan: {type: :string, example: "Pengusulan Barang"},
         },
         required: []
@@ -121,7 +121,7 @@ describe 'Jadwal API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "6378d035e21fac2eb88fd15d"}
+            id: {type: :string, example: "63834454e21fac263c095d42"}
         },
         required: []
       }
