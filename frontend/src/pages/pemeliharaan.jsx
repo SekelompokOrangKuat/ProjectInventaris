@@ -593,7 +593,7 @@ const Pemeliharaan = () => {
                         variant="outlined"
                         onClick={
                             !isTambahBarang
-                                ? () => setIsTambahBarang(true)
+                                ? () => { clearForm(); setIsTambahBarang(true) }
                                 : clearForm
                         }
                     >
