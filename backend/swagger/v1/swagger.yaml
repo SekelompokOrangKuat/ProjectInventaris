@@ -145,6 +145,56 @@ paths:
               response_code:
                 type: integer
                 example: 401
+  "/v1/user/jadwal/search_riwayat":
+    post:
+      summary: Search Riwayat Jadwal
+      tags:
+      - Jadwal
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: 27 November 2022
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Jadwal tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/user/jadwal/edit":
     post:
       summary: Edit Jadwal
@@ -405,7 +455,57 @@ paths:
           properties:
             keywords:
               type: string
-              example: Sepeda
+              example: Tanah
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/kib/kiba/search_riwayat":
+    post:
+      summary: Search Riwayat KIB A
+      tags:
+      - KIB A
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Tanah
           required: []
       responses:
         '200':
@@ -736,7 +836,57 @@ paths:
           properties:
             keywords:
               type: string
-              example: Kipas Angin
+              example: Sedan
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/kib/kibb/search_riwayat":
+    post:
+      summary: Search Riwayat KIB B
+      tags:
+      - KIB B
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Sedan
           required: []
       responses:
         '200':
@@ -1073,7 +1223,57 @@ paths:
           properties:
             keywords:
               type: string
-              example: Rumah
+              example: Bangunan
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/kib/kibc/search_riwayat":
+    post:
+      summary: Search Riwayat KIB C
+      tags:
+      - KIB C
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Bangunan
           required: []
       responses:
         '200':
@@ -1413,7 +1613,57 @@ paths:
           properties:
             keywords:
               type: string
-              example: Rumah
+              example: Instalasi
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/kib/kibd/search_riwayat":
+    post:
+      summary: Search Riwayat KIB D
+      tags:
+      - KIB D
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Instalasi
           required: []
       responses:
         '200':
@@ -1750,7 +2000,57 @@ paths:
           properties:
             keywords:
               type: string
-              example: Buku
+              example: Agama Islam
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/kib/kibe/search_riwayat":
+    post:
+      summary: Search Riwayat KIB E
+      tags:
+      - KIB E
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Agama Islam
           required: []
       responses:
         '200':
@@ -2087,7 +2387,57 @@ paths:
           properties:
             keywords:
               type: string
-              example: Rumah
+              example: Gedung Kesenian
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/kib/kibf/search_riwayat":
+    post:
+      summary: Search Riwayat KIB F
+      tags:
+      - KIB F
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Gedung Kesenian
           required: []
       responses:
         '200':
@@ -2639,7 +2989,57 @@ paths:
           properties:
             keywords:
               type: string
-              example: sinbada
+              example: Jeep
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengadaan/search_riwayat":
+    post:
+      summary: Search Riwayat Pengadaan
+      tags:
+      - Pengadaan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Jeep
           required: []
       responses:
         '200':
@@ -3009,7 +3409,7 @@ paths:
           properties:
             keywords:
               type: string
-              example: sinbada
+              example: Jeep
           required: []
       responses:
         '200':
@@ -3059,7 +3459,107 @@ paths:
           properties:
             keywords:
               type: string
-              example: sinbada
+              example: Jeep
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/search_riwayat_penghapusan":
+    post:
+      summary: Search Riwayat Pengusulan Penghapusan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Jeep
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Pengadaan tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/search_riwayat_pemeliharaan":
+    post:
+      summary: Search Riwayat Pengusulan Pemeliharaan
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: Jeep
           required: []
       responses:
         '200':

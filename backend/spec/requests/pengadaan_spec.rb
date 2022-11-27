@@ -65,7 +65,43 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "sinbada"},
+            keywords: {type: :string, example: "Jeep"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Pengadaan tidak dapat ditemukan!"},
+                response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
+  path '/v1/user/pengadaan/search_riwayat' do
+    post 'Search Riwayat Pengadaan' do
+      tags 'Pengadaan'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "Jeep"},
         },
         required: []
       }

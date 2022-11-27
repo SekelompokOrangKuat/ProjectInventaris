@@ -304,7 +304,7 @@ class V1::User::PengadaanController < ApplicationController
 
     def index
         barang = Barang::Kibb.pengadaan.where(:user_pengadaan_id.in => User::Pengadaan.new_pengadaan.pluck(:id))
-        pengadaan = User::Pengadaan.new_pengadaan.where(:_id.in => Barang::Kibb.pengadaan.pluck(:user_pengadaan_id))
+        pengadaan = User::Pengadaan.where(:_id.in => Barang::Kibb.pengadaan.pluck(:user_pengadaan_id))
         if pengadaan.present?
             render json: {
                 response_code: 200, 
@@ -316,6 +316,31 @@ class V1::User::PengadaanController < ApplicationController
                 response_code: 422, 
                 response_message: "Tidak ada data!"
                 }, status: :unprocessable_entity
+        end
+    end
+
+    def search_riwayat
+        @pengadaan = User::Pengadaan.done.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if not @barang.present? and not @pengadaan.present?
+            render json: {
+                response_code: 422, 
+                response_message: "Keyword tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
+        elsif @pengadaan.present?
+            barang = Barang::Kibb.pengadaan.where(:user_pengadaan_id.in => @pengadaan.pluck(:id))
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: {barang: barang, pengadaan: @pengadaan}
+                }, status: :ok
+        elsif not @pengadaan.present?
+            @barang = Barang::Kibb.pengadaan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+            pengadaan = User::Pengadaan.done.where(:_id.in => @barang.pluck(:user_pengadaan_id))
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: {barang: @barang, pengadaan: pengadaan}
+                }, status: :ok
         end
     end
 

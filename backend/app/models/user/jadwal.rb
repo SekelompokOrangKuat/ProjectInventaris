@@ -10,5 +10,5 @@ class User::Jadwal
     field :status_jadwal, type: Integer, default: Enums::Status::NEW
 
     scope :undeleted, -> { where(status_jadwal: Enums::Status::NEW) }
-    
+    scope :deleted, -> { where(status_jadwal: Enums::Status::DELETED) }
 end

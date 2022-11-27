@@ -25,4 +25,5 @@ class Barang::Kiba
   field :status_kib, type: Integer, default: Enums::Kib::NEW
 
   scope :undeleted, -> { where(status_kib: Enums::Kib::NEW) }
+  scope :deleted, -> { where(status_kib: Enums::Kib::DELETED) }
 end  
