@@ -31,11 +31,16 @@ class V1::User::PengusulanController < ApplicationController
                     response_message: "Nomor register tidak dapat ditemukan!"
                     }, status: :unprocessable_entity
             else
-                @pengusulan = User::Pengusulan.pending.find(@barang.user_pengusulan_id)
+                @pengusulan = User::Pengusulan.find(@barang.user_pengusulan_id)
                 if not @pengusulan.present?
                     render json: {
                         response_code: 422,
                         response_message: "Tidak ada data untuk diusulkan, silahkan lakukan penambahan data barang!",
+                        }, status: :unprocessable_entity
+                elsif @pengusulan.status_usulan == Enums::StatusUsulan::NEW
+                    render json: {
+                        response_code: 422,
+                        response_message: "Barang sudah dilakukan pengusulan!",
                         }, status: :unprocessable_entity
                 else
                     @pengusulan.assign_attributes({
