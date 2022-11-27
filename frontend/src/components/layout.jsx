@@ -17,6 +17,7 @@ import { useLocation, Outlet } from "react-router-dom";
 
 import Navbar from './navbar';
 import Sidebar from './sidebar';
+import { useState } from 'react';
 
 
 const Layout = ({isAdmin}) => {
@@ -47,6 +48,11 @@ const Layout = ({isAdmin}) => {
     const location = useLocation();
     const currentLocationData = menuLists.reduce((result, item)=> item.url === location.pathname ? [...result, item] : result, []);
 
+    const [sidebarSize, setSidebarSize] = useState(true);
+    const handleToggleSidebar = () =>{
+        setSidebarSize(!sidebarSize);
+    }
+
     return (
         <Container
             disableGutters
@@ -66,7 +72,7 @@ const Layout = ({isAdmin}) => {
                     height:'calc(100vh - 71px)',
                 }}
             >
-                <Sidebar menu={menuLists}/>
+                <Sidebar menu={menuLists} size={sidebarSize}/>
                 <Box sx={{ width: '100%', overflowY: 'auto'}}>
                     {currentLocationData[0] !== undefined && 
                     <Box
@@ -80,7 +86,7 @@ const Layout = ({isAdmin}) => {
                             color: 'themeGrey.darkest',
                         }}
                     >
-                        <IconButton aria-label="Menu" sx={{color:'themePrimary.main'}}><Menu size={20} /></IconButton>
+                        <IconButton aria-label="Menu" sx={{color:'themePrimary.main'}} onClick={()=>handleToggleSidebar()}><Menu size={20} /></IconButton>
                         {currentLocationData[0].icon}
                         <Typography variant="h2">{currentLocationData[0].name}</Typography>
                     </Box>
