@@ -6,6 +6,7 @@ class Barang::Kibb
     belongs_to :user_pengadaan, class_name: "User::Pengadaan", optional: true
     belongs_to :user_pengusulan, class_name: "User::Pengusulan"
     belongs_to :peminjaman, class_name: "Peminjaman"
+    has_one :pengelola_mutasibarang, class_name: "Pengelola::Mutasibarang"
     
     validates :nomor_register, presence: true
     validates :nama_barang, presence: true

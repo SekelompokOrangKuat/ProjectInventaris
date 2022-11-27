@@ -95,7 +95,7 @@ Rails.application.routes.draw do
         post "/create" => "kibf#create"
         post "/delete" => "kibf#delete"
         post "/search" => "kibe#search"
-        post "/search_riwayat" => "kibe#search_riwayat"
+        post "/search_riwayat" => "kibf#search_riwayat"
       end
     end
     namespace :ruangan do 
@@ -115,6 +115,33 @@ Rails.application.routes.draw do
         post "/create" => "peminjamans#create"
         post "/delete" => "peminjamans#destroy"
         post "/edit" => "peminjamans#editById"
+      end
+    end
+    namespace :pengelola do
+      resource :mutasi do
+        get "/findAll" => "mutasi#index"
+        get "/findAllkodebarang" => "mutasi#get_all_kode_barang"
+        post "/get_noreg" => "mutasi#get_nomor_register"
+        post "/get_barang" => "mutasi#get_barang"
+        post "/create" => "mutasi#create"
+        post "/edit" => "mutasi#edit"
+        post "/delete" => "mutasi#delete"
+      end
+    end
+    namespace :admin do
+      resource :kb do
+        get "/findAll" => "kb#index"
+        post "/create" => "kb#create"
+        post "/edit" => "kb#edit"
+        post "/delete" => "kb#delete"
+        post "/search" => "kb#search"
+      end
+      resource :skpd do
+        get "/findAll" => "skpd#index"
+        post "/create" => "skpd#create"
+        post "/edit" => "skpd#edit"
+        post "/delete" => "skpd#edit"
+        post "/findBy" => "skpd#search"
       end
     end
   end
