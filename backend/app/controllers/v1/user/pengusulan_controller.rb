@@ -104,7 +104,7 @@ class V1::User::PengusulanController < ApplicationController
                                 status_kib = Enums::Kib::NEW
                             end
                         else                            
-                            status_usulan = Enums:StatusUsulan::REJECTED
+                            status_usulan = Enums::StatusUsulan::REJECTED
                             status_kib = Enums::Kib::NEW
                         end
                         @approval_pengusulan.assign_attributes({status_usulan: status_usulan})
