@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   post '/login', to: 'authentication#login'
 
   namespace :v1 do
+    resource :pelaporan do
+      get "/barang_kiba/:id" => "pelaporan#barang_kiba"
+    end
     namespace :user do
       resource :registrasi do
         get "/findAll" => "registrasi#index"
