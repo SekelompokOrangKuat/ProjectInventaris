@@ -205,16 +205,42 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Tables = () => {
 
 	var accountDatas = useGetAllAccounts();
-
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
+	const [open, setOpen] = useState(false);
+	const [selected, setSelected] = useState();
+	const handleClickOpen = (data) => {
+		setSelected(data);
 		setOpen(true);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
+
+	const handleDelete = async (email) =>{
+		try {
+			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/registrasi/delete",
+				{
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'X-Requested-With': 'application/json',
+						'Content-type': 'application/json; charset=UTF-8',
+						'Access-Control-Allow-Origin': '*',
+						"Authorization": localStorage.getItem('token'),
+					},
+					body: JSON.stringify({
+						email: email
+					})
+				});
+
+			let resJson = await response.json();
+			handleClose();
+			window.location.reload();
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
 
 	return (
 		<React.Fragment>
@@ -234,7 +260,7 @@ const Tables = () => {
 							<StyledTableRow key={index}>
 								<StyledTableCell align="center" width="132px">
 									<IconButton onClick={() => alert(data.nama)}><Edit size={20} color="#0F2C64" /></IconButton>
-									<IconButton onClick={handleClickOpen}><Trash2 size={20} color="#D32F2F" /></IconButton>
+									<IconButton onClick={()=>handleClickOpen(data.email)}><Trash2 size={20} color="#D32F2F" /></IconButton>
 									<IconButton onClick={() => alert(data.nama)}><RefreshCcw size={20} color="#317011" /></IconButton>
 								</StyledTableCell>
 								<StyledTableCell>{data.nama}</StyledTableCell>
@@ -259,7 +285,7 @@ const Tables = () => {
 				</DialogContent>
 				<DialogActions>
 					<Button variant="outlined" onClick={handleClose}>Batal</Button>
-					<Button variant="text" color="warning" onClick={handleClose} autoFocus>
+					<Button variant="text" color="warning" onClick={()=>handleDelete(selected)} autoFocus>
 						Hapus
 					</Button>
 				</DialogActions>

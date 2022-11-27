@@ -211,6 +211,7 @@ const Tables = () => {
 
 			let resJson = await response.json();
 			handleClose();
+			window.location.reload();
 		}
 		catch (err) {
 			console.log(err)
