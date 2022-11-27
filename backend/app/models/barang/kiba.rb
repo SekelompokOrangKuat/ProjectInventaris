@@ -17,6 +17,7 @@ class Barang::Kiba
   field :kota, type: String
   field :status_tanah, type: String
   field :nomor_sertifikat, type: String
+  field :tanggal_sertifikat, type: String
   field :penggunaan, type: String
   field :asal_usul, type: String
   field :nilai_perolehan, type: String

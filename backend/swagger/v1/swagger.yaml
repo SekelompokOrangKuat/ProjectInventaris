@@ -21,7 +21,7 @@ paths:
           properties:
             email:
               type: string
-              example: sinbada@gmail.com
+              example: sinbada_admin@gmail.com
             password:
               type: string
               example: '12345678'
@@ -340,7 +340,10 @@ paths:
               example: SHM
             nomor_sertifikat:
               type: string
-              example: 2380, 17/05/1978
+              example: '2380'
+            tanggal_sertifikat:
+              type: string
+              example: 17/05/1978
             penggunaan:
               type: string
               example: Perkantoran
@@ -452,28 +455,28 @@ paths:
           properties:
             id:
               type: string
-              example: 637f70cde21fac03c0e36a91
+              example: 63822845e21fac0354b1693c
             kode_barang:
               type: string
-              example: 1.3.1.01.01.04.003
+              example: 1.3.1.01.01.04.004
             kode_lokasi:
               type: string
               example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Tanah Bangunan Pendidikan dan Latihan (Sekolah)
+              example: Tanah
             nomor_register:
               type: string
-              example: '0002'
+              example: '0004'
             luas:
               type: string
-              example: '6754'
+              example: '157,00'
             tahun_pengadaan:
               type: string
-              example: '2017'
+              example: '2019'
             alamat:
               type: string
-              example: Jl. Baturengat No. 10
+              example: jln. Husni hamid no.6
             kota:
               type: string
               example: Kota Bandung
@@ -482,16 +485,19 @@ paths:
               example: AJB
             nomor_sertifikat:
               type: string
-              example: 3231, 18/05/1978
+              example: '3552'
+            tanggal_sertifikat:
+              type: string
+              example: 20/05/1978
             penggunaan:
               type: string
-              example: Pelatihan
+              example: Gudang
             asal_usul:
               type: string
-              example: APBD
+              example: Mutasi BPKAD
             nilai_perolehan:
               type: string
-              example: 8.686.872.550
+              example: 256.001.000
             keterangan:
               type: string
               example: "-"
@@ -544,7 +550,7 @@ paths:
           properties:
             id:
               type: string
-              example: 637f70cde21fac03c0e36a91
+              example: 63822845e21fac0354b1693c
           required: []
       responses:
         '200':
@@ -780,52 +786,52 @@ paths:
           properties:
             id:
               type: string
-              example: 637f720ce21fac03c0e36a9d
+              example: 63822c87e21fac0354b1695a
             kode_barang:
               type: string
-              example: 1.3.2.02.01.01.001
+              example: 1.3.2.05.01.05.010
             kode_lokasi:
               type: string
               example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Jeep
+              example: Penghancur Kertas
             nomor_register:
               type: string
               example: '0001'
             tipe_barang:
               type: string
-              example: Toyota Rush
+              example: Fudfile
             ukuran_barang:
               type: string
-              example: '1500'
+              example: "-"
             bahan_barang:
               type: string
-              example: Besi
+              example: Ebonit
             tahun_pembelian:
               type: string
-              example: '2010'
+              example: '2021'
             nomor_pabrik:
               type: string
-              example: Toyota
+              example: Secure
             nomor_rangka:
               type: string
-              example: BXZT123JJHNH6355
+              example: YTTR5656UY
             nomor_mesin:
               type: string
-              example: MH1GHKHTEEYU235
+              example: "-"
             nomor_polisi:
               type: string
-              example: D 1763 E
+              example: "-"
             nomor_bpkb:
               type: string
-              example: L-050345456
+              example: "-"
             asal_usul:
               type: string
               example: APBD
             harga_barang:
               type: string
-              example: 239.000.000
+              example: 1.738.000
             keterangan:
               type: string
               example: "-"
@@ -994,12 +1000,12 @@ paths:
             alamat:
               type: string
               example: Jl. Dr. Radjiman No. 6 Kota Bandung
-            nomor_dokumen:
-              type: string
-              example: 234/pd-disdik/1996
             tanggal_dokumen:
               type: string
               example: 17/05/1996
+            nomor_dokumen:
+              type: string
+              example: 234/pd-disdik/1996
             luas:
               type: string
               example: '300'
@@ -1117,19 +1123,19 @@ paths:
           properties:
             id:
               type: string
-              example: 637f7292e21fac03c0e36a9f
+              example: 63822eb9e21fac0354b1695e
             kode_lokasi:
               type: string
               example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Bangunan Garasi/Pool Permanen
+              example: Bangunan Pos Jaga Permanen
             kode_barang:
               type: string
-              example: 1.3.3.01.01.14.001
+              example: 1.3.3.91.01.13.001
             nomor_register:
               type: string
-              example: '0001'
+              example: '0002'
             kondisi_bangunan:
               type: string
               example: Baik
@@ -1141,19 +1147,19 @@ paths:
               example: Beton
             luas_lantai:
               type: string
-              example: '500'
+              example: '16'
             alamat:
               type: string
               example: Jl. Dr. Radjiman No. 6 Kota Bandung
-            nomor_dokumen:
-              type: string
-              example: 110pd-disdik/1997
             tanggal_dokumen:
               type: string
-              example: 18/10/1996
+              example: 20/09/2000
+            nomor_dokumen:
+              type: string
+              example: 876/pd-disdik/2000
             luas:
               type: string
-              example: '500'
+              example: '16'
             status:
               type: string
               example: SHM
@@ -1165,7 +1171,7 @@ paths:
               example: APBD
             harga:
               type: string
-              example: 879.444.500
+              example: 25.000.000
             keterangan:
               type: string
               example: "-"
@@ -1218,7 +1224,7 @@ paths:
           properties:
             id:
               type: string
-              example: 637f7292e21fac03c0e36a9f
+              example: 63822eb9e21fac0354b1695e
           required: []
       responses:
         '200':
@@ -1334,12 +1340,12 @@ paths:
             alamat:
               type: string
               example: Jl. Dr. Radjiman No. 6 Kota Bandung
-            nomor_dokumen:
-              type: string
-              example: 234/pd-disdik/1996
             tanggal_dokumen:
               type: string
               example: 17/05/1996
+            nomor_dokumen:
+              type: string
+              example: 234/pd-disdik/1996
             status:
               type: string
               example: SHM
@@ -1457,16 +1463,16 @@ paths:
           properties:
             id:
               type: string
-              example: 637f72f7e21fac03c0e36aa1
+              example: 63823071e21fac0354b16962
             kode_lokasi:
               type: string
               example: 11.01.32.05.000001.00020.2022
             nama_barang:
               type: string
-              example: Mainframe (Komputer jaringan)
+              example: Instalasi penyulingan air
             kode_barang:
               type: string
-              example: 1.3.2.10.01.01.001
+              example: 1.3.2.14.02.01.001
             nomor_register:
               type: string
               example: '0001'
@@ -1475,7 +1481,7 @@ paths:
               example: "-"
             panjang:
               type: string
-              example: '50.000'
+              example: '100'
             lebar:
               type: string
               example: "-"
@@ -1485,12 +1491,12 @@ paths:
             alamat:
               type: string
               example: Jl. Dr. Radjiman No. 6 Kota Bandung
-            nomor_dokumen:
-              type: string
-              example: 110pd-disdik/1997
             tanggal_dokumen:
               type: string
               example: 18/10/1997
+            nomor_dokumen:
+              type: string
+              example: 110pd-disdik/1997
             status:
               type: string
               example: SHM
@@ -1502,7 +1508,7 @@ paths:
               example: APBD
             harga:
               type: string
-              example: 59.116.000
+              example: 64.913.000
             kondisi:
               type: string
               example: Baik
@@ -1558,7 +1564,7 @@ paths:
           properties:
             id:
               type: string
-              example: 637f72f7e21fac03c0e36aa1
+              example: 63823071e21fac0354b16962
           required: []
       responses:
         '200':
@@ -1650,12 +1656,12 @@ paths:
             kode_lokasi:
               type: string
               example: 11.01.32.05.000001.00020.2022
-            kode_barang:
-              type: string
-              example: 5.2.05.01.01.001
             nama_barang:
               type: string
               example: Agama Islam
+            kode_barang:
+              type: string
+              example: 5.2.05.01.01.001
             nomor_register:
               type: string
               example: '001'
@@ -1670,7 +1676,7 @@ paths:
               example: "-"
             pencipta_kesenian:
               type: string
-              example: Ahmad Dahlan
+              example: "-"
             bahan_kesenian:
               type: string
               example: "-"
@@ -1794,22 +1800,22 @@ paths:
           properties:
             id:
               type: string
-              example: 637f7353e21fac03c0e36aa4
+              example: 63823208e21fac0354b16966
             kode_lokasi:
               type: string
               example: 11.01.32.05.000001.00020.2022
-            kode_barang:
-              type: string
-              example: 5.2.05.01.01.002
             nama_barang:
               type: string
               example: Sejarah
+            kode_barang:
+              type: string
+              example: 5.2.05.01.01.002
             nomor_register:
               type: string
-              example: '001'
+              example: '002'
             judul_buku:
               type: string
-              example: Sembada
+              example: Adam toher
             spesifikasi_buku:
               type: string
               example: Kertas HVS 70 gram
@@ -1818,7 +1824,7 @@ paths:
               example: "-"
             pencipta_kesenian:
               type: string
-              example: Sembada
+              example: "-"
             bahan_kesenian:
               type: string
               example: "-"
@@ -1827,7 +1833,7 @@ paths:
               example: "-"
             jumlah:
               type: string
-              example: '2'
+              example: '1'
             ukuran:
               type: string
               example: "-"
@@ -1839,7 +1845,7 @@ paths:
               example: APBD
             harga:
               type: string
-              example: '24000'
+              example: '27000'
             keterangan:
               type: string
               example: "-"
@@ -1892,7 +1898,7 @@ paths:
           properties:
             id:
               type: string
-              example: 637f7353e21fac03c0e36aa4
+              example: 63823208e21fac0354b16966
           required: []
       responses:
         '200':
@@ -1995,7 +2001,7 @@ paths:
               example: '0002'
             bangunan:
               type: string
-              example: P
+              example: "-"
             tingkat_bangunan:
               type: string
               example: tidak
@@ -2008,12 +2014,12 @@ paths:
             alamat:
               type: string
               example: Jl. Dr. Radjiman No. 6 Kota Bandung
-            nomor_dokumen:
-              type: string
-              example: 234/pd-disdik/1996
             tanggal_dokumen:
               type: string
               example: 17/05/1996
+            nomor_dokumen:
+              type: string
+              example: 234/pd-disdik/1996
             tanggal_mulai:
               type: string
               example: 12/04/1996
@@ -2131,7 +2137,7 @@ paths:
           properties:
             id:
               type: string
-              example: 637f738fe21fac03c0e36aa6
+              example: 6382341be21fac0354b16969
             kode_lokasi:
               type: string
               example: 11.01.32.05.000001.00020.2022
@@ -2140,13 +2146,13 @@ paths:
               example: 03.02.01.04.05
             nama_barang:
               type: string
-              example: Pos Jaga
+              example: Kolam Renang
             nomor_register:
               type: string
-              example: '0002'
+              example: '0001'
             bangunan:
               type: string
-              example: P
+              example: "-"
             tingkat_bangunan:
               type: string
               example: tidak
@@ -2155,31 +2161,31 @@ paths:
               example: Beton
             luas:
               type: string
-              example: '25'
+              example: '500'
             alamat:
               type: string
               example: Jl. Dr. Radjiman No. 6 Kota Bandung
-            nomor_dokumen:
-              type: string
-              example: 110pd-disdik/1997
             tanggal_dokumen:
               type: string
               example: 18/10/1997
+            nomor_dokumen:
+              type: string
+              example: 110pd-disdik/1997
             tanggal_mulai:
               type: string
-              example: 17/09/1997
+              example: 22/08/2000
             status:
               type: string
               example: SHM
             nomor_tanah:
               type: string
-              example: '3552'
+              example: '7652'
             asal_usul:
               type: string
               example: APBD
             nilai_kontrak:
               type: string
-              example: 18.600.000
+              example: '761.747.080 '
             keterangan:
               type: string
               example: "-"
@@ -2232,7 +2238,7 @@ paths:
           properties:
             id:
               type: string
-              example: 637f738fe21fac03c0e36aa6
+              example: 6382341be21fac0354b16969
           required: []
       responses:
         '200':
@@ -2683,7 +2689,7 @@ paths:
           properties:
             id:
               type: string
-              example: 637f8565e21fac03c0e36abf
+              example: 638235b0e21fac0354b16976
             nama_pengusul:
               type: string
               example: Admin Sinbada
@@ -2793,7 +2799,7 @@ paths:
           properties:
             id:
               type: string
-              example: 637f8565e21fac03c0e36abf
+              example: 638235b0e21fac0354b16976
           required: []
       responses:
         '200':
@@ -2840,7 +2846,7 @@ paths:
         name: id
         type: string
         required: true
-        example: 637f8565e21fac03c0e36abf
+        example: 638235b0e21fac0354b16976
       - in: formData
         name: is_approve
         type: boolean
@@ -3313,6 +3319,59 @@ paths:
               response_message:
                 type: string
                 example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/user/pengusulan/getBarang":
+    post:
+      summary: Get Barang
+      tags:
+      - Pengusulan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            nama_barang:
+              type: string
+              example: Sedan
+            nomor_register:
+              type: string
+              example: '0001'
+          required: []
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Barang tidak dapat ditemukan!
               response_code:
                 type: integer
                 example: 422

@@ -279,4 +279,41 @@ describe 'Pengusulan API' do
       end
     end
   end
+
+  path '/v1/user/pengusulan/getBarang' do
+    post 'Get Barang' do
+      tags 'Pengusulan'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            nama_barang: {type: :string, example: "Sedan"},
+            nomor_register: {type: :string, example: "0001"}, 
+        },
+        required: []
+      }
+      response '201', 'Created' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Barang tidak dapat ditemukan!"},
+                response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
 end
