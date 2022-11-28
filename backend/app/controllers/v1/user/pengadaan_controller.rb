@@ -78,8 +78,13 @@ class V1::User::PengadaanController < ApplicationController
                     }, status: :unprocessable_entity
             else
                 @approval_pengadaan = User::Pengadaan.new_pengadaan.where(_id: params[:id]).first
-                @kibb = Barang::Kibb.where(user_pengadaan_id: params[:id])
-                if @approval_pengadaan.present? 
+                if not @approval_pengadaan.present?
+                    render json: {
+                        response_code: 422, 
+                        response_message: "id tidak dapat ditemukan atau sudah dilakukan approval!"
+                        }, status: :unprocessable_entity
+                else
+                    @kibb = Barang::Kibb.where(user_pengadaan_id: params[:id]).first
                     if params[:is_approve].blank?
                         render json: {
                             response_code: 422, 
@@ -100,19 +105,9 @@ class V1::User::PengadaanController < ApplicationController
                         render json: {
                             response_code: 200, 
                             response_message: "Success", 
-                            data: @approval_pengadaan
+                            data: {pengadaan: @approval_pengadaan, barang: @kibb}
                             }, status: :ok
                     end
-                elsif @approval_pengadaan.status_usulan != Enums::StatusUsulan::NEW
-                    render json: {
-                        response_code: 422, 
-                        response_message: "Pengadaan sudah dilakukan Approval!"
-                        }, status: :unprocessable_entity
-                else
-                    render json: {
-                        response_code: 422, 
-                        response_message: "Pengadaan tidak dapat ditemukan!"
-                        }, status: :unprocessable_entity
                 end
             end
         end
