@@ -107,7 +107,7 @@ const Tanah = () => {
 
 	// React.useEffect(() => {
 	// 	fetch(
-	// 		'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kiba/findAll',
+	// 		'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kiba/findAll',
 	// 		{
 	// 			method: 'GET',
 	// 			headers: {

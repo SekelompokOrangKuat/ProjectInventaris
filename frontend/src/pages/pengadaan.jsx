@@ -8,7 +8,7 @@ const Pengadaan = () => {
     // const [posts, setPosts] = React.useState([]);
     // React.useEffect(() => {
     //     fetch(
-    //         'https://cors-anywhere.herokuapp.com/http://backend-sinbada.herokuapp.com/v1/kib/kiba/findAll',
+    //         'https://cors-anywhere.herokuapp.com/https://backend-sinbada.herokuapp.com/v1/kib/kiba/findAll',
     //         {
     //             method: 'GET',
     //             headers: {
