@@ -85,6 +85,33 @@ class V1::Peminjaman::PeminjamansController < ApplicationController
         end
       end
     end
+
+    def search_peminjaman
+      @peminjaman = Peminjaman.borrowed.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+      if @peminjaman.present?
+          barang = Barang::Kibb.peminjaman.where(:peminjaman_id.in => @peminjaman.pluck(:id))
+          render json: {
+              response_code: 200, 
+              response_message: "Success", 
+              data: {barang: barang, peminjaman: @peminjaman}
+              }, status: :ok
+      else
+          @barang = Barang::Kibb.peminjaman.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end            
+          peminjaman = Peminjaman.borrowed.where(:_id.in => @barang.pluck(:peminjaman_id))
+          if @barang.present?
+              render json: {
+                  response_code: 200, 
+                  response_message: "Success", 
+                  data: {barang: @barang, peminjaman: peminjaman}
+                  }, status: :ok
+          else
+              render json: {
+                  response_code: 422, 
+                  response_message: "Keyword tidak dapat ditemukan!"
+                  }, status: :unprocessable_entity
+          end
+      end
+  end
   
     private
       # Use callbacks to share common setup or constraints between actions.
