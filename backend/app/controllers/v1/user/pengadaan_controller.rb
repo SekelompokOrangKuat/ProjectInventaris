@@ -169,7 +169,7 @@ class V1::User::PengadaanController < ApplicationController
                     asal_usul = params[:asal_usul]
                     harga_barang = params[:harga_barang]
                     keterangan = params[:keterangan]
-                    if nama_ruangan[:nama_ruangan].blank?
+                    if params[:nama_ruangan].blank?
                         nama_ruangan = @barang.nama_ruangan
                     end
                     if params[:kode_barang].blank?
@@ -183,8 +183,8 @@ class V1::User::PengadaanController < ApplicationController
                     end
                     if params[:nomor_register].blank? or params[:nomor_register] == @barang.nomor_register
                         nomor_register = @barang.nomor_register
-                    else
                         is_trigger = true
+                    else
                         nomor_registered = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
                         if nomor_registered.present?
                             render json: {
@@ -230,37 +230,39 @@ class V1::User::PengadaanController < ApplicationController
                     if params[:keterangan].blank?
                         keterangan = @barang.keterangan
                     end
-                    @barang.assign_attributes({
-                        nama_ruangan: nama_ruangan,
-                        kode_barang: kode_barang,
-                        kode_lokasi: kode_lokasi, 
-                        nama_barang: nama_barang, 
-                        nomor_register: nomor_register,
-                        tipe_barang: tipe_barang, 
-                        ukuran_barang: ukuran_barang,
-                        bahan_barang: bahan_barang, 
-                        tahun_pembelian: tahun_pembelian, 
-                        nomor_pabrik: nomor_pabrik, 
-                        nomor_rangka: nomor_rangka, 
-                        nomor_mesin: nomor_mesin, 
-                        nomor_polisi: nomor_polisi, 
-                        nomor_bpkb: nomor_bpkb,
-                        asal_usul: asal_usul, 
-                        harga_barang: harga_barang, 
-                        keterangan: keterangan})
-                    if @barang.save(:validate => false) and @pengadaan.save(:validate => false)
-                        render json: {
-                            response_code: 200,
-                            response_message: "Success",
-                            data: {pengadaan: @pengadaan, barang: @barang}
-                        }
-                    else
-                        render json: {
-                            response_code: 422, 
-                            response_message: "Edit gagal!, silahkan di coba kembali"
-                            }, status: :unprocessable_entity
-                    end
+                    if is_trigger == true
 
+                        @barang.assign_attributes({
+                            nama_ruangan: nama_ruangan,
+                            kode_barang: kode_barang,
+                            kode_lokasi: kode_lokasi, 
+                            nama_barang: nama_barang, 
+                            nomor_register: nomor_register,
+                            tipe_barang: tipe_barang, 
+                            ukuran_barang: ukuran_barang,
+                            bahan_barang: bahan_barang, 
+                            tahun_pembelian: tahun_pembelian, 
+                            nomor_pabrik: nomor_pabrik, 
+                            nomor_rangka: nomor_rangka, 
+                            nomor_mesin: nomor_mesin, 
+                            nomor_polisi: nomor_polisi, 
+                            nomor_bpkb: nomor_bpkb,
+                            asal_usul: asal_usul, 
+                            harga_barang: harga_barang, 
+                            keterangan: keterangan})
+                            if @barang.save(:validate => false) and @pengadaan.save(:validate => false)
+                                render json: {
+                                    response_code: 200,
+                                    response_message: "Success",
+                                    data: {pengadaan: @pengadaan, barang: @barang}
+                            }
+                            else
+                                render json: {
+                                    response_code: 422, 
+                                    response_message: "Edit gagal!, silahkan di coba kembali"
+                                    }, status: :unprocessable_entity
+                            end
+                    end
                 rescue Exception => e
                     render json: {
                         response_code: 422, 
