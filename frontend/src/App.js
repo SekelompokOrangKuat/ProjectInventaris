@@ -45,6 +45,7 @@ import KIBF from "./assets/pdf/KIB F.pdf"
 
 import './App.css';
 import Laporan from "./pages/laporan";
+import Pencatatan from "./pages/pencatatan";
 import Pendataan from "./pages/pendataan";
 
 function App() {
@@ -63,8 +64,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/" element={<Layout isAdmin={false} user={user}/>}>
           <Route path="" element={<Dashboard />}></Route>
-          <Route path="pendataan" element={<Pendataan />}></Route>
-          <Route path="pencatatan" element={<Dashboard />}></Route>
+					<Route path="pendataan" element={<Pendataan />}></Route>
+					<Route path="pencatatan" element={<Pencatatan />}></Route>
           <Route path="pelaporan" element={<Laporan />}></Route>
           <Route path="pendataan/pemeliharaan" element={<Pemeliharaan />}></Route>
           <Route path="pendataan/penghapusan" element={<Penghapusan />}></Route>
@@ -107,9 +108,9 @@ function App() {
         <Route path="pdf/kib-f" element={<PDFViewer file={KIBF} />}></Route>
         {/* End of exclusive path */}
 
-      </Routes>
-    </React.Fragment>
-  );
+			</Routes>
+		</React.Fragment>
+	);
 }
 
 export default App;
