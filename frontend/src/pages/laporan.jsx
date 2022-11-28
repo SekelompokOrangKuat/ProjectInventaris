@@ -162,7 +162,7 @@ const Laporan = () => {
                         </Item>
                     </Link>
                 </Grid>
-                <Grid item xs="7">
+                <Grid item xs="8">
                     <Item
                         variant="outlined"
                         sx={{
@@ -188,19 +188,15 @@ const Laporan = () => {
                             <Grid item xs="auto">
                                 <Typography variant="h1" sx={{ color: 'themeGrey.main' }}>KIR</Typography>
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                                 <FormControl fullWidth >
                                     <InputLabel>Ruangan</InputLabel>
                                     <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value=''
+                                        value='KIR Bid. GTK'
                                         label="Ruangan"
                                         onChange={() => { }}
                                     >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        <MenuItem value="KIR Bid. GTK">KIR Bid. GTK</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
