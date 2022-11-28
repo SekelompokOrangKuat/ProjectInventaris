@@ -1,7 +1,7 @@
 import { Box, Grid, Typography, TextField, Button, TableContainer, TableCell, TableHead, Table, TableRow, styled, TableBody, Paper, tableCellClasses } from "@mui/material";
 import { FileText, Edit, Trash2, PlusSquare } from "react-feather";
 import { color } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 import { useGetAllKibB } from "../../services/peralatanmesin";
 
 
@@ -100,27 +100,72 @@ const labels = [
 for (let i = 0; i < labels.length; i++) {
 	fields.push(
 		<Grid item xs={i == labels.length - 1 ? 8 : 4}>
-			<TextField variant="outlined" label={labels[i]} fullWidth></TextField>
+			<TextField variant="outlined" label={labels[i]} fullWidth ></TextField>
 		</Grid>
 	)
 }
 const PeralatanMesin = () => {
 	var rows = useGetAllKibB();
 
+	const [kodeBarang, setKodeBarang] = useState('');
+	const [kodeLokasi, setKodeLokasi] = useState('');
+	const [namaBarang, setNamabarang] = useState('');
+	const [nomorRegister, setNomorRegister] = useState('');
+	const [tipeBarang, setTipeBarang] = useState('');
+	const [ukuranBarang, setUkuranBarang] = useState('');
+	const [bahanBarang, setBahanBarang] = useState('');
+	const [tahunPembelian, setTahunPembelian] = useState('');
+	const [nomorPabrik, setNomorPabrik] = useState('');
+	const [nomorRangka, setNomorRangka] = useState('');
+	const [nomorMesin, setNomorMesin] = useState('');
+	const [nomorPolisi, setNomorPolisi] = useState('');
+	const [nomorBpkb, setNomorBpkb] = useState('');
+	const [asalUsul, setAsalUsul] = useState('');
+	const [hargaBarang, setHargaBarang] = useState('');
+	const [keterangan, setKeterangan] = useState('');
 
-	// const [page, setPage] = React.useState(0);
-	// const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const handleSubmit = async (e) => {
+		try {
+			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/create",
+				{
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'X-Requested-With': 'application/json',
+						'Content-type': 'application/json; charset=UTF-8',
+						'Access-Control-Allow-Origin': '*',
+						"Authorization": localStorage.getItem('token'),
+					},
+					body: JSON.stringify({
+						kode_barang: kodeBarang,
+						kode_lokasi: kodeLokasi,
+						nama_barang: namaBarang,
+						nomor_register: nomorRegister,
+						tipe_barang: tipeBarang,
+						ukuran_barang: ukuranBarang,
+						bahan_barang: bahanBarang,
+						tahun_pembelian: tahunPembelian,
+						nomor_pabrik: nomorPabrik,
+						nomor_rangka: nomorRangka,
+						nomor_mesin: nomorMesin,
+						nomor_polisi: nomorPolisi,
+						nomor_bpkb: nomorBpkb,
+						asal_usul: asalUsul,
+						harga_barang: hargaBarang,
+						keterangan: keterangan
+					})
+				});
 
-	// const handleChangePage = (event, newPage) => {
-	// 	setPage(newPage);
-	// };
+			let resJson = await response.json();
+			console.log(resJson);
+			window.location.reload()
+		}
+		catch (err) {
+			console.log(err)
+		}
 
-	// const handleChangeRowsPerPage = (event) => {
-	// 	setRowsPerPage(parseInt(event.target.value, 10));
-	// 	setPage(0);
-	// };
-	// const emptyRows =
-	// 	page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+	}
+
 	return (
 		<React.Fragment>
 			<Box sx={{
@@ -158,7 +203,54 @@ const PeralatanMesin = () => {
 						}}
 					>
 						<Grid container rowSpacing={{ xs: 1, sm: 2, md: 3 }} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-							{fields}
+							<Grid item xs={4}>
+								<TextField label="Kode Lokasi" variant="outlined" fullWidth onChange={(e) => setKodeLokasi(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Kode Barang" variant="outlined" fullWidth onChange={(e) => setKodeBarang(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Nomor Register" variant="outlined" fullWidth onChange={(e) => setNomorRegister(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Nama Barang" variant="outlined" fullWidth onChange={(e) => setNamabarang(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Nomor Polisi" variant="outlined" fullWidth onChange={(e) => setNomorPolisi(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Nomor BPKB" variant="outlined" fullWidth onChange={(e) => setNomorBpkb(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Nomor Mesin" variant="outlined" fullWidth onChange={(e) => setNomorMesin(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Bahan" variant="outlined" fullWidth onChange={(e) => setBahanBarang(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Merk/Type" variant="outlined" fullWidth onChange={(e) => setTipeBarang(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Nomor Seri Pabrik" variant="outlined" fullWidth onChange={(e) => setNomorPabrik(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Nomor Rangka" variant="outlined" fullWidth onChange={(e) => setNomorRangka(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Tahun Pembelian" variant="outlined" fullWidth onChange={(e) => setTahunPembelian(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Asal Usul Perolehan" variant="outlined" fullWidth onChange={(e) => setAsalUsul(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Harga" variant="outlined" fullWidth onChange={(e) => setHargaBarang(e.target.value)} />
+							</Grid>
+							<Grid item xs={4}>
+								<TextField label="Ukuran" variant="outlined" fullWidth onChange={(e) => setUkuranBarang(e.target.value)} />
+							</Grid>
+							<Grid item xs={12}>
+								<TextField label="Keterangan" variant="outlined" fullWidth onChange={(e) => setKeterangan(e.target.value)} />
+							</Grid>
 						</Grid>
 					</Box>
 					<Box
@@ -172,7 +264,7 @@ const PeralatanMesin = () => {
 						<Button variant="outlined" sx={{ width: 136 }}>
 							Batal
 						</Button>
-						<Button variant="contained" sx={{ mr: 1, ml: 2, width: 136 }}>
+						<Button variant="contained" sx={{ mr: 1, ml: 2, width: 136 }} onClick={handleSubmit}>
 							Simpan
 						</Button>
 					</Box>
@@ -253,20 +345,20 @@ const PeralatanMesin = () => {
 									<StyledTableCell align="center">{row.bahan_barang}</StyledTableCell>
 									<StyledTableCell align="center">{row.tahun_pembelian}</StyledTableCell>
 									<StyledTableCell sx={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
-										<TableRow sx={{display: 'flex', width:'100%'}}>
-											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+										<TableRow sx={{ display: 'flex', width: '100%' }}>
+											<StyledTableCell sx={{ width: '20%', border: "0 solid transparent" }}>
 												{row.nomor_pabrik}
 											</StyledTableCell>
-											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+											<StyledTableCell sx={{ width: '20%', border: "0 solid transparent" }}>
 												{row.nomor_rangka}
 											</StyledTableCell>
-											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+											<StyledTableCell sx={{ width: '20%', border: "0 solid transparent" }}>
 												{row.nomor_mesin}
 											</StyledTableCell>
-											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+											<StyledTableCell sx={{ width: '20%', border: "0 solid transparent" }}>
 												{row.nomor_polisi}
 											</StyledTableCell>
-											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+											<StyledTableCell sx={{ width: '20%', border: "0 solid transparent" }}>
 												{row.nomor_bpkb}
 											</StyledTableCell>
 										</TableRow>
