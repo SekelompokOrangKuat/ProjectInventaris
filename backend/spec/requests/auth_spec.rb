@@ -9,7 +9,7 @@ describe 'Authentication API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            email: {type: :string, example: "sinbada@gmail.com"},
+            email: {type: :string, example: "sinbada_admin@gmail.com"},
             password: {type: :string, example: "12345678"},
         },
         required: []

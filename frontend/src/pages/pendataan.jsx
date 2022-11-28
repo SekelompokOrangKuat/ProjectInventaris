@@ -1,137 +1,81 @@
-/**
- * 
- * Dashboard page (content)
- * 
- * 
- */
-
-import { Box, Button, Container, Typography, Grid } from "@mui/material";
-import React, { useState, useRef, useEffect } from "react";
-import { Calendar, FileText, Tool, Trash2, PlusSquare } from "react-feather";
+import { Box, Grid, Typography, Link } from "@mui/material";
+import { Calendar, PlusSquare, Tool, Trash2 } from "react-feather";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Pendataan = () => {
+    const navigate = useNavigate();
 
-	var today = new Date();
-	const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    const menuData = [
+        { label: 'Pemeliharaan', icon: <Tool color="white" size="100px" strokeWidth={1} />, link: () => navigate('/pendataan/pemeliharaan') },
+        { label: 'Penghapusan', icon: <Trash2 color="white" size="100px" strokeWidth={1} />, link: () => navigate('/pendataan/penghapusan') },
+        { label: 'Pengadaan', icon: <PlusSquare color="white" size="100px" strokeWidth={1} />, link: () => navigate('/pendataan/pengadaan') },
+        { label: 'Jadwal', icon: <Calendar color="white" size="100px" strokeWidth={1} />, link: () => navigate('/pendataan/jadwal') }
+    ]
 
-	let infographicsDatas = [
-		{ icon: <Tool size={50} />, title: 'Pemeliharaan', amount: 14 },
-		{ icon: <Trash2 size={50} />, title: 'Penghapusan', amount: 11 }
-	]
+    let boxItems = [];
+    const boxItem = (label, icon, link) => {
+        return <Grid item xs>
+            <Link underline="none" onClick={link}>
+                <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{
+                        cursor: 'pointer',
+                        maxWidth: '250px',
+                        px: 5,
+                        py: 6,
+                        background: 'linear-gradient(to right, #009B4C, #007037)',
+                        borderRadius: '10px',
+                        boxSizing: 'border-box',
+                        transition: '1s',
+                        '&:hover': {
+                            background: 'linear-gradient(to left, #009B4c, #007037)',
+                        }
+                    }}
+                >
+                    <Grid item>
+                        {icon}
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h2" sx={{ color: 'themeWhite.lighter' }}>{label}</Typography>
+                    </Grid>
+                </Grid>
+            </Link>
+        </Grid>
+    };
 
-	let infographicsData = [
-		{ icon: <PlusSquare size={50} />, title: 'Pemeliharaan', amount: 14 },
-		{ icon: <Calendar size={50} />, title: 'Penghapusan', amount: 11 },
-	]
+    for (let i = 0; i < menuData.length; i++) {
+        boxItems.push(boxItem(menuData[i].label, menuData[i].icon, menuData[i].link));
+    };
 
-	const sopDatas = [
-		{ icon: <FileText size={50} />, title: 'SOP Pengelolaan Barang Milik Daerah', url: '/pdf/mutasi' },
-		{ icon: <FileText size={50} />, title: 'SOP Mutasi', url: '/pdf/pengelolaan' }
-	]
-
-	const [contentHeight, setContentHeight] = useState(0);
-	const [anotherContentHeight, setAnotherContentHeight] = useState(0);
-	const ref = useRef(null);
-	const anotherRef = useRef(null);
-
-	useEffect(() => {
-		setContentHeight(ref.current.clientHeight - 80);
-		setAnotherContentHeight(anotherRef.current.clientHeight);
-	}, []);
-
-	return (
-		<Container
-			disableGutters
-			maxWidth={false}
-			sx={{
-				width: '100%',
-				height: '100%',
-			}}
-		>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'center'
-				}}
-			>
-				{/* Information Section */}
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						pl: 5,
-						pr: 5,
-						gap: 12,
-						width: '50%',
-						height: '100%'
-						// py: 3,
-					}}
-					ref={ref}
-				>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							gap: 12,
-							color: 'themeWhite.lightest'
-						}}
-						ref={anotherRef}
-					>
-						{infographicsDatas.map((data, index) =>
-							<Box
-								key={index + "-" + data.title}
-								sx={{
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									px: 3,
-									py: 8,
-									gap: 3,
-									width: '100%',
-									background: 'linear-gradient(to right, #009B4C, #007037)',
-									borderRadius: '5px'
-								}}
-							>
-								{data.icon}
-								<Typography variant="h3">{data.title}</Typography>
-							</Box>
-						)}
-					</Box>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							color: 'themeWhite.lightest',
-							gap: 12
-						}}
-						ref={anotherRef}
-					>
-						{infographicsData.map((data, index) =>
-							<Box
-								key={index + "-" + data.title}
-								sx={{
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									px: 3,
-									py: 8,
-									gap: 3,
-									width: '100%',
-									background: 'linear-gradient(to right, #009B4C, #007037)',
-									borderRadius: '5px'
-								}}
-							>
-								{data.icon}
-								<Typography variant="h3">{data.title}</Typography>
-							</Box>
-						)}
-					</Box>
-				</Box>
-				{/* SOP Section */}
-			</Box>
-		</Container>
-	)
+    return (
+        <Box
+            sx={{
+                width: "100%",
+                m: "0",
+                boxSizing: "border-box"
+            }}
+        >
+            <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                width="100%"
+                spacing={10}
+                m="auto"
+                px={8}
+                pb={8}
+                sx={{
+                    boxSizing: 'border-box',
+                }}
+            >
+                {boxItems}
+            </Grid>
+        </Box>
+    )
 }
 
 export default Pendataan;

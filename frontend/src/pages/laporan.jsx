@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, styled, Typography, InputLabel, MenuItem, FormControl, Select, } from "@mui/material";
+import { Box, Grid, Paper, styled, Typography, InputLabel, MenuItem, FormControl, Select, Link, } from "@mui/material";
 import React from "react";
 import { FileText } from "react-feather";
 
@@ -70,60 +70,99 @@ const Laporan = () => {
                 alignItems="center"
             >
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - A</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-a', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - A</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - B</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-b', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - B</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - C</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-c', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - C</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - D</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-d', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - D</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - E</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-e', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - E</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">KIB - F</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/kib-f', '_blank')}
+                        underline="none">
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">KIB - F</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">RIB</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/rbi', '_blank')}
+                        underline="none"
+                    >
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">RBI</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">Mutasi</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/rekap-mutasi', '_blank')}
+                        underline="none"
+                    >
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">Mutasi</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
                 <Grid item xs="auto">
-                    <Item variant="outlined">
-                        {fileTextIcon}
-                        <Typography variant="h1">Peminjaman</Typography>
-                    </Item>
+                    <Link
+                        onClick={() => window.open('/pdf/rekap-peminjaman', '_blank')}
+                        underline="none"
+                    >
+                        <Item variant="outlined">
+                            {fileTextIcon}
+                            <Typography variant="h1">Peminjaman</Typography>
+                        </Item>
+                    </Link>
                 </Grid>
-                <Grid item xs="7">
+                <Grid item xs="8">
                     <Item
                         variant="outlined"
                         sx={{
@@ -139,6 +178,7 @@ const Laporan = () => {
                             spacing={2}
                             justifyContent="center"
                             alignItems="center"
+                            sx={{ color: "themeSecondary.darkest" }}
                         >
                             {/* <Grid item xs="auto">test</Grid>
                             <Grid item xs="auto">test</Grid> */}
@@ -148,49 +188,58 @@ const Laporan = () => {
                             <Grid item xs="auto">
                                 <Typography variant="h1" sx={{ color: 'themeGrey.main' }}>KIR</Typography>
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                                 <FormControl fullWidth >
                                     <InputLabel>Ruangan</InputLabel>
                                     <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value=''
+                                        value='KIR Bid. GTK'
                                         label="Ruangan"
                                         onChange={() => { }}
                                     >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        <MenuItem value="KIR Bid. GTK">KIR Bid. GTK</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Grid item xs="auto">
-                                <Typography
-                                    variant="h1"
-                                    sx={{
-                                        transition: "250ms",
-                                        "&:hover": {
-                                            color: "white",
-                                            backgroundColor: "themeSecondary.darkest",
-                                        }
-                                    }}
+                                <Link
+                                    onClick={() => window.open('/pdf/kir-qrcode', 'blank')}
+                                    underline="none"
                                 >
-                                    QR Code
-                                </Typography>
+                                    <Typography
+                                        variant="h1"
+                                        sx={{
+                                            color: "themeSecondary.darkest",
+                                            transition: "250ms",
+                                            "&:hover": {
+                                                color: "white",
+                                                backgroundColor: "themeSecondary.darkest",
+                                            }
+                                        }}
+                                    >
+                                        QR Code
+                                    </Typography>
+                                </Link>
                             </Grid>
                             <Grid item xs="auto">
-                                <Typography
-                                    variant="h1"
-                                    sx={{
-                                        transition: "250ms",
-                                        "&:hover": {
-                                            color: "white",
-                                            backgroundColor: "themeSecondary.darkest",
-                                        }
-                                    }}
+
+                                <Link
+                                    onClick={() => window.open('/pdf/kir-pdf', 'blank')}
+                                    underline="none"
                                 >
-                                    PDF
-                                </Typography>
+                                    <Typography
+                                        variant="h1"
+                                        sx={{
+                                            color: "red",
+                                            transition: "250ms",
+                                            "&:hover": {
+                                                color: "white",
+                                                backgroundColor: "themeSecondary.darkest",
+                                            }
+                                        }}
+                                    >
+                                        PDF
+                                    </Typography>
+                                </Link>
                             </Grid>
                         </Grid>
                     </Item>

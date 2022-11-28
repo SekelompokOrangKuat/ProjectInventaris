@@ -17,7 +17,7 @@ const Sidebar = (props) => {
     return (
         <React.Fragment>
             <Box
-                width="21.25rem"
+                width={props.size? "21.25rem": "unset"}
                 sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -42,7 +42,7 @@ const Sidebar = (props) => {
                             px: 1,
                             py: '6px',
                             '&:hover': { backgroundColor: 'green', cursor: 'pointer' },
-                        }}>{data.icon}{data.name}</MenuItem>
+                        }}>{data.icon}{props.size && data.name}</MenuItem>
                 })}
             </Box>
         </React.Fragment>
