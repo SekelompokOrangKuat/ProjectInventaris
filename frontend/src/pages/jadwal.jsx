@@ -135,6 +135,7 @@ const Jadwal = () => {
         )
             .then((response) => response.json())
             .then((data) => {
+                console.log('respon:' + data.response_code);
                 if (data.response_code === 200) {
                     clearForm();
                     setIsTambahJadwal(true);
@@ -165,7 +166,7 @@ const Jadwal = () => {
         )
             .then((response) => response.json())
             .then((data) => {
-                if (data.response_code === 422) {
+                if (data.response_code === 200) {
                     getDataTable(isTableUsulan ? 0 : 1);
                 } else {
                     console.log('error: ' + data.response_code + ' ' + data.response_message);
