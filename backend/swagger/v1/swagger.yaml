@@ -367,7 +367,7 @@ paths:
               example: Dinas Pendidikan
             satuan_kerja:
               type: string
-              example: Pengurus Barang
+              example: Sekretariat
           required: []
       responses:
         '200':
@@ -3721,6 +3721,56 @@ paths:
               response_code:
                 type: integer
                 example: 401
+  "/v1/peminjaman/peminjamanas/search_peminjaman":
+    post:
+      summary: Search Peminjaman
+      tags:
+      - Peminjaman
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: APBD
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Peminjaman tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/peminjaman/peminjamans/findAll":
     get:
       summary: Get Peminjaman
@@ -5280,6 +5330,59 @@ paths:
             nama_ruangan:
               type: string
               example: Kepala Seksi Pengembangan
+          required: []
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Ruangan tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/ruangan/kir/search_kir":
+    get:
+      summary: Get Barang By Ruangan
+      tags:
+      - KIR
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            nama_ruangan:
+              type: string
+              example: Kepala Seksi Pengembangan
+            keywords:
+              type: string
+              example: ''
           required: []
       - name: Authorization
         in: header

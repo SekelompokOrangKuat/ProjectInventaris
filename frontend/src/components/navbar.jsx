@@ -31,6 +31,11 @@ const Navbar = ({user}) => {
     const handleopen =()=>{
         setOpen(true);
     }
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/login');
+
+    }
 
     const navigate = useNavigate();
     return (
@@ -56,7 +61,7 @@ const Navbar = ({user}) => {
                 }}
                 onClick={handleMenu}
                 >
-                <Typography variant="h4">Selamat {greetings}, {user.name}</Typography>
+                <Typography variant="h4">Selamat {greetings}, {localStorage.getItem('nama')}</Typography>
                 <ChevronDown size={20}></ChevronDown>
             </Box>
             <Menu
@@ -68,9 +73,9 @@ const Navbar = ({user}) => {
                 'aria-labelledby': 'basic-button',
                 }}
             >
-                {user.role === "Admin" && <MenuItem onClick={()=>{navigate('/admin')}} sx={{display:'flex', flexDirection:'row', gap:2}}><Book size={20}/>Halaman Admin</MenuItem>}
+                {localStorage.getItem('role') === "Admin" && <MenuItem onClick={()=>{navigate('/admin/skpd'); handleClose()}} sx={{display:'flex', flexDirection:'row', gap:2}}><Book size={20}/>Halaman Admin</MenuItem>}
                 <MenuItem onClick={handleClose} sx={{display:'flex', flexDirection:'row', gap:2}}><Settings size={20}/>Pengaturan</MenuItem>
-                <MenuItem onClick={handleClose} sx={{display:'flex', flexDirection:'row', gap:2}}><LogOut size={20}/>Keluar</MenuItem>
+                <MenuItem onClick={handleLogout} sx={{display:'flex', flexDirection:'row', gap:2}}><LogOut size={20}/>Keluar</MenuItem>
             </Menu>
         </Box>
     )

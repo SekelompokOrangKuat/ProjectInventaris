@@ -12,33 +12,53 @@
 
 import React from 'react';
 import { Box, IconButton, Container, Typography } from "@mui/material";
-import { Archive, Box as BoxFeather, FilePlus, FileText, Home, Menu, User, Users} from "react-feather";
-import { useLocation, Outlet } from "react-router-dom";
+import { Archive, Box as BoxFeather, FilePlus, FileText, Home, Menu, User, Users } from "react-feather";
+import { useLocation, Outlet, useNavigate } from "react-router-dom";
 
 import Navbar from './navbar';
 import Sidebar from './sidebar';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 
-const Layout = ({isAdmin, user}) => {
+const Layout = ({ isAdmin, isPengelola, user }) => {
+    const navigate = useNavigate();
+    // React.useEffect(() => {
+    //     console.log('test');
+    //     if (localStorage.getItem('token') === null) {
+    //         navigate('/login');
+    //     }
+    // }, []);
+
+
     const publicMenuLists = [
-        { name: "Dashboard", url: "/", icon: <Home size={20}/> },
-        { name: "Pendataan", url: "/pendataan", icon: <FilePlus size={20}/> },
-        { name: "Pencatatan", url: "/pencatatan", icon: <BoxFeather size={20}/> },
-        { name: "Pelaporan", url: "/pelaporan", icon: <FileText size={20}/> }
+        { name: "Dashboard", url: "/", icon: <Home size={20} /> },
+        {
+            name: "Pendataan",
+            url: "/pendataan",
+            icon: <FilePlus size={20} />,
+            child: [
+                { name: "Pemeliharaan", url: "/pendataan/pemeliharaan" },
+                { name: "Penghapusan", url: "/pendataan/penghapusan" },
+                { name: "Pengadaan", url: "/pendataan/pengadaan" },
+                { name: "Jadwal", url: "/pendataan/jadwal" },
+            ]
+        },
+        { name: "Pencatatan", url: "/pencatatan", icon: <BoxFeather size={20} /> },
+        { name: "Pelaporan", url: "/pelaporan", icon: <FileText size={20} /> }
     ];
 
     const adminMenuLists = [
-        { name: "Dashboard", url: "/", icon: <Home size={20}/> },
-        { name: "Data SKPD", url: "/admin/skpd", icon: <Users size={20}/> },
-        { name: "Data Kode Barang", url: "/admin/barang", icon: <BoxFeather size={20}/> },
-        { name: "Data Kode Ruangan", url: "/admin/ruangan", icon: <Archive size={20}/> },
-        { name: "Data Akun", url: "/admin/akun", icon: <User size={20}/> }
+        { name: "Dashboard", url: "/", icon: <Home size={20} /> },
+        { name: "Data SKPD", url: "/admin/skpd", icon: <Users size={20} /> },
+        { name: "Data Kode Barang", url: "/admin/barang", icon: <BoxFeather size={20} /> },
+        { name: "Data Kode Ruangan", url: "/admin/ruangan", icon: <Archive size={20} /> },
+        { name: "Data Akun", url: "/admin/akun", icon: <User size={20} /> }
     ];
 
     var menuLists = [];
 
-    if(isAdmin) {
+    if (isAdmin) {
         menuLists = adminMenuLists;
     }
     else {
@@ -46,10 +66,10 @@ const Layout = ({isAdmin, user}) => {
     }
 
     const location = useLocation();
-    const currentLocationData = menuLists.reduce((result, item)=> item.url === location.pathname ? [...result, item] : result, []);
+    const currentLocationData = menuLists.reduce((result, item) => item.url === location.pathname ? [...result, item] : result, []);
 
     const [sidebarSize, setSidebarSize] = useState(true);
-    const handleToggleSidebar = () =>{
+    const handleToggleSidebar = () => {
         setSidebarSize(!sidebarSize);
     }
 
@@ -62,38 +82,46 @@ const Layout = ({isAdmin, user}) => {
                 flexDirection: 'column',
                 height: '100vh'
             }}>
-            <Navbar user={user}/>
+            <Navbar user={user} />
             <Container
                 disableGutters
                 maxWidth="100vw"
                 sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    height:'calc(100vh - 71px)',
+                    height: 'calc(100vh - 71px)',
                 }}
             >
-                <Sidebar menu={menuLists} size={sidebarSize}/>
-                <Box sx={{ width: '100%', overflowY: 'auto'}}>
-                    {currentLocationData[0] !== undefined && 
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: 1,
-                            px: 5,
-                            py:3,
-                            color: 'themeGrey.darkest',
-                        }}
-                    >
-                        <IconButton aria-label="Menu" sx={{color:'themePrimary.main'}} onClick={()=>handleToggleSidebar()}><Menu size={20} /></IconButton>
-                        {currentLocationData[0].icon}
-                        <Typography variant="h2">{currentLocationData[0].name}</Typography>
-                    </Box>
+                <Sidebar menu={menuLists} size={sidebarSize} />
+                <Box sx={{ width: '100%', overflowY: 'auto' }}>
+                    {currentLocationData[0] !== undefined &&
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: 1,
+                                px: 5,
+                                py: 3,
+                                color: 'themeGrey.darkest',
+                            }}
+                        >
+                            <IconButton aria-label="Menu" sx={{ color: 'themePrimary.main' }} onClick={() => handleToggleSidebar()}><Menu size={20} /></IconButton>
+                            {currentLocationData[0].icon}
+                            <Typography variant="h2">{currentLocationData[0].name}</Typography>
+                        </Box>
                     }
                     <Box sx={{ width: '100%', overflowY: 'auto' }}>
                         {
-                        isAdmin? user.role === 'Admin' ? <Outlet/>: <h1>Anda tidak memiliki akses halaman ini!</h1> : <Outlet/>
+                            isAdmin
+                                ? localStorage.getItem('role') === 'Admin'
+                                    ? <Outlet />
+                                    : <h1>Anda tidak memiliki akses halaman ini!</h1>
+                                : isPengelola
+                                    ? localStorage.getItem('role') === 'Pengelola' || localStorage.getItem('role') === 'Admin'
+                                        ? <Outlet />
+                                        : <h1>Anda tidak memiliki akses halaman ini!</h1>
+                                    : <Outlet />
                         }
                     </Box>
                 </Box>

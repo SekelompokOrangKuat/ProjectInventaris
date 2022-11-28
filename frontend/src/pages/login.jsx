@@ -18,6 +18,11 @@ const Login = () => {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
+    // React.useEffect(() => {
+    //     if (localStorage.getItem("token") !== null) {
+    //         navigate('/');
+    //     }
+    // }, []);
 
     /* REST API EXAMPLE */
     const tryLogin = async () => {

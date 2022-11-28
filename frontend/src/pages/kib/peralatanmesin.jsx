@@ -2,6 +2,7 @@ import { Box, Grid, Typography, TextField, Button, TableContainer, TableCell, Ta
 import { FileText, Edit, Trash2, PlusSquare } from "react-feather";
 import { color } from "@mui/system";
 import React from "react";
+import { useGetAllKibB } from "../../services/peralatanmesin";
 
 
 const columns = [
@@ -66,16 +67,16 @@ const kodeBarang = [
 // 	return { no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, no_pabrik, no_rangka, no_mesin, no_polisi, no_bpkb, asal_usul, harga, keterangan };
 // }
 
-function createData(no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, pabrik, rangka, mesin, polisi, bpkb, asal_usul, harga, keterangan) {
-	return {
-		no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, pabrik, rangka, mesin, polisi, bpkb, asal_usul, harga, keterangan
-	}
-}
-const rows = [
-	createData(1, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
-	createData(2, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
-	createData(3, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
-];
+// function createData(no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, pabrik, rangka, mesin, polisi, bpkb, asal_usul, harga, keterangan) {
+// 	return {
+// 		no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, pabrik, rangka, mesin, polisi, bpkb, asal_usul, harga, keterangan
+// 	}
+// }
+// const rows = [
+// 	createData(1, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
+// 	createData(2, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
+// 	createData(3, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
+// ];
 
 const fields = [];
 
@@ -104,7 +105,7 @@ for (let i = 0; i < labels.length; i++) {
 	)
 }
 const PeralatanMesin = () => {
-
+	var rows = useGetAllKibB();
 
 
 	// const [page, setPage] = React.useState(0);
@@ -205,29 +206,31 @@ const PeralatanMesin = () => {
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Ukuran/CC</Typography></StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Bahan</Typography></StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Tahun Pembelian</Typography></StyledTableCell>
-								<TableRow>
-									<StyledTableCell sx={{ border: 1 }} align="center" colSpan={5}><Typography sx={{ color: '#E5E5E5' }}>Nomor</Typography></StyledTableCell>
-								</TableRow>
-								<TableRow>
-									{columns.map((column) => (
-										<StyledTableCell
-											key={column.id}
-											align={column.align}
-											style={{ top: 57, minWidth: column.minWidth }}
-										>
-											{column.label}
-										</StyledTableCell>
-									))}
-								</TableRow>
+								<StyledTableCell sx={{ display: 'flex', flexDirection: 'column' }}>
+									<TableRow sx={{ alignSelf: 'center' }}>
+										<StyledTableCell sx={{ border: 1, display: 'flex', }} align="center" colSpan={5}><Typography sx={{ color: '#E5E5E5' }}>Nomor</Typography></StyledTableCell>
+									</TableRow>
+									<TableRow sx={{ width: '100%' }}>
+										{columns.map((column) => (
+											<StyledTableCell
+												key={column.id}
+												align={column.align}
+												style={{ top: 57, width: '300px' }}
+											>
+												{column.label}
+											</StyledTableCell>
+										))}
+									</TableRow>
+								</StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Asal Usul Cara Perolehan</Typography></StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Harga</Typography></StyledTableCell>
 								<StyledTableCell sx={{ border: 1 }} align="center"><Typography sx={{ color: '#E5E5E5' }}>Keterangan</Typography></StyledTableCell>
 							</StyledTableRow>
 						</TableHead>
 						<TableBody>
-							{rows.map((row) => (
+							{rows.map((row, index) => (
 								<StyledTableRow
-									key={row.no}
+									key={index}
 									sx={{ '&:last-child td, &:last-child th, &:nth-of-type(odd)': { border: 0 } }}
 								>
 									<StyledTableCell>
@@ -241,28 +244,35 @@ const PeralatanMesin = () => {
 										</Box>
 									</StyledTableCell>
 									<StyledTableCell align="center" component="th" scope="row">
-										{row.no}
+										{index + 1}
 									</StyledTableCell>
-									<StyledTableCell align="center">{row.jenis_barang}</StyledTableCell>
-									<StyledTableCell align="center">{row.register}</StyledTableCell>
-									<StyledTableCell align="center">{row.merk}</StyledTableCell>
-									<StyledTableCell align="center">{row.ukuran}</StyledTableCell>
-									<StyledTableCell align="center">{row.bahan}</StyledTableCell>
+									<StyledTableCell align="center">{row.nama_barang}</StyledTableCell>
+									<StyledTableCell align="center">{row.nomor_register}</StyledTableCell>
+									<StyledTableCell align="center">{row.tipe_barang}</StyledTableCell>
+									<StyledTableCell align="center">{row.ukuran_barang}</StyledTableCell>
+									<StyledTableCell align="center">{row.bahan_barang}</StyledTableCell>
 									<StyledTableCell align="center">{row.tahun_pembelian}</StyledTableCell>
-									<TableRow hover role="checkbox" tabIndex={-1} key={row.pabrik}>
-										{columns.map((column) => {
-											const value = row[column.id];
-											return (
-												<StyledTableCell key={column.id} align={column.align}>
-													{column.format && typeof value === 'number'
-														? column.format(value)
-														: value}
-												</StyledTableCell>
-											);
-										})}
-									</TableRow>
+									<StyledTableCell sx={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
+										<TableRow sx={{display: 'flex', width:'100%'}}>
+											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+												{row.nomor_pabrik}
+											</StyledTableCell>
+											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+												{row.nomor_rangka}
+											</StyledTableCell>
+											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+												{row.nomor_mesin}
+											</StyledTableCell>
+											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+												{row.nomor_polisi}
+											</StyledTableCell>
+											<StyledTableCell sx={{ width: '20%', border:"0 solid transparent"}}>
+												{row.nomor_bpkb}
+											</StyledTableCell>
+										</TableRow>
+									</StyledTableCell>
 									<StyledTableCell align="center">{row.asal_usul}</StyledTableCell>
-									<StyledTableCell align="center">{row.harga}</StyledTableCell>
+									<StyledTableCell align="center">{row.harga_barang}</StyledTableCell>
 									<StyledTableCell align="center">{row.keterangan}</StyledTableCell>
 								</StyledTableRow>
 							))}

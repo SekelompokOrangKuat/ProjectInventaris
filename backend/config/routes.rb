@@ -107,6 +107,7 @@ Rails.application.routes.draw do
       end
       resource :kir do
         post "/findbyruangan" => "kir#getByRuangan"
+        post "/search_kir" => "kir#search_kir"
       end
     end
     namespace :peminjaman do 
@@ -115,6 +116,7 @@ Rails.application.routes.draw do
         post "/create" => "peminjamans#create"
         post "/delete" => "peminjamans#destroy"
         post "/edit" => "peminjamans#editById"
+        post "/search_peminjaman" => "peminjamans#search_peminjaman"
       end
     end
     namespace :pengelola do

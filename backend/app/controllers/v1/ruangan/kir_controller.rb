@@ -17,4 +17,19 @@ class V1::Ruangan::KirController < ApplicationController
         end
     end
     
+    def search_kir
+        @barang = Barang::Kibb.undeleted.where(nama_ruangan: params[:nama_ruangan]).select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if @barang.present?
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: {barang: @barang}
+                }, status: :ok
+        else
+            render json: {
+                response_code: 422, 
+                response_message: "Keyword tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
+        end
+    end
 end

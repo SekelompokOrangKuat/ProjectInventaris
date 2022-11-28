@@ -8,16 +8,22 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import { Calendar, FileText, Tool, Trash2, PlusSquare} from "react-feather";
+import { useGetPemeliharaanTotal, useGetPengadaanTotal, useGetPenghapusanTotal, useGetJadwal } from "../services/dashboard";
 
 const Dashboard = () => {
 
     var today = new Date();
     const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
+    var pemeliharaan = useGetPemeliharaanTotal();
+    var penghapusan = useGetPenghapusanTotal();
+    var pengadaan = useGetPengadaanTotal();
+    var jadwal = useGetJadwal();
+
     let infographicsDatas = [
-        {icon: <Tool size={50} />, title:'Pemeliharaan', amount: 14},
-        {icon: <Trash2 size={50} />, title:'Penghapusan', amount: 11},
-        {icon: <PlusSquare size={50} />, title:'Pengadaan', amount: 16}
+        {icon: <Tool size={50} />, title:'Pemeliharaan', amount: pemeliharaan.data != undefined ? pemeliharaan.data.pengusulan.length : "-"},
+        {icon: <Trash2 size={50} />, title:'Penghapusan', amount: penghapusan.data != undefined ? penghapusan.data.pengusulan.length : "-"},
+        {icon: <PlusSquare size={50} />, title:'Pengadaan', amount:pengadaan.data != undefined ? pengadaan.data.pengadaan.length : "-"}
     ]
 
     const sopDatas = [
@@ -77,8 +83,8 @@ const Dashboard = () => {
                     >
                         <Calendar size={50}></Calendar>
                         <Typography variant="h3">Jadwal Inventarisasi</Typography>
-                        <Typography variant="h1">Pemeliharaan</Typography>
-                        <Typography variant="h2">{today.getDate()} {months[today.getMonth()]} {today.getFullYear()}</Typography>
+                        <Typography variant="h1">{jadwal.data != undefined ? jadwal.data[jadwal.data.length-1].keterangan : "-"}</Typography>
+                        <Typography variant="h2">{jadwal.data != undefined ? jadwal.data[jadwal.data.length-1].tanggal : "-"}</Typography>
                     </Box>
                     <Box
                         sx={{

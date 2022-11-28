@@ -102,8 +102,8 @@ class V1::Kib::KibbController < ApplicationController
                         end
                         if params[:nomor_register].blank? or params[:nomor_register] == @barang.nomor_register
                             nomor_register = @kib_b.nomor_register
-                        else
                             is_trigger = true
+                        else
                             nomor_registered = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
                             if nomor_registered.present?
                                 render json: {
@@ -264,7 +264,7 @@ class V1::Kib::KibbController < ApplicationController
     private
 
     def user_params
-        params.permit(:kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :ukuran_barang, :tipe_barang, :bahan_barang, 
+        params.permit(:nama_ruangan, :kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :ukuran_barang, :tipe_barang, :bahan_barang, 
             :tahun_pembelian, :nomor_pabrik, :nomor_rangka, :nomor_mesin, :nomor_polisi, :nomor_bpkb, :asal_usul, :harga_barang, :keterangan)
     end
 end

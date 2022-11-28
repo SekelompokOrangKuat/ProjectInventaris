@@ -5,25 +5,26 @@
  * 
  */
 
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography, Link } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import { Calendar, FileText, Tool, Trash2, PlusSquare, Trello, Repeat, Copy, Package } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
 const Pencatatan = () => {
-
+	const navigate = useNavigate();
 	let infographicsDatas = [
-		{ icon: <Trello size={50} />, title: 'Kartu Inventaris Ruangan' },
-		{ icon: <Repeat size={50} />, title: 'Mutasi Barang' },
-		{ icon: <Copy size={50} />, title: 'Peminjaman' }
+		{ icon: <Trello size={50} />, title: 'Kartu Inventaris Ruangan', link: () => navigate('kir') },
+		{ icon: <Repeat size={50} />, title: 'Mutasi Barang', link: () => navigate('mutasi-barang') },
+		{ icon: <Copy size={50} />, title: 'Peminjaman', link: () => navigate('peminjaman') }
 	]
 
 	let infographicsData = [
-		{ title: 'KIB A' },
-		{ title: 'KIB B' },
-		{ title: 'KIB C' },
-		{ title: 'KIB D' },
-		{ title: 'KIB E' },
-		{ title: 'KIB F' },
+		{ title: 'KIB A', link: () => navigate('/kib/a') },
+		{ title: 'KIB B', link: () => navigate('/kib/b') },
+		{ title: 'KIB C', link: () => navigate('/kib/c') },
+		{ title: 'KIB D', link: () => navigate('/kib/d') },
+		{ title: 'KIB E', link: () => navigate('/kib/e') },
+		{ title: 'KIB F', link: () => navigate('/kib/f') },
 	]
 
 	const sopDatas = [
@@ -104,15 +105,20 @@ const Pencatatan = () => {
 										gap: 3,
 										width: '100%',
 										background: 'linear-gradient(to right, #009B4C, #007037)',
-										borderRadius: '5px'
+										borderRadius: '5px',
+										'&:hover': {
+											background: 'linear-gradient(to left, #009B4c, #007037)',
+										}
 									}}
 								>
-
+									<Link sx={{color: "white"}} component="button" underline="none" onClick={data.link}>
 									<Typography variant="h3">{data.title}</Typography>
+									</Link>
 								</Box>
 							)}
 						</Box>
 					</Box>
+
 					<Box
 						sx={{
 							display: 'flex',
@@ -126,24 +132,33 @@ const Pencatatan = () => {
 							<Box
 								key={index + "-" + data.title}
 								sx={{
+									cursor: "pointer",
 									display: 'flex',
 									flexDirection: 'column',
 									alignItems: 'center',
 									justifyContent: 'space-between',
 									px: 3,
 									py: 5,
-									gap: 3,
+									gap: 4,
+									mb: 3,
 									width: '100%',
 									background: 'linear-gradient(to right, #009B4C, #007037)',
-									borderRadius: '5px'
+									borderRadius: '5px',
+									color: "white",
+									'&:hover': {
+										background: 'linear-gradient(to left, #009B4c, #007037)',
+									}
 								}}
 							>
-								{data.icon}
-								<Typography variant="h2" align="center" >{data.title}</Typography>
-								<Typography variant="h1">{data.amount}</Typography>
+								<Link sx={{color: "white"}} component="button" underline="none" onClick={data.link}>
+									{data.icon}
+									<Typography variant="h2" align="center" >{data.title}</Typography>
+									<Typography variant="h1">{data.amount}</Typography>
+								</Link>
 							</Box>
 						)}
 					</Box>
+
 				</Box>
 			</Box>
 		</Container>

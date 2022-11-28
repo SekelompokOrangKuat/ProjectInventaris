@@ -1,33 +1,253 @@
-import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox } from "@mui/material";
-import { Edit, PlusSquare, Trash2 } from "react-feather";
+import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Select, MenuItem, LinearProgress, IconButton } from "@mui/material";
+import { Calendar, Edit, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
 const Jadwal = () => {
 
-    /* REST API EXAMPLE */
-    // const [posts, setPosts] = React.useState([]);
-    // React.useEffect(() => {
-    //     fetch(
-    //         'https://cors-anywhere.herokuapp.com/http://backend-sinbada.herokuapp.com/v1/kib/kiba/findAll',
-    //         {
-    //             method: 'GET',
-    //             headers: {
-    //                 // 'Accept': 'application/json',
-    //                 'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI2MzcxY2ViNmUyMWZhYzBjNDhlNGUxNmQifSwiZXhwIjoxNjY5MDMyMDE4fQ.PujpxQ882HAwkZjGAwHiUpj_LHf_FcF4OcwDNbBEuAY',
-    //                 'X-Requested-With': 'application/json'
-    //             },
-    //         }
-    //     )
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             setPosts(data);
-    //             console.log(posts[0]['_id']['$oid'])
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         });
-    // }, []);
+    const date = new Date();
+    const currentDate = String(date.getFullYear()) + '-' + String(date.getMonth() + 1) + '-' + String(date.getDate());
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [dataTable, setDataTable] = React.useState([]);
+    const [inputTanggal, setInputTanggal] = React.useState(currentDate);
+    const [inputKeterangan, setInputKeterangan] = React.useState('');
+    const [isTambahJadwal, setIsTambahJadwal] = React.useState(true);
+    const [selectedJadwal, setSelectedJadwal] = React.useState('');
+    const [isTableUsulan, setIsTableUsulan] = React.useState(true);
+
+    const handleChangeTanggal = (val) => {
+        setInputTanggal(val.target.value);
+    }
+
+    const handleChangeKeterangan = (val) => {
+        setInputKeterangan(val.target.value);
+    }
+
+    const addJadwal = async () => {
+        const splitedText = inputTanggal.split('-');
+        const fixedTanggal = splitedText[2] + '-' + splitedText[1] + '-' + splitedText[0];
+
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/create',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    tanggal: fixedTanggal,
+                    keterangan: inputKeterangan
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 201) {
+                    setInputKeterangan('');
+                    getDataTable(isTableUsulan ? 0 : 1);
+                } else {
+                    console.log('error: ' + data.response_code + ' ' + data.response_message);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const handleEditJadwal = (item) => {
+        setIsTambahJadwal(false);
+        setSelectedJadwal(item._id.$oid);
+        let splitedText;
+        let fixedTanggal;
+        if (item.tanggal !== null) {
+            splitedText = item.tanggal.split(' ');
+            fixedTanggal = splitedText[2] + '-' + monthTextToNum(splitedText[1]) + '-' + splitedText[0];
+        } else {
+            fixedTanggal = currentDate;
+        }
+        setInputTanggal(fixedTanggal);
+        setInputKeterangan(item.keterangan);
+    }
+
+    const monthTextToNum = (monthText) => {
+        switch (monthText) {
+            case 'Januari':
+                return 1;
+                break;
+            case 'Februari':
+                return 2;
+                break;
+            case 'Maret':
+                return 3;
+                break;
+            case 'April':
+                return 4;
+                break;
+            case 'Mei':
+                return 5;
+                break;
+            case 'Juni':
+                return 6;
+                break;
+            case 'Juli':
+                return 7;
+                break;
+            case 'Agustus':
+                return 8;
+                break;
+            case 'September':
+                return 9;
+                break;
+            case 'Oktober':
+                return 10;
+                break;
+            case 'November':
+                return 11;
+                break;
+            case 'Desember':
+                return 12;
+                break;
+            default:
+                return date.getFullYear;
+                break;
+        }
+    }
+
+    const editJadwal = async () => {
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/edit',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    id: selectedJadwal,
+                    tanggal: inputTanggal,
+                    keterangan: inputKeterangan
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('respon:' + data.response_code);
+                if (data.response_code === 200) {
+                    clearForm();
+                    setIsTambahJadwal(true);
+                    getDataTable(isTableUsulan ? 0 : 1);
+                } else {
+                    console.log('error: ' + data.response_code + ' ' + data.response_message);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const deleteJadwal = async (_id) => {
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/delete',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    id: _id
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    getDataTable(isTableUsulan ? 0 : 1);
+                } else {
+                    console.log('error: ' + data.response_code + ' ' + data.response_message);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const getSearchDataTable = async (keywords) => {
+        setIsLoading(true);
+        await fetch(
+            isTableUsulan
+                ? 'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/search'
+                : 'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/search_riwayat',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    keywords: keywords
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code == 200) {
+                    setDataTable(data.data);
+                } else {
+                    console.log("error:" + data.response_code + data.response_message);
+                }
+            })
+            .catch((err) => console.log(err));
+        setIsLoading(false);
+    }
+
+    const getDataTable = async (status) => {
+        setIsLoading(true);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/findAll',
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code == 200) {
+                    let selectedDataByStatus = [];
+                    for (let i = 0; i < data.data.length; i++) {
+                        if (data.data[i].status_jadwal === status) {
+                            selectedDataByStatus.push(data.data[i]);
+                        }
+                    }
+                    setDataTable(selectedDataByStatus);
+                } else {
+                    console.log("error:" + data.response_code + data.response_message);
+                }
+            })
+            .catch((err) => console.log(err));
+        setIsLoading(false);
+    }
+
+    const clearForm = () => {
+        setInputTanggal(currentDate);
+        setInputKeterangan('');
+    }
+
+    React.useEffect(() => {
+        getDataTable(0);
+    }, []);
 
     const fields = [];
 
@@ -35,8 +255,6 @@ const Jadwal = () => {
         "Tanggal",
         "Keterangan",
     ];
-
-    let currentDate = new Date();
 
     for (let i = 0; i < labels.length; i++) {
         if (i === 0) {
@@ -46,7 +264,8 @@ const Jadwal = () => {
                         id="date"
                         label="Tanggal"
                         type="date"
-                        defaultValue={`${currentDate.getFullYear}-${currentDate.getDate}-${currentDate.getFullYear}`}
+                        value={inputTanggal}
+                        onChange={handleChangeTanggal}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -59,6 +278,8 @@ const Jadwal = () => {
                 <Grid item xs={6}>
                     <TextField
                         variant="outlined"
+                        value={inputKeterangan}
+                        onChange={handleChangeKeterangan}
                         label={labels[i]}
                         fullWidth
                     />
@@ -88,26 +309,6 @@ const Jadwal = () => {
         },
     }));
 
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-    }
-
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
-
     return (
         <Box
             sx={{
@@ -131,7 +332,7 @@ const Jadwal = () => {
                     alignItems="center"
                     gap={1}
                 >
-                    <Trash2 size={20} />
+                    <Calendar size={20} />
                     <Typography variant="h2">
                         Jadwal
                     </Typography>
@@ -169,7 +370,7 @@ const Jadwal = () => {
                 >
                     <PlusSquare size={24} color="#757575" />
                     <Typography variant="h2" sx={{ color: "themeGrey.darker" }}>
-                        Tambah Jadwal
+                        {isTambahJadwal ? "Tambah" : "Edit"} Jadwal
                     </Typography>
                 </Grid>
                 <Grid
@@ -195,14 +396,60 @@ const Jadwal = () => {
                     pr={4}
                     gap={1}
                 >
-                    <Button variant="outlined" >
+                    <Button variant="outlined" onClick={isTambahJadwal ? clearForm : () => { clearForm(); setIsTambahJadwal(true) }}>
                         <Typography variant="button">Batal</Typography>
                     </Button>
-                    <Button variant="contained" disableElevation>
+                    <Button variant="contained" onClick={isTambahJadwal ? addJadwal : editJadwal} disableElevation>
                         <Typography variant="button">Simpan</Typography>
                     </Button>
                 </Box>
             </Stack>
+            <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                maxWidth="100%"
+                sx={{
+                    px: 3,
+                    mb: 2,
+                    boxSizing: "border-box"
+                }}
+            >
+                <Grid item>
+                    <Select
+                        value={isTableUsulan}
+                        onChange={() => {
+                            getDataTable(!isTableUsulan ? 0 : 1);
+                            setIsTableUsulan(!isTableUsulan);
+                        }}
+                    >
+                        <MenuItem value={true}>Usulan</MenuItem>
+                        <MenuItem value={false}>Riwayat</MenuItem>
+                    </Select>
+                </Grid>
+                <Grid item>
+                    <TextField
+                        variant="outlined"
+                        label="Search"
+                        onChange={
+                            (e) => {
+                                if (e.target.value !== '') {
+                                    getSearchDataTable(e.target.value);
+                                } else {
+                                    getDataTable(isTableUsulan ? 0 : 1);
+                                }
+                            }
+                        }
+                    />
+                </Grid>
+            </Grid>
+
+            {
+                isLoading
+                    ? <LinearProgress sx={{ mx: 3 }} />
+                    : null
+            }
 
             <TableContainer
                 component={Paper}
@@ -220,11 +467,12 @@ const Jadwal = () => {
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Tanggal</StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Triwulan</StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Semester</StyledTableCell>
+                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Keterangan</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => (
-                            <StyledTableRow key={index}>
+                        {dataTable.map((item, index) => (
+                            <StyledTableRow key={index + 1}>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>
                                     <Stack
                                         direction="row"
@@ -232,15 +480,19 @@ const Jadwal = () => {
                                         alignItems="center"
                                         spacing={2}
                                     >
-                                        <Checkbox sx={{ margin: "0", padding: "0" }} size="medium" />
-                                        <Edit size={20} />
-                                        <Trash2 size={20} />
+                                        <IconButton onClick={() => handleEditJadwal(item)} >
+                                            <Edit size={20} />
+                                        </IconButton>
+                                        <IconButton onClick={() => deleteJadwal(item._id.$oid)} >
+                                            <Trash2 size={20} />
+                                        </IconButton>
                                     </Stack>
                                 </StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{index}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tanggal}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.triwulan}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.semester}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.keterangan}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>

@@ -123,7 +123,7 @@ const Penghapusan = () => {
     /* ADD BARANG */
     const addBarang = async () => {
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/create',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/create',
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -158,7 +158,7 @@ const Penghapusan = () => {
 
     const editBarang = async (_id) => {
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/edit',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/edit',
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -192,7 +192,7 @@ const Penghapusan = () => {
     /* DELETE BARANG FROM TABLE BY ID */
     const deleteBarang = async (_id) => {
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/delete',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/delete',
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -221,7 +221,7 @@ const Penghapusan = () => {
     /* GET DATA BARANG BY NAMA BARANG & NO REG FROM API */
     const getBarangData = async (namaBarang, noRegister) => {
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/getBarang',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/getBarang',
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -256,7 +256,7 @@ const Penghapusan = () => {
     /* GET NO REGISTER FROM NAMA BARANG */
     const getNoRegister = async (namaBarang) => {
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/search',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/search',
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -289,7 +289,7 @@ const Penghapusan = () => {
     /* APPROVE PEMELIHARAAN BARANG BY ID FROM API  */
     const approvalBarang = async (_id, isApprove) => {
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/approval',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/approval',
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -319,7 +319,7 @@ const Penghapusan = () => {
     /* GET BARANG NAME AT INIT */
     React.useEffect(() => {
         fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/findAll',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/findAll',
             {
                 method: 'GET',
                 headers: {
@@ -356,8 +356,8 @@ const Penghapusan = () => {
         setIsLoading(true);
         await fetch(
             isTableUsulan
-                ? 'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/search_penghapusan'
-                : 'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/search_riwayat_penghapusan',
+                ? 'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/search_penghapusan'
+                : 'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/search_riwayat_penghapusan',
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -396,7 +396,7 @@ const Penghapusan = () => {
     const getDataTable = async (status) => {
         setIsLoading(true);
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/find_penghapusan',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/find_penghapusan',
             {
                 method: 'GET',
                 headers: {
