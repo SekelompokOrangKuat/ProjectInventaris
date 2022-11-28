@@ -2,7 +2,7 @@ class V1::Kib::KibaController < ApplicationController
     before_action :authorize_request
   
     def index
-        @kib_a = Barang::Kiba.all.undeleted
+        @kib_a = Barang::Kiba.all
         if not @kib_a.present?
             render json: {
                 response_code: 422, 
@@ -85,6 +85,7 @@ class V1::Kib::KibaController < ApplicationController
                         kota = params[:kota]
                         status_tanah = params[:status_tanah]
                         nomor_sertifikat = params[:nomor_sertifikat]
+                        tanggal_sertifikat = params[:tanggal_sertifikat]
                         penggunaan = params[:penggunaan]
                         asal_usul = params[:asal_usul]
                         nilai_perolehan = params[:nilai_perolehan]
@@ -129,6 +130,9 @@ class V1::Kib::KibaController < ApplicationController
                         if params[:nomor_sertifikat].blank?
                             nomor_sertifikat = @kib_a.nomor_sertifikat
                         end
+                        if params[:tanggal_sertifikat].blank?
+                            tanggal_sertifikat = @kib_a.tanggal_sertifikat
+                        end
                         if params[:penggunaan].blank?
                             penggunaan = @kib_a.penggunaan
                         end
@@ -152,6 +156,7 @@ class V1::Kib::KibaController < ApplicationController
                             kota: kota, 
                             status_tanah: status_tanah, 
                             nomor_sertifikat: nomor_sertifikat, 
+                            tanggal_sertifikat: tanggal_sertifikat,
                             penggunaan: penggunaan, 
                             asal_usul: asal_usul,
                             nilai_perolehan: nilai_perolehan, 
@@ -220,8 +225,24 @@ class V1::Kib::KibaController < ApplicationController
         end
     end
 
+    def search_riwayat
+        @search = Barang::Kiba.deleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if not @search.present?
+            render json: {
+                response_code: 422, 
+                response_message: "Keyword tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
+        else
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: @search
+                }, status: :ok
+        end
+    end
+
     def search
-        @search = Barang::Kiba.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        @search = Barang::Kiba.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if not @search.present?
             render json: {
                 response_code: 422, 
@@ -240,6 +261,6 @@ class V1::Kib::KibaController < ApplicationController
 
     def user_params
         params.permit(:kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :luas, :tahun_pengadaan, :alamat, :kota, :status_tanah, 
-            :nomor_sertifikat, :penggunaan, :asal_usul, :nilai_perolehan, :keterangan)
+            :nomor_sertifikat, :tanggal_sertifikat, :penggunaan, :asal_usul, :nilai_perolehan, :keterangan)
     end
 end

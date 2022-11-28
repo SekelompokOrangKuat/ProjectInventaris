@@ -2,7 +2,7 @@ class V1::Kib::KibdController < ApplicationController
     before_action :authorize_request
   
     def index
-        @kib_d = Barang::Kibd.all.undeleted
+        @kib_d = Barang::Kibd.all
         if not @kib_d.present?
             render json: {
                 response_code: 422, 
@@ -231,8 +231,24 @@ class V1::Kib::KibdController < ApplicationController
         end
     end
 
+    def search_riwayat
+        @search = Barang::Kibd.deleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if not @search.present?
+            render json: {
+                response_code: 422, 
+                response_message: "Keyword tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
+        else
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: @search
+                }, status: :ok
+        end
+    end
+
     def search
-        @search = Barang::Kibd.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        @search = Barang::Kibd.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if not @search.present?
             render json: {
                 response_code: 422, 

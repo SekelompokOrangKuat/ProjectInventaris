@@ -48,6 +48,7 @@ const Dashboard = () => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'row',
+                    pb:5
                 }}
             >
                 {/* Information Section */}

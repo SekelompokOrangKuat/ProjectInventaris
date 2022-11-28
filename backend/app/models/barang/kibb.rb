@@ -6,6 +6,7 @@ class Barang::Kibb
     belongs_to :user_pengadaan, class_name: "User::Pengadaan", optional: true
     belongs_to :user_pengusulan, class_name: "User::Pengusulan"
     belongs_to :peminjaman, class_name: "Peminjaman"
+    has_one :pengelola_mutasibarang, class_name: "Pengelola::Mutasibarang"
     
     validates :nomor_register, presence: true
     validates :nama_barang, presence: true
@@ -30,8 +31,9 @@ class Barang::Kibb
     field :status_kib, type: Integer, default: proc { user_pengadaan ?  2 : 0}
 
     scope :undeleted, -> { where(status_kib: Enums::Kib::NEW) }
+    scope :deleted, -> { where(status_kib: Enums::Kib::DELETED) }
     scope :pengadaan, -> { where(status_kib: Enums::Kib::PENGADAAN)}
-    scope :penghapusan, -> { where(status_kib: Enums::Kib::PENGADAAN )}
+    scope :penghapusan, -> { where(status_kib: Enums::Kib::PENGHAPUSAN )}
     scope :pending_pengusulan, -> { where(user_pengusulan_id: Enums::StatusUsulan::PENDING) }
     scope :peminjaman, -> { where(status_kib: Enums::Kib::PEMINJAMAN)}
 

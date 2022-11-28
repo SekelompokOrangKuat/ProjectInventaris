@@ -31,11 +31,16 @@ class V1::User::PengusulanController < ApplicationController
                     response_message: "Nomor register tidak dapat ditemukan!"
                     }, status: :unprocessable_entity
             else
-                @pengusulan = User::Pengusulan.pending.find(@barang.user_pengusulan_id)
+                @pengusulan = User::Pengusulan.find(@barang.user_pengusulan_id)
                 if not @pengusulan.present?
                     render json: {
                         response_code: 422,
                         response_message: "Tidak ada data untuk diusulkan, silahkan lakukan penambahan data barang!",
+                        }, status: :unprocessable_entity
+                elsif @pengusulan.status_usulan == Enums::StatusUsulan::NEW
+                    render json: {
+                        response_code: 422,
+                        response_message: "Barang sudah dilakukan pengusulan!",
                         }, status: :unprocessable_entity
                 else
                     @pengusulan.assign_attributes({
@@ -91,7 +96,7 @@ class V1::User::PengusulanController < ApplicationController
                             response_message: "is_approve tidak boleh kosong!"
                             }, status: :unprocessable_entity
                     else
-                        if params[:is_approve] == true
+                        if params[:is_approve] == "true"
                             status_usulan = Enums::StatusUsulan::ACCEPTED
                             if @approval_pengusulan.jenis_usulan == "Penghapusan"
                                 status_kib = Enums::Kib::PENGHAPUSAN
@@ -99,7 +104,7 @@ class V1::User::PengusulanController < ApplicationController
                                 status_kib = Enums::Kib::NEW
                             end
                         else                            
-                            status_usulan = Enums:StatusUsulan::REJECTED
+                            status_usulan = Enums::StatusUsulan::REJECTED
                             status_kib = Enums::Kib::NEW
                         end
                         @approval_pengusulan.assign_attributes({status_usulan: status_usulan})
@@ -217,8 +222,8 @@ class V1::User::PengusulanController < ApplicationController
     end
 
     def index_pemeliharaan
-        @pengusulan = User::Pengusulan.new_usulan.pemeliharaan.where(:_id.in => Barang::Kibb.pluck(:user_pengusulan_id))
-        @barang = Barang::Kibb.undeleted.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
+        @pengusulan = User::Pengusulan.pemeliharaan.where(:_id.in => Barang::Kibb.pluck(:user_pengusulan_id))
+        @barang = Barang::Kibb.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
         if @pengusulan.present?
             render json: {
                 response_code: 200, 
@@ -234,8 +239,8 @@ class V1::User::PengusulanController < ApplicationController
     end
 
     def index_penghapusan
-        @pengusulan = User::Pengusulan.new_usulan.penghapusan.where(:_id.in => Barang::Kibb.pluck(:user_pengusulan_id))
-        @barang = Barang::Kibb.undeleted.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
+        @pengusulan = User::Pengusulan.penghapusan.where(:_id.in => Barang::Kibb.pluck(:user_pengusulan_id))
+        @barang = Barang::Kibb.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
         if @pengusulan.present?
             render json: {
                 response_code: 200, 
@@ -250,53 +255,128 @@ class V1::User::PengusulanController < ApplicationController
         end
     end
 
-    def search_pemeliharaan
-        @pengusulan = User::Pengusulan.pemeliharaan.new_usulan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
-        if not @barang.present? and not @pengusulan.present?
-            render json: {
-                response_code: 422, 
-                response_message: "Keyword tidak dapat ditemukan!"
-                }, status: :unprocessable_entity
-        elsif @pengusulan.present?
+    def search_riwayat_pemeliharaan
+        @pengusulan = User::Pengusulan.pemeliharaan.not.new_usulan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if @pengusulan.present?
             barang = Barang::Kibb.undeleted.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
             render json: {
                 response_code: 200, 
                 response_message: "Success", 
                 data: {barang: barang, pengusulan: @pengusulan}
                 }, status: :ok
-        elsif not @pengusulan.present?
-            @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
-            pengusulan = User::Pengusulan.pemeliharaan.new_usulan.where(:_id.in => @barang.pluck(:user_pengusulan_id))
+        else
+            @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end            
+            pengusulan = User::Pengusulan.pemeliharaan.not.new_usulan.where(:_id.in => @barang.pluck(:user_pengusulan_id))
+            if @barang.present?
+                render json: {
+                    response_code: 200, 
+                    response_message: "Success", 
+                    data: {barang: @barang, pengusulan: pengusulan}
+                    }, status: :ok
+            else
+                render json: {
+                    response_code: 422, 
+                    response_message: "Keyword tidak dapat ditemukan!"
+                    }, status: :unprocessable_entity
+            end
+        end
+    end
+
+    def search_riwayat_penghapusan
+        @pengusulan = User::Pengusulan.penghapusan.not.new_usulan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if @pengusulan.present?
+            barang = Barang::Kibb.undeleted.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
             render json: {
                 response_code: 200, 
                 response_message: "Success", 
-                data: {barang: @barang, pengusulan: pengusulan}
+                data: {barang: barang, pengusulan: @pengusulan}
                 }, status: :ok
+        else
+            @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end            
+            pengusulan = User::Pengusulan.penghapusan.not.new_usulan.where(:_id.in => @barang.pluck(:user_pengusulan_id))
+            if @barang.present?
+                render json: {
+                    response_code: 200, 
+                    response_message: "Success", 
+                    data: {barang: @barang, pengusulan: pengusulan}
+                    }, status: :ok
+            else
+                render json: {
+                    response_code: 422, 
+                    response_message: "Keyword tidak dapat ditemukan!"
+                    }, status: :unprocessable_entity
+            end
+        end
+    end
+
+    def search_pemeliharaan
+        @pengusulan = User::Pengusulan.pemeliharaan.new_usulan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if @pengusulan.present?
+            barang = Barang::Kibb.undeleted.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: {barang: barang, pengusulan: @pengusulan}
+                }, status: :ok
+        else
+            @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end            
+            pengusulan = User::Pengusulan.pemeliharaan.new_usulan.where(:_id.in => @barang.pluck(:user_pengusulan_id))
+            if @barang.present?
+                render json: {
+                    response_code: 200, 
+                    response_message: "Success", 
+                    data: {barang: @barang, pengusulan: pengusulan}
+                    }, status: :ok
+            else
+                render json: {
+                    response_code: 422, 
+                    response_message: "Keyword tidak dapat ditemukan!"
+                    }, status: :unprocessable_entity
+            end
         end
     end
 
     def search_penghapusan
         @pengusulan = User::Pengusulan.penghapusan.new_usulan.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
-        if not @barang.present? and not @pengusulan.present?
-            render json: {
-                response_code: 422, 
-                response_message: "Keyword tidak dapat ditemukan!"
-                }, status: :unprocessable_entity
-        elsif @pengusulan.present?
+        if @pengusulan.present?
             barang = Barang::Kibb.undeleted.where(:user_pengusulan_id.in => @pengusulan.pluck(:id))
             render json: {
                 response_code: 200, 
                 response_message: "Success", 
                 data: {barang: barang, pengusulan: @pengusulan}
                 }, status: :ok
-        elsif not @pengusulan.present?
-            @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        else
+            @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end            
             pengusulan = User::Pengusulan.penghapusan.new_usulan.where(:_id.in => @barang.pluck(:user_pengusulan_id))
+            if @barang.present?
+                render json: {
+                    response_code: 200, 
+                    response_message: "Success", 
+                    data: {barang: @barang, pengusulan: pengusulan}
+                    }, status: :ok
+            else
+                render json: {
+                    response_code: 422, 
+                    response_message: "Keyword tidak dapat ditemukan!"
+                    }, status: :unprocessable_entity
+            end
+        end
+    end
+
+    def getBarang
+        @barang = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
+        if @barang.present?
             render json: {
                 response_code: 200, 
                 response_message: "Success", 
-                data: {barang: @barang, pengusulan: pengusulan}
+                data: @barang
                 }, status: :ok
+        else 
+            render json: {
+                response_code: 422, 
+                response_message: "Barang tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
         end
     end
+
 end

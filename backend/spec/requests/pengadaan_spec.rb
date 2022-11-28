@@ -65,7 +65,43 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            keywords: {type: :string, example: "sinbada"},
+            keywords: {type: :string, example: "Jeep"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Pengadaan tidak dapat ditemukan!"},
+                response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
+  path '/v1/user/pengadaan/search_riwayat' do
+    post 'Search Riwayat Pengadaan' do
+      tags 'Pengadaan'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "Jeep"},
         },
         required: []
       }
@@ -101,7 +137,7 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "637f8565e21fac03c0e36abf"},
+            id: {type: :string, example: "638235b0e21fac0354b16976"},
             nama_pengusul: {type: :string, example: "Admin Sinbada"},
             spesifikasi_barang: {type: :string, example: "-"},
             foto_barang: {type: :string, example: "img.jpg"},
@@ -157,7 +193,7 @@ describe 'Pengadaan API' do
       parameter name: :body, in: :body, schema: {
         type: :object,
         properties: {
-            id: {type: :string, example: "637f8565e21fac03c0e36abf"}
+            id: {type: :string, example: "638235b0e21fac0354b16976"}
         },
         required: []
       }
@@ -190,8 +226,14 @@ describe 'Pengadaan API' do
       consumes 'application/json'
       produces 'application/json'
       parameter name: 'Authorization', in: :header, type: :string, required: true
-      parameter in: :formData, name: :id, type: :string, required: true, example: "637f8565e21fac03c0e36abf"
-      parameter in: :formData, name: :is_approve, type: :boolean, required: true, example: :true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            id: {type: :string, example: "638235b0e21fac0354b16976"},
+            is_approve: {type: :string, example: "true"},
+        },
+        required: []
+      }
       response '200', 'Successfull' do
         schema type: :object
         run_test!
