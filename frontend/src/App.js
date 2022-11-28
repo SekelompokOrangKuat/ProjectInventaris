@@ -53,7 +53,7 @@ function App() {
     name: '',
     role: '',
   };
-  if(localStorage.getItem('token')){
+  if (localStorage.getItem('token')) {
     user.name = localStorage.getItem('nama');
     user.role = localStorage.getItem('role');
   }
@@ -62,21 +62,21 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
-        <Route path="/" element={<Layout isAdmin={false} user={user} isLogin={localStorage.getItem('token') !== null} />}>
+        <Route path="/" element={<Layout isAdmin={false} user={user} />}>
           <Route path="" element={<Dashboard />}></Route>
-					<Route path="pendataan" element={<Pendataan />}></Route>
+          <Route path="pendataan" element={<Pendataan />}></Route>
           <Route path="pendataan/pemeliharaan" element={<Pemeliharaan />}></Route>
           <Route path="pendataan/penghapusan" element={<Penghapusan />}></Route>
           <Route path="pendataan/pengadaan" element={<Pengadaan />}></Route>
           <Route path="pendataan/jadwal" element={<Jadwal />}></Route>
         </Route>
 
-        
-        <Route path="/" element={<Layout isAdmin={false} isPengelola={true} user={user} isLogin={localStorage.getItem('token') !== null}/>}>
+
+        <Route path="/" element={<Layout isAdmin={false} isPengelola={true} user={user} />}>
           <Route path="pelaporan" element={<Laporan />}></Route>
         </Route>
 
-        <Route path="/" element={<Layout isAdmin={false} isPengelola={true} user={user} isLogin={localStorage.getItem('token') !== null}/>}>
+        <Route path="/" element={<Layout isAdmin={false} isPengelola={true} user={user} />}>
           <Route path="pencatatan" element={<Pencatatan />}></Route>
           <Route path="pencatatan/mutasi-barang" element={<MutasiBarang />}></Route>
           <Route path="pencatatan/peminjaman" element={<Peminjaman />}></Route>
@@ -115,9 +115,9 @@ function App() {
         <Route path="pdf/kib-f" element={<PDFViewer file={KIBF} />}></Route>
         {/* End of exclusive path */}
 
-			</Routes>
-		</React.Fragment>
-	);
+      </Routes>
+    </React.Fragment>
+  );
 }
 
 export default App;
