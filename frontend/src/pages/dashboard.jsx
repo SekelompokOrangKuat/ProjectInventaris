@@ -20,9 +20,6 @@ const Dashboard = () => {
     var pengadaan = useGetPengadaanTotal();
     var jadwal = useGetJadwal();
 
-    console.log(jadwal.data[jadwal.data.length-1])
-
-
     let infographicsDatas = [
         {icon: <Tool size={50} />, title:'Pemeliharaan', amount: pemeliharaan.data != undefined ? pemeliharaan.data.pengusulan.length : "-"},
         {icon: <Trash2 size={50} />, title:'Penghapusan', amount: penghapusan.data != undefined ? penghapusan.data.pengusulan.length : "-"},
