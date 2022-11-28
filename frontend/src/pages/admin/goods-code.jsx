@@ -12,7 +12,6 @@ const Form = (props) => {
 	const [subKelompok, setSubKelompok] = useState('');
 	const [subSubKelompok, setSubSubKelompok] = useState('');
 	const [nama, setNama] = useState('');
-	console.log(golongan, bidang, kelompok, subKelompok, nama)
 	const handleSubmit = async (e) => {
 		try {
 			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/create",
