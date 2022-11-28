@@ -30,11 +30,6 @@ const Layout = ({ isAdmin, isPengelola, user }) => {
     //     }
     // }, []);
 
-    useEffect(()=>{
-        if (user.role == ""){
-            navigate('/login');
-        }
-    },[user])
 
     const publicMenuLists = [
         { name: "Dashboard", url: "/", icon: <Home size={20} /> },
