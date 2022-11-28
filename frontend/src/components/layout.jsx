@@ -13,14 +13,22 @@
 import React from 'react';
 import { Box, IconButton, Container, Typography } from "@mui/material";
 import { Archive, Box as BoxFeather, FilePlus, FileText, Home, Menu, User, Users} from "react-feather";
-import { useLocation, Outlet } from "react-router-dom";
+import { useLocation, Outlet, useNavigate } from "react-router-dom";
 
 import Navbar from './navbar';
 import Sidebar from './sidebar';
 import { useState } from 'react';
 
 
-const Layout = ({isAdmin, user}) => {
+const Layout = ({isAdmin, isPengelola, user, isLogin}) => {
+    const navigate = useNavigate();
+    React.useEffect(() => {
+        console.log('test');
+        if (!isLogin) {
+            navigate('/login');
+        }
+    }, []); 
+
     const publicMenuLists = [
         { name: "Dashboard", url: "/", icon: <Home size={20}/> },
         { name: "Pendataan", url: "/pendataan", icon: <FilePlus size={20}/> },
@@ -93,7 +101,15 @@ const Layout = ({isAdmin, user}) => {
                     }
                     <Box sx={{ width: '100%', overflowY: 'auto' }}>
                         {
-                        isAdmin? user.role === 'Admin' ? <Outlet/>: <h1>Anda tidak memiliki akses halaman ini!</h1> : <Outlet/>
+                        isAdmin 
+                            ? localStorage.getItem('role') === 'Admin' 
+                                ? <Outlet/>
+                                : <h1>Anda tidak memiliki akses halaman ini!</h1> 
+                            : isPengelola
+                                ? localStorage.getItem('role') === 'Pengelola' || localStorage.getItem('role') === 'Admin'
+                                    ? <Outlet/>
+                                    : <h1>Anda tidak memiliki akses halaman ini!</h1>
+                                : <Outlet/>
                         }
                     </Box>
                 </Box>

@@ -367,7 +367,7 @@ paths:
               example: Dinas Pendidikan
             satuan_kerja:
               type: string
-              example: Pengurus Barang
+              example: Sekretariat
           required: []
       responses:
         '200':

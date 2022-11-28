@@ -62,16 +62,22 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
-        <Route path="/" element={<Layout isAdmin={false} user={user}/>}>
+        <Route path="/" element={<Layout isAdmin={false} user={user} isLogin={localStorage.getItem('token') !== null} />}>
           <Route path="" element={<Dashboard />}></Route>
 					<Route path="pendataan" element={<Pendataan />}></Route>
-					<Route path="pencatatan" element={<Pencatatan />}></Route>
-          <Route path="pelaporan" element={<Laporan />}></Route>
           <Route path="pendataan/pemeliharaan" element={<Pemeliharaan />}></Route>
           <Route path="pendataan/penghapusan" element={<Penghapusan />}></Route>
           <Route path="pendataan/pengadaan" element={<Pengadaan />}></Route>
           <Route path="pendataan/jadwal" element={<Jadwal />}></Route>
-          <Route path="pencatatan" element={<Dashboard />}></Route>
+        </Route>
+
+        
+        <Route path="/" element={<Layout isAdmin={false} isPengelola={true} user={user} isLogin={localStorage.getItem('token') !== null}/>}>
+          <Route path="pelaporan" element={<Laporan />}></Route>
+        </Route>
+
+        <Route path="/" element={<Layout isAdmin={false} isPengelola={true} user={user} isLogin={localStorage.getItem('token') !== null}/>}>
+          <Route path="pencatatan" element={<Pencatatan />}></Route>
           <Route path="pencatatan/mutasi-barang" element={<MutasiBarang />}></Route>
           <Route path="pencatatan/peminjaman" element={<Peminjaman />}></Route>
           <Route path="pencatatan/kir" element={<KIR />}></Route>
@@ -82,7 +88,8 @@ function App() {
           <Route path="kib/e" element={<AsetTetap />} />
           <Route path="kib/f" element={<Konstruksi />} />
         </Route>
-        <Route path="admin" element={<Layout isAdmin={true} user={user} />}>
+
+        <Route path="admin" element={<Layout isAdmin={true} isPengelola={false} user={user} isLogin={localStorage.getItem('token') !== null} />}>
           <Route path="skpd" element={<Skpd />}></Route>
           <Route path="ruangan" element={<RoomCode />}></Route>
           <Route path="barang" element={<GoodsCode />}></Route>

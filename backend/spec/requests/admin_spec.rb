@@ -239,7 +239,7 @@ describe 'CRUD Kode Barang' do
                 properties: {
                     provinsi: {type: :string, example: "Jawa Barat"},
                     unit: {type: :string, example: "Dinas Pendidikan"},
-                    satuan_kerja: {type: :string, example: "Pengurus Barang"}
+                    satuan_kerja: {type: :string, example: "Sekretariat"}
                 },
                 required: []
             }
