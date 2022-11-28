@@ -27,7 +27,7 @@ const Jadwal = () => {
         const fixedTanggal = splitedText[2] + '-' + splitedText[1] + '-' + splitedText[0];
 
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/create',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/create',
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -116,7 +116,7 @@ const Jadwal = () => {
 
     const editJadwal = async () => {
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/edit',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/edit',
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -148,7 +148,7 @@ const Jadwal = () => {
 
     const deleteJadwal = async (_id) => {
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/delete',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/delete',
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -178,8 +178,8 @@ const Jadwal = () => {
         setIsLoading(true);
         await fetch(
             isTableUsulan
-                ? 'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/search'
-                : 'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/search_riwayat',
+                ? 'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/search'
+                : 'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/search_riwayat',
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -209,7 +209,7 @@ const Jadwal = () => {
     const getDataTable = async (status) => {
         setIsLoading(true);
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/findAll',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/jadwal/findAll',
             {
                 method: "GET",
                 headers: {
