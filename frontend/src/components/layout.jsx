@@ -22,16 +22,26 @@ import { useState } from 'react';
 
 const Layout = ({ isAdmin, isPengelola, user }) => {
     const navigate = useNavigate();
-    React.useEffect(() => {
-        console.log('test');
-        if (localStorage.getItem('token') === null) {
-            navigate('/login');
-        }
-    }, []);
+    // React.useEffect(() => {
+    //     console.log('test');
+    //     if (localStorage.getItem('token') === null) {
+    //         navigate('/login');
+    //     }
+    // }, []);
 
     const publicMenuLists = [
         { name: "Dashboard", url: "/", icon: <Home size={20} /> },
-        { name: "Pendataan", url: "/pendataan", icon: <FilePlus size={20} /> },
+        {
+            name: "Pendataan",
+            url: "/pendataan",
+            icon: <FilePlus size={20} />,
+            child: [
+                { name: "Pemeliharaan", url: "/pendataan/pemeliharaan" },
+                { name: "Penghapusan", url: "/pendataan/penghapusan" },
+                { name: "Pengadaan", url: "/pendataan/pengadaan" },
+                { name: "Jadwal", url: "/pendataan/jadwal" },
+            ]
+        },
         { name: "Pencatatan", url: "/pencatatan", icon: <BoxFeather size={20} /> },
         { name: "Pelaporan", url: "/pelaporan", icon: <FileText size={20} /> }
     ];

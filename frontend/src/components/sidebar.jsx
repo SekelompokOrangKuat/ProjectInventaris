@@ -13,11 +13,11 @@ const Sidebar = (props) => {
     // Route-related functions 
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     return (
         <React.Fragment>
             <Box
-                width={props.size? "21.25rem": "unset"}
+                width={props.size ? "21.25rem" : "unset"}
                 sx={{
                     display: "flex",
                     flexDirection: "column",
