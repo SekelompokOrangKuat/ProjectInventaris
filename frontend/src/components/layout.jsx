@@ -18,6 +18,7 @@ import { useLocation, Outlet, useNavigate } from "react-router-dom";
 import Navbar from './navbar';
 import Sidebar from './sidebar';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 
 const Layout = ({ isAdmin, isPengelola, user }) => {
@@ -28,6 +29,12 @@ const Layout = ({ isAdmin, isPengelola, user }) => {
     //         navigate('/login');
     //     }
     // }, []);
+
+    useEffect(()=>{
+        if (user.role == ""){
+            navigate('/login');
+        }
+    },[user])
 
     const publicMenuLists = [
         { name: "Dashboard", url: "/", icon: <Home size={20} /> },
