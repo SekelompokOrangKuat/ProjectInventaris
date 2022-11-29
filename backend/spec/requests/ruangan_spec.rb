@@ -176,7 +176,7 @@ describe 'Kode Ruangan API' do
   end
 
   path '/v1/ruangan/kir/search_kir' do
-    post 'Get Barang By Ruangan' do
+    post 'Search KIR' do
       tags 'KIR'
       consumes 'application/json'
       produces 'application/json'

@@ -5364,7 +5364,7 @@ paths:
                 example: 401
   "/v1/ruangan/kir/search_kir":
     post:
-      summary: Get Barang By Ruangan
+      summary: Search KIR
       tags:
       - KIR
       consumes:
