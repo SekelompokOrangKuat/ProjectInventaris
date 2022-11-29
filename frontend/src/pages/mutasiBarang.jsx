@@ -7,6 +7,60 @@ const MutasiBarang = () => {
     const [dataTable, setDataTable] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
 
+    /* FORM DATA CHANGE */
+    const [kodeLokasi, setkodeLokasi] = React.useState('')
+    const [kodeBarang, setkodeBarang] = React.useState('')
+    const [register, setregister] = React.useState('')
+    const [namaBarang, setnamaBarang] = React.useState('')
+    const [merkBarang, setmerkBarang] = React.useState('')
+    const [bahanBarang, setbahanBarang] = React.useState('')
+    const [sertifikatBarang, setsertifikatBarang] = React.useState('')
+    const [asalPerolehan, setasalPerolehan] = React.useState('')
+    const [tahunPerolehan, settahunPerolehan] = React.useState('')
+    const [ukuranBarang, setukuranBarang] = React.useState('')
+    const [satuanBarang, setsatuanBarang] = React.useState('')
+    const [kondisiBarang, setkondisiBarang] = React.useState('')
+    const [jumlahAwalBarang, setjumlahAwalBarang] = React.useState('')
+    const [jumlahAwalHarga, setjumlahAwalHarga] = React.useState('')
+    const [mutasiBerkurangJumlahBarang, setmutasiBerkurangJumlahBarang] = React.useState('')
+    const [mutasiBertambahJumlahBarang, setmutasiBertambahJumlahBarang] = React.useState('')
+    const [mutasiBertambahJumlahHarga, setmutasiBertambahJumlahHarga] = React.useState('')
+    const [mutasiBerkurangJumlahHarga, setmutasiBerkurangJumlahHarga] = React.useState('')
+
+    const addBarang = async () => {
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/create',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    satuan: satuanBarang,
+                    jumlah_awal: jumlahAwalBarang,
+                    kode_barang: kodeBarang,
+                    nomor_register: register,
+                    jumlah_bertambah: mutasiBertambahJumlahBarang,
+                    jumlah_berkurang: mutasiBerkurangJumlahBarang,
+                    harga_berkurang: mutasiBerkurangJumlahHarga,
+                    harga_bertambah: mutasiBertambahJumlahHarga
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                getDataTable();
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }
+
     const getSearchDataTable = async (keywords) => {
         setIsLoading(true);
         await fetch(
@@ -40,7 +94,7 @@ const MutasiBarang = () => {
         setIsLoading(false);
     }
 
-    const getDataTable = async (status) => {
+    const getDataTable = async () => {
         setIsLoading(true);
         await fetch(
             'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/findAll',
@@ -77,30 +131,34 @@ const MutasiBarang = () => {
     const fields = [];
 
     const labels = [
-        "Kode Lokasi",
-        "Kode Barang",
-        "Register",
-        "Nama Barang",
-        "Merk/Type",
-        "Bahan",
-        "No. Pabrik, Mesin, Sertifikat",
-        "Asal/Cara Perolehan Barang",
-        "Tahun Beli/Perolehan",
-        "Ukuran, Barang/Konstrukrsi (P,SP,D)",
-        "Satuan",
-        "Kondisi (B, RR, RB)",
-        "Jumlah Awal (Barang)",
-        "Jumlah Awal (Harga)",
-        "Mutasi Berkurang (Jumlah Barang)",
-        "Mutasi Bertambah (Jumlah Harga)",
-        "Mutasi Bertambah (Jumlah Harga)",
-        "Mutasi Berkurang (Jumlah Harga)",
+        { nama: "Kode Lokasi", value: kodeLokasi, controller: setkodeLokasi },
+        { nama: "Kode Barang", value: kodeBarang, controller: setkodeBarang },
+        { nama: "Register", value: register, controller: setregister },
+        { nama: "Nama Barang", value: namaBarang, controller: setnamaBarang },
+        { nama: "Merk/Type", value: merkBarang, controller: setmerkBarang },
+        { nama: "Bahan", value: bahanBarang, controller: setbahanBarang },
+        { nama: "No. Pabrik, Mesin, Sertifikat", value: sertifikatBarang, controller: setsertifikatBarang },
+        { nama: "Asal/Cara Perolehan Barang", value: asalPerolehan, controller: setasalPerolehan },
+        { nama: "Tahun Beli/Perolehan", value: tahunPerolehan, controller: settahunPerolehan },
+        { nama: "Ukuran, Barang/Konstrukrsi (P,SP,D)", value: ukuranBarang, controller: setukuranBarang },
+        { nama: "Satuan", value: satuanBarang, controller: setsatuanBarang },
+        { nama: "Kondisi (B, RR, RB)", value: kondisiBarang, controller: setkondisiBarang },
+        { nama: "Jumlah Awal (Barang)", value: jumlahAwalBarang, controller: setjumlahAwalBarang },
+        { nama: "Jumlah Awal (Harga)", value: jumlahAwalHarga, controller: setjumlahAwalHarga },
+        { nama: "Mutasi Berkurang (Jumlah Barang)", value: mutasiBerkurangJumlahBarang, controller: setmutasiBerkurangJumlahBarang },
+        { nama: "Mutasi Bertambah (Jumlah Harga)", value: mutasiBertambahJumlahBarang, controller: setmutasiBertambahJumlahBarang },
+        { nama: "Mutasi Bertambah (Jumlah Harga)", value: mutasiBertambahJumlahHarga, controller: setmutasiBertambahJumlahHarga },
+        { nama: "Mutasi Berkurang (Jumlah Harga)", value: mutasiBerkurangJumlahHarga, controller: setmutasiBerkurangJumlahHarga },
     ];
+
+    const handleChangeDataForm = (controller, e) => {
+        controller(e.target.value);
+    }
 
     for (let i = 0; i < labels.length; i++) {
         fields.push(
             <Grid item xs={4}>
-                <TextField variant="outlined" label={labels[i]} fullWidth />
+                <TextField variant="outlined" label={labels[i].nama} value={labels[i].value} onChange={(e) => handleChangeDataForm(labels[i].controller, e)} fullWidth />
             </Grid>
         );
     }
@@ -216,7 +274,7 @@ const MutasiBarang = () => {
                     <Button variant="outlined" >
                         <Typography variant="button">Batal</Typography>
                     </Button>
-                    <Button variant="contained" disableElevation>
+                    <Button variant="contained" disableElevation onClick={addBarang}>
                         <Typography variant="button">Simpan</Typography>
                     </Button>
                 </Box>
