@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox, Select, MenuItem, LinearProgress } from "@mui/material";
-import { Box as BoxFeather, Edit, PlusSquare, Trash2 } from "react-feather";
+import { Box as BoxFeather, Edit, FileText, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
 const MutasiBarang = () => {
@@ -432,6 +432,25 @@ const MutasiBarang = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Grid
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                pr={3}
+                mb={3}
+            >
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        startIcon={<FileText />}
+                        onClick={() => window.open('/pdf/berita-acara-mutasi', '_blank')}
+                        m={2}
+                    >
+                        <Typography variant="button">Berita Acara Mutasi</Typography>
+                    </Button>
+                </Grid>
+            </Grid>
         </Box>
     )
 }
