@@ -27,20 +27,37 @@ const MutasiBarang = () => {
     const [mutasiBertambahJumlahHarga, setmutasiBertambahJumlahHarga] = React.useState('')
     const [mutasiBerkurangJumlahHarga, setmutasiBerkurangJumlahHarga] = React.useState('')
 
+    const concatData = (data1, data2) => {
+        let concatedData = [];
+        for (let i = 0; i < data2.length; i++) {
+            const joinedObject = { ...data1[i], ...data2[i] };
+            concatedData.push(joinedObject);
+        }
+        setDataTable(concatedData);
+    }
+
     const addBarang = async () => {
+        console.log(satuanBarang);
+        console.log(parseInt(jumlahAwalBarang));
+        console.log(kodeBarang);
+        console.log(register);
+        console.log(parseInt(mutasiBertambahJumlahBarang));
+        console.log(parseInt(mutasiBerkurangJumlahBarang));
+        console.log(parseInt(mutasiBerkurangJumlahHarga));
+        console.log(parseInt(mutasiBertambahJumlahHarga));
         await fetch(
             'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/create',
             {
                 method: "POST",
                 body: JSON.stringify({
                     satuan: satuanBarang,
-                    jumlah_awal: jumlahAwalBarang,
+                    jumlah_awal: parseInt(jumlahAwalBarang),
                     kode_barang: kodeBarang,
                     nomor_register: register,
-                    jumlah_bertambah: mutasiBertambahJumlahBarang,
-                    jumlah_berkurang: mutasiBerkurangJumlahBarang,
-                    harga_berkurang: mutasiBerkurangJumlahHarga,
-                    harga_bertambah: mutasiBertambahJumlahHarga
+                    jumlah_bertambah: parseInt(mutasiBertambahJumlahBarang),
+                    jumlah_berkurang: parseInt(mutasiBerkurangJumlahBarang),
+                    harga_berkurang: parseInt(mutasiBerkurangJumlahHarga),
+                    harga_bertambah: parseInt(mutasiBertambahJumlahHarga)
                 }),
                 headers: {
                     'Accept': 'application/json',
@@ -111,8 +128,9 @@ const MutasiBarang = () => {
         )
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
                 if (data.response_code === 200) {
-                    setDataTable(data.data);
+                    concatData(data.data.mutasi, data.data.barang);
                 } else {
                     console.log(`error: ${data.response_code} ${data.response_message}`);
                 }
@@ -390,24 +408,24 @@ const MutasiBarang = () => {
                                 </StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{index}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_register}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nama_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tipe_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_pabrik}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.bahan_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.asal_usul}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tahun_pembelian}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.ukuran_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.satuan}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kondisi_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_awal}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_akhir}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_bertambah}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.harga_bertambah}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_berkurang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.harga_berkurang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_akhir}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.harga_akhir}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
                             </StyledTableRow>
                         ))}
