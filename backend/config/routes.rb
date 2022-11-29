@@ -128,6 +128,7 @@ Rails.application.routes.draw do
         post "/create" => "mutasi#create"
         post "/edit" => "mutasi#edit"
         post "/delete" => "mutasi#delete"
+        post "/search" => "mutasi#search"
       end
     end
     namespace :admin do
