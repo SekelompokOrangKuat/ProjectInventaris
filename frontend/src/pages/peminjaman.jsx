@@ -103,6 +103,62 @@ const Peminjaman = () => {
             });
     }
 
+    const handleEditBarang = (item) => {
+        setNamaBarang();
+        setNoRegister();
+        setNamaPeminjam();
+        setNoPabrik();
+        setNIP();
+        setNoRangka();
+        setUnitKerja();
+        setNoMesin();
+        setNoHP();
+        setNoPolisi();
+        setJenisBarang();
+        setNoBPKB();
+        setKodeBarang();
+        setTanggalPeminjaman();
+        setMerkBarang();
+        setTanggalPengembalian();
+        setTahunPembelian();
+        setKeterangan();
+        setFotoBarang();
+    }
+
+    const editBarang = async () => {
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/peminjaman/peminjamans/edit',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    nama_barang: namaBarang,
+                    nomor_register: noRegister,
+                    nama_peminjam: namaPeminjam,
+                    nip_peminjam: NIP,
+                    hp_peminjam: noHP,
+                    unit_kerja: unitKerja,
+                    tanggal_peminjaman: tanggalPeminjaman,
+                    tanggal_pengembalian: tanggalPengembalian
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                getDataTable(isTableUsulan ? 1 : 2);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }
+
     const getSearchDataTable = async (keywords) => {
         setIsLoading(true);
         await fetch(
@@ -560,10 +616,10 @@ const Peminjaman = () => {
                                         : null
                                 }
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{index + 1}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>Nama Peminjam</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>NIP</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>Unit Kerja</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>NO HP</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nama_peminjam}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nip_peminjam}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.unit_kerja}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.hp_peminjam}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.nama_barang}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.tipe_barang}</StyledTableCell>
