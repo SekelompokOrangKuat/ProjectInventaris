@@ -370,6 +370,25 @@ const Peminjaman = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Grid
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                pr={3}
+                mb={3}
+            >
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        startIcon={<FileText />}
+                        onClick={() => window.open('/pdf/berita-acara-peminjaman', '_blank')}
+                        m={2}
+                    >
+                        <Typography variant="button">Berita Acara Peminjaman</Typography>
+                    </Button>
+                </Grid>
+            </Grid>
         </Box>
     )
 }
