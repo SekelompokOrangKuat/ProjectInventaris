@@ -45,19 +45,27 @@ const MutasiBarang = () => {
         console.log(parseInt(mutasiBerkurangJumlahBarang));
         console.log(parseInt(mutasiBerkurangJumlahHarga));
         console.log(parseInt(mutasiBertambahJumlahHarga));
+
+        const jumlah_awal_barang = parseInt(jumlahAwalBarang);
+        const mutasi_bertambah_jumlah_barang = parseInt(mutasiBertambahJumlahBarang);
+        const mutasi_berkurang_jumlah_barang = parseInt(mutasiBerkurangJumlahBarang);
+        const mutasi_bertambah_jumlah_harga = parseInt(mutasiBertambahJumlahHarga);
+        const mutasi_berkurang_jumlah_harga = parseInt(mutasiBerkurangJumlahHarga);
+
+
         await fetch(
             'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/create',
             {
                 method: "POST",
                 body: JSON.stringify({
                     satuan: satuanBarang,
-                    jumlah_awal: parseInt(jumlahAwalBarang),
+                    jumlah_awal: jumlah_awal_barang,
                     kode_barang: kodeBarang,
                     nomor_register: register,
-                    jumlah_bertambah: parseInt(mutasiBertambahJumlahBarang),
-                    jumlah_berkurang: parseInt(mutasiBerkurangJumlahBarang),
-                    harga_berkurang: parseInt(mutasiBerkurangJumlahHarga),
-                    harga_bertambah: parseInt(mutasiBertambahJumlahHarga)
+                    jumlah_bertambah: mutasi_bertambah_jumlah_barang,
+                    jumlah_berkurang: mutasi_berkurang_jumlah_barang,
+                    harga_berkurang: mutasi_bertambah_jumlah_harga,
+                    harga_bertambah: mutasi_berkurang_jumlah_harga
                 }),
                 headers: {
                     'Accept': 'application/json',
