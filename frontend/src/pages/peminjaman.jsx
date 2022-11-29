@@ -1,34 +1,89 @@
-import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox } from "@mui/material";
+import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox, Select, MenuItem, LinearProgress } from "@mui/material";
 import { Edit, FileText, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
 const Peminjaman = () => {
 
-    /* REST API EXAMPLE */
     const [dataTable, setDataTable] = React.useState([]);
-    React.useEffect(() => {
-        fetch(
-            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/peminjaman/peminjamans/findAll',
+    const [isTableUsulan, setIsTableUsulan] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    const concatData = (data1, data2, status) => {
+        let concatedData = [];
+        for (let i = 0; i < data2.length; i++) {
+            const joinedObject = { ...data1[i], ...data2[i] };
+            if (status === 1) {
+                if (joinedObject.status_peminjaman === 1) {
+                    concatedData.push(joinedObject);
+                }
+            } else {
+                if (joinedObject.status_peminjaman !== 1) {
+                    concatedData.push(joinedObject);
+                }
+            }
+        }
+        console.log(concatedData);
+        setDataTable(concatedData);
+    }
+
+    const getSearchDataTable = async (keywords) => {
+        setIsLoading(true);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/peminjaman/peminjamans/search_peminjaman',
             {
-                method: 'GET',
+                method: "POST",
+                body: JSON.stringify({
+                    keywords: keywords
+                }),
                 headers: {
                     'Accept': 'application/json',
                     'X-Requested-With': 'application/json',
                     'Content-type': 'application/json; charset=UTF-8',
                     'Access-Control-Allow-Origin': '*',
                     'Authorization': localStorage.getItem('token'),
-                },
+                }
             }
         )
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
-                setDataTable(data);
-                console.log(dataTable);
+                console.log(data);
+                concatData(data.data.peminjaman, data.data.barang, isTableUsulan ? 1 : 2);
             })
             .catch((err) => {
                 console.log(err.message);
             });
+        setIsLoading(false);
+    }
+
+    const getDataTable = async (status) => {
+        setIsLoading(true);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/peminjaman/peminjamans/findAll',
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                concatData(data.data.peminjaman, data.data.barang, status);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        setIsLoading(false);
+    }
+
+
+    /* Initial State */
+    React.useEffect(() => {
+        getDataTable(1);
     }, []);
 
     const fields = [];
@@ -178,6 +233,47 @@ const Peminjaman = () => {
                 </Box>
             </Stack>
 
+            <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                maxWidth="100%"
+                sx={{
+                    px: 3,
+                    boxSizing: "border-box"
+                }}
+            >
+                <Grid item>
+                    <Select
+                        value={isTableUsulan}
+                        onChange={() => {
+                            getDataTable(!isTableUsulan ? 1 : 2);
+                            setIsTableUsulan(!isTableUsulan);
+                        }}
+                    >
+                        <MenuItem value={true}>Peminjaman</MenuItem>
+                        <MenuItem value={false}>Riwayat</MenuItem>
+                    </Select>
+                </Grid>
+                <Grid item>
+                    <TextField
+                        variant="outlined"
+                        label="Search"
+                        onChange={
+                            (e) => {
+                                if (e.target.value !== '') {
+                                    getSearchDataTable(e.target.value);
+                                } else {
+                                    getDataTable(isTableUsulan ? 1 : 2);
+                                }
+                            }
+                        }
+                    />
+                </Grid>
+            </Grid>
+            {isLoading ? <LinearProgress sx={{ m: 3 }} /> : null}
+
             <TableContainer
                 component={Paper}
                 sx={{
@@ -189,7 +285,11 @@ const Peminjaman = () => {
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
+                            {
+                                isTableUsulan
+                                    ? <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
+                                    : null
+                            }
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
@@ -205,7 +305,11 @@ const Peminjaman = () => {
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
                         </TableRow>
                         <TableRow>
-                            <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}></StyledTableCell>
+                            {
+                                isTableUsulan
+                                    ? <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}></StyledTableCell>
+                                    : null
+                            }
                             <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>No</StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>Nama Peminjam</StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderTop: 0 }}>NIP</StyledTableCell>
@@ -228,32 +332,36 @@ const Peminjaman = () => {
                     <TableBody>
                         {dataTable.map((item, index) => (
                             <StyledTableRow key={index}>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>
-                                    <Stack
-                                        direction="row"
-                                        justifyContent="center"
-                                        alignItems="center"
-                                        spacing={2}
-                                    >
-                                        <Checkbox sx={{ margin: "0", padding: "0" }} size="medium" />
-                                        <Edit size={20} />
-                                        <Trash2 size={20} />
-                                    </Stack>
-                                </StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{index}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+                                {
+                                    isTableUsulan
+                                        ? <StyledTableCell align="center" sx={{ border: 1 }}>
+                                            <Stack
+                                                direction="row"
+                                                justifyContent="center"
+                                                alignItems="center"
+                                                spacing={2}
+                                            >
+                                                <Checkbox sx={{ margin: "0", padding: "0" }} size="medium" />
+                                                <Edit size={20} />
+                                                <Trash2 size={20} />
+                                            </Stack>
+                                        </StyledTableCell>
+                                        : null
+                                }
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{index + 1}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>Nama Peminjam</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>NIP</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>Unit Kerja</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>NO HP</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nama_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tipe_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tahun_pembelian}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_pabrik}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_rangka}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_mesin}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_polisi}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_bpkb}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.tanggal_peminjaman}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.tanggal_pengembalian}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
