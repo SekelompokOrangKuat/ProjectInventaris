@@ -1,33 +1,78 @@
-import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox } from "@mui/material";
+import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox, Select, MenuItem, LinearProgress } from "@mui/material";
 import { Box as BoxFeather, Edit, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
 const MutasiBarang = () => {
 
-    /* REST API EXAMPLE */
-    // const [posts, setPosts] = React.useState([]);
-    // React.useEffect(() => {
-    //     fetch(
-    //         'https://cors-anywhere.herokuapp.com/https://backend-sinbada.herokuapp.com/v1/kib/kiba/findAll',
-    //         {
-    //             method: 'GET',
-    //             headers: {
-    //                 // 'Accept': 'application/json',
-    //                 'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI2MzcxY2ViNmUyMWZhYzBjNDhlNGUxNmQifSwiZXhwIjoxNjY5MDMyMDE4fQ.PujpxQ882HAwkZjGAwHiUpj_LHf_FcF4OcwDNbBEuAY',
-    //                 'X-Requested-With': 'application/json'
-    //             },
-    //         }
-    //     )
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             setPosts(data);
-    //             console.log(posts[0]['_id']['$oid'])
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         });
-    // }, []);
+    const [dataTable, setDataTable] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    const getSearchDataTable = async (keywords) => {
+        setIsLoading(true);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/search',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    keywords: keywords
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    setDataTable(data.data);
+                } else {
+                    setDataTable([]);
+                    console.log(`error: ${data.response_code} ${data.response_message}`);
+                }
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        setIsLoading(false);
+    }
+
+    const getDataTable = async (status) => {
+        setIsLoading(true);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/findAll',
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    setDataTable(data.data);
+                } else {
+                    console.log(`error: ${data.response_code} ${data.response_message}`);
+                }
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        setIsLoading(false);
+    }
+
+    /* Initiate State */
+    React.useEffect(() => {
+        getDataTable();
+    }, []);
 
     const fields = [];
 
@@ -80,18 +125,6 @@ const MutasiBarang = () => {
             backgroundColor: "#D9E6FF",
         },
     }));
-
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-    }
-
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
 
     return (
         <Box
@@ -189,6 +222,35 @@ const MutasiBarang = () => {
                 </Box>
             </Stack>
 
+            <Grid
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                maxWidth="100%"
+                sx={{
+                    px: 3,
+                    boxSizing: "border-box"
+                }}
+            >
+                <Grid item>
+                    <TextField
+                        variant="outlined"
+                        label="Search"
+                        onChange={
+                            (e) => {
+                                if (e.target.value !== '') {
+                                    getSearchDataTable(e.target.value);
+                                } else {
+                                    getDataTable();
+                                }
+                            }
+                        }
+                    />
+                </Grid>
+            </Grid>
+            {isLoading ? <LinearProgress sx={{ m: 3 }} /> : null}
+
             <TableContainer
                 component={Paper}
                 sx={{
@@ -254,7 +316,7 @@ const MutasiBarang = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => (
+                        {dataTable.map((item, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>
                                     <Stack
@@ -269,25 +331,25 @@ const MutasiBarang = () => {
                                     </Stack>
                                 </StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{index}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
                             </StyledTableRow>
                         ))}
