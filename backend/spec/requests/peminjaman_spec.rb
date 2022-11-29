@@ -12,6 +12,10 @@ describe 'Peminjaman API' do
         properties: {
             nama_barang: {type: :string, example: "Sedan"},
             nomor_register: {type: :string, example: "0001"},
+            nama_peminjam: {type: :string, example: "Rafi"},
+            nip_peminjam: {type: :string, example: "12304012"},
+            hp_peminjam: {type: :string, example: "08122484848"},
+            unit_kerja: {type: :string, example: "Sekretariat"},
             tanggal_peminjaman: {type: :string, example: "19-11-2022"},
             tanggal_pengembalian: {type: :string, example: "20-11-2022"},
         },
@@ -40,7 +44,7 @@ describe 'Peminjaman API' do
     end
   end
 
-  path '/v1/peminjaman/peminjamanas/edit' do
+  path '/v1/peminjaman/peminjamans/edit' do
     post 'Edit Peminjaman' do
       tags 'Peminjaman'
       consumes 'application/json'
@@ -113,7 +117,7 @@ describe 'Peminjaman API' do
     end
   end
 
-  path '/v1/peminjaman/peminjamanas/search_peminjaman' do
+  path '/v1/peminjaman/peminjamans/search_peminjaman' do
     post 'Search Peminjaman' do
       tags 'Peminjaman'
       consumes 'application/json'

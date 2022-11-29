@@ -72,7 +72,7 @@ const Form = (props) => {
 						<FormControl>
 							<InputLabel id="label-provinsi">Provinsi</InputLabel>
 							<Select
-								defaultValue=""
+								defaultValue="Jawa Barat"
 								label="Provinsi"
 								labelId="label-provinsi"
 								id="select-provinsi"
@@ -85,7 +85,7 @@ const Form = (props) => {
 						<FormControl>
 							<InputLabel id="label-unit">Unit</InputLabel>
 							<Select
-								defaultValue=""
+								defaultValue="Dinas Pendidikan"
 								label="Unit"
 								labelId="label-unit"
 								id="select-unit"
@@ -98,14 +98,14 @@ const Form = (props) => {
 						<FormControl>
 							<InputLabel id="label-satuan-kerja">Satuan Kerja</InputLabel>
 							<Select
-								defaultValue=""
+								defaultValue="Sekretariat"
 								label="Satuan Kerja"
 								labelId="label-satuan-kerja"
 								id="select-satuan-kerja"
 								onChange={(e) => setSatuanKerja(e.target.value)}
 							>
 								<MenuItem value="">-</MenuItem>
-								<MenuItem value="Pengurus Barang">Pengurus Barang</MenuItem>
+								<MenuItem value="Sekretariat">Sekretariat</MenuItem>
 							</Select>
 						</FormControl>
 					</Box>
@@ -116,7 +116,7 @@ const Form = (props) => {
 }
 
 
-const UserCard = () => {
+const UserCard = (props) => {
 	const [open, setOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
@@ -143,14 +143,14 @@ const UserCard = () => {
 						gap: 1
 					}}
 				>
-					<Typography variant="h3">Kepala SKPD</Typography>
+					<Typography variant="h3">{props.jabatan}</Typography>
 					<Box sx={{ border: '1px solid #212121' }}></Box>
 					<Typography variant="h4" color="themeGrey.darkest">Nama</Typography>
-					<Typography variant="h5" color="themeGrey.main">Jajang</Typography>
+					<Typography variant="h5" color="themeGrey.main">{props.nama}</Typography>
 					<Typography variant="h4" color="themeGrey.darkest">NIP</Typography>
-					<Typography variant="h5" color="themeGrey.main">19820511122014111001</Typography>
+					<Typography variant="h5" color="themeGrey.main">{props.nip}</Typography>
 					<Typography variant="h4" color="themeGrey.darkest">Pangkat/gol/ruang</Typography>
-					<Typography variant="h5" color="themeGrey.main">Kepala SKPD</Typography>
+					<Typography variant="h5" color="themeGrey.main">{props.pangkat}</Typography>
 					<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end' }}>
 						<Button variant="outlined" onClick={handleClickOpen}>Edit</Button>
 					</Box>
@@ -230,7 +230,7 @@ const SKPD = () => {
 						gap: 5
 					}}
 				>
-					<UserCard />
+					<UserCard jabatan="Kepala SKPD" nama="Ir. H. Yessa Sarwedi Hamiseno, M.Pd" nip="196512242009011001" pangkat="Kepala SKPD"/>
 					<Box
 						sx={{
 							display: 'flex',
@@ -238,8 +238,8 @@ const SKPD = () => {
 							gap: 5
 						}}
 					>
-						<UserCard />
-						<UserCard />
+						<UserCard jabatan="Pengurus Barang" nama="Jajang Munawar, S.ST" nip="198409072002121001" pangkat="Pengurus barang"/>
+						<UserCard jabatan="Penganggung Jawab Ruangan" nama="Yana Suryana" nip="197501122009011001" pangkat="Penggung Jawab Ruangan"/>
 					</Box>
 				</Box>
 			</Box>

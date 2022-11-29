@@ -52,7 +52,14 @@ const Login = () => {
                     localStorage.setItem("nama", data.data.user.nama);
                     localStorage.setItem("role", data.data.user.user_role);
                     console.log(data.data);
-                    navigate("/");
+                    if (data.data != undefined) {
+                        if (data.data.user.user_role == "Admin") {
+                            navigate("/admin/skpd");
+                        }
+                        else{
+                            navigate("/");
+                        }
+                    }
                 } else {
                     setEmailPasswordValidation(false);
                     console.log('token not found!');

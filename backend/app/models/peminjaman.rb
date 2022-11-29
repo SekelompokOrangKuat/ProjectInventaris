@@ -5,6 +5,10 @@ class Peminjaman
     field :tanggal_peminjaman, type: Date
     field :tanggal_pengembalian, type: Date
     field :status_peminjaman, type: Integer
+    field :nama_peminjam, type: String 
+    field :nip_peminjam, type: String
+    field :hp_peminjam, type: String
+    field :unit_kerja, type: String
 
     scope :pending, -> { where(status_peminjaman: Enums::StatusPeminjaman::PENDING)}
     scope :borrowed, -> { where(status_peminjaman: Enums::StatusPeminjaman::BORROWED)}
