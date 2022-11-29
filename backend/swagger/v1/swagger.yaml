@@ -5363,7 +5363,7 @@ paths:
                 type: integer
                 example: 401
   "/v1/ruangan/kir/search_kir":
-    get:
+    post:
       summary: Get Barang By Ruangan
       tags:
       - KIR
