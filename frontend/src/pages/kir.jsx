@@ -19,6 +19,7 @@ const KIR = () => {
 	const [isTambahRuangan, setIsTambahRuangan] = React.useState(true);
 	const [getNamaBarang, setGetNamaBarang] = React.useState(true);
 	const [currentEditNamaRuangan, setCurrentEditNamaRuangan] = React.useState('');
+	const [selectedRuangan, setSelectedRuangan] = React.useState('');
 
 	const [namaRuangan, setNamaRuangan] = React.useState('');
 	const [kodeLokasi, setKodeLokasi] = React.useState('');
@@ -31,6 +32,10 @@ const KIR = () => {
 	const [tahunPembelianBarang, setTahunPembelianBarang] = React.useState('');
 	const [hargaPembelian, setHargaPembelian] = React.useState('');
 	const [keterangan, setKeterangan] = React.useState('');
+	const [ruanganListSelect, setRuanganListSelect] = React.useState([]);
+	const [dataTable, setDataTable] = React.useState([]);
+	const [selectedBarang, setSelectedBarang] = React.useState('');
+	const [ruanganInput, setRuanganInput] = React.useState('');
 
 	const handleNamaBarangChange = async (e) => {
 		setValueNamaBarang(e);
@@ -45,6 +50,11 @@ const KIR = () => {
 			setValueRegisterBarang(null);
 			handleRegisterBarangChange('');
 		}
+	}
+
+	const handleRuanganBarangChange = (e) => {
+		console.log(e);
+		setRuanganInput(e);
 	}
 
 	const handleRegisterBarangChange = (e) => {
@@ -67,13 +77,16 @@ const KIR = () => {
 
 	const fields = [];
 
-	const editBarang = async (namaRuangan) => {
+	const editBarang = async () => {
+		console.log(selectedBarang);
+		console.log(ruanganInput);
 		await fetch(
 			'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/edit',
 			{
 				method: 'POST',
 				body: JSON.stringify({
-					nama_ruangan: namaRuangan
+					id: selectedBarang,
+					nama_ruangan: ruanganInput
 				}),
 				headers: {
 					'Accept': 'application/json',
@@ -99,6 +112,7 @@ const KIR = () => {
 		setIsTambahBarang(false);
 		setCurrentEditNamaRuangan(item.nama_ruangan);
 	}
+
 	const getBarangData = async (namaBarang, noRegister) => {
 		await fetch(
 			'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/getBarang',
@@ -120,11 +134,7 @@ const KIR = () => {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.response_code === 200) {
-					if (data.data.nama_ruangan === null || data.data.nama_ruangan === '') {
-						setNamaRuangan('-');
-					} else {
-						setNamaRuangan(data.data.nama_ruangan);
-					}
+					setNamaRuangan(data.data.nama_ruangan);
 					setKodeLokasi(data.data.kode_lokasi);
 					setKodeBarang(data.data.kode_barang);
 					setKeterangan(data.data.keterangan);
@@ -134,6 +144,7 @@ const KIR = () => {
 					setUkuranBarang(data.data.ukuran_barang);
 					setNoSeriPabrik(data.data.nomor_pabrik);
 					setTahunPembelianBarang(data.data.tahun_pembelian);
+					setSelectedBarang(data.data._id.$oid);
 				} else {
 					console.log('error');
 				}
@@ -179,7 +190,7 @@ const KIR = () => {
 			{
 				method: 'POST',
 				body: JSON.stringify({
-
+					nama_ruangan: "KEPALA BIDANG GTK"
 				}),
 				headers: {
 					'Accept': 'application/json',
@@ -192,20 +203,16 @@ const KIR = () => {
 		)
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				if (data.response_code === 200) {
-					if (data.data.nama_ruangan === null || data.data.nama_ruangan === '') {
-						setNamaRuangan('-');
-					} else {
-						setNamaRuangan(data.data.nama_ruangan);
-					}
-					setKodeBarang(data.data.kode_barang);
+					setDataTable(data.data);
 				} else {
-					console.log('error');
+					console.log(`error: ${data.response_code} ${data.response_message}`);
 				}
 			})
 			.catch((err) => { console.log('error: ' + err); });
 
-	})
+	}, []);
 	React.useEffect(() => {
 		fetch(
 			'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/findAll',
@@ -222,6 +229,7 @@ const KIR = () => {
 		)
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				if (data.response_code === 200) {
 					let barangName = [];
 					let barangNameFix = [];
@@ -233,7 +241,6 @@ const KIR = () => {
 						barangNameFix.push({ label: barangName[i] });
 					}
 					setDataNamaBarang(barangNameFix);
-					console.log(data)
 				} else {
 					console.log('error');
 				}
@@ -241,8 +248,8 @@ const KIR = () => {
 			.catch((err) => { console.log('error: ' + err); });
 	}, []);
 
-	React.useEffect(() => {
-		fetch(
+	const getSemuaRuangan = async () => {
+		await fetch(
 			'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/findAll',
 			{
 				method: 'GET',
@@ -257,6 +264,7 @@ const KIR = () => {
 		)
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				if (data.response_code === 200) {
 					let namaRuangan = [];
 					let namaRuanganFix = [];
@@ -267,10 +275,20 @@ const KIR = () => {
 					for (let i = 0; i < namaRuangan.length; i++) {
 						namaRuanganFix.push({ label: namaRuangan[i] });
 					}
+
+					const ruanganListSelectt = [];
+
+					for (let i = 0; i < namaRuanganFix.length; i++) {
+						ruanganListSelectt.push(
+							<MenuItem value={namaRuanganFix[i].nama_ruangan}>{namaRuanganFix[i].nama_ruangan}</MenuItem>
+						)
+					}
+					setSelectedRuangan(namaRuanganFix[0].nama_ruangan);
+					setRuanganListSelect(ruanganListSelectt);
 					setDataRuangan(namaRuanganFix);
 					console.log(data)
 				} else {
-					console.log('error');
+					console.log(`error: ${data.response_code} ${data.response_message}`);
 				}
 				console.log(data);
 
@@ -278,6 +296,10 @@ const KIR = () => {
 			.catch((err) => {
 				console.log('error: ' + err);
 			});
+	}
+
+	React.useEffect(() => {
+		getSemuaRuangan();
 	}, []);
 
 	const labels1 = [
@@ -285,11 +307,11 @@ const KIR = () => {
 		{ label: 'Kepala Seksi Pengembangan' },
 	]
 	const labels = [
+		{ name: "Nama Barang", controller: setDataNamaBarang, value: dataNamaBarang, isDisabled: !isTambahBarang, autocomplete: true },
+		{ name: "Register", controller: setInputRegisterBarang, value: inputRegisterBarang, isDisabled: !isTambahBarang, autocomplete: true },
+		{ name: "Nama Ruangan", controller: setRuanganInput, value: ruanganInput, isDisabled: false, autocomplete: false },
 		{ name: "Kode Lokasi", controller: setKodeLokasi, value: kodeLokasi, isDisabled: true, autocomplete: false },
 		{ name: "Kode Barang", controller: setKodeBarang, value: kodeBarang, isDisabled: true, autocomplete: false },
-		{ name: "Register", controller: setInputRegisterBarang, value: inputRegisterBarang, isDisabled: !isTambahBarang, autocomplete: true },
-		{ name: "Nama Ruangan", controller: setDataRuangan, value: dataRuangan, isDisabled: false, autocomplete: false },
-		{ name: "Nama Barang", controller: setDataNamaBarang, value: dataNamaBarang, isDisabled: !isTambahBarang, autocomplete: true },
 		{ name: "Merk/Model", controller: setMerkBarang, value: merkBarang, isDisabled: true, autocomplete: false },
 		{ name: "No. Seri Pabrik", controller: setNoSeriPabrik, value: noSeriPabrik, isDisabled: true, autocomplete: false },
 		{ name: "Ukuran", controller: setUkuranBarang, value: ukuranBarang, isDisabled: true, autocomplete: false },
@@ -309,6 +331,8 @@ const KIR = () => {
 							disablePortal
 							id="combo-box-demo"
 							options={labels1}
+							// input={ruanganInput}
+							onInputChange={(e, val) => handleRuanganBarangChange(val)}
 							renderInput={(params) => <TextField {...params} label="Nama Ruangan" />}
 						/>
 					</Grid>
@@ -435,7 +459,7 @@ const KIR = () => {
 				>
 					<PlusSquare size={24} color="#757575" />
 					<Typography variant="h2" sx={{ color: "themeGrey.darker" }}>
-						Tambah Barang
+						Edit Ruangan Barang
 					</Typography>
 				</Grid>
 				<Grid
@@ -464,7 +488,7 @@ const KIR = () => {
 					<Button variant="outlined" >
 						<Typography variant="button">Batal</Typography>
 					</Button>
-					<Button variant="contained" disableElevation onClick={isLoading ? null : editBarang(currentEditNamaRuangan)}>
+					<Button variant="contained" disableElevation onClick={isLoading ? null : editBarang}>
 						<Typography variant="button">Simpan</Typography>
 					</Button>
 				</Box>
@@ -482,10 +506,12 @@ const KIR = () => {
 			>
 				<Grid item>
 					<Select
+						value={1}
+					// onChange={(e) => setSelectedRuangan(e)}
 					>
-						<MenuItem
-							value={dataRuangan}
-						>{dataRuangan.nama_ruangan}</MenuItem>
+						<MenuItem value={0}>Kepala Seksi Pengembangan</MenuItem>
+						<MenuItem value={1}>KEPALA BIDANG GTK</MenuItem>
+						{ruanganListSelect}
 					</Select>
 				</Grid>
 				{/* <Grid item>
@@ -548,7 +574,7 @@ const KIR = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row, index) => (
+						{dataTable.map((row, index) => (
 							<StyledTableRow key={index}>
 								<StyledTableCell align="center" sx={{ border: 1 }}>
 									<Stack
