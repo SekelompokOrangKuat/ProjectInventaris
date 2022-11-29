@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, IconButton, LinearProgress, Select, MenuItem } from "@mui/material";
-import { Edit, PlusSquare, Save, Trash2 } from "react-feather";
+import { CheckSquare, Edit, PlusSquare, Save, Trash2 } from "react-feather";
 import React from "react";
 
 const Pengadaan = () => {
@@ -7,11 +7,13 @@ const Pengadaan = () => {
     const [dataTable, setDataTable] = React.useState([]);
     const [isTableUsulan, setIsTableUsulan] = React.useState(true);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [isTambahBarang, setIsTambahBarang] = React.useState(true);
+    const [selectedBarang, setSelectedBarang] = React.useState('');
 
     /* FORM DATA CHANGE */
     const [namaRuangan, setNamaRuangan] = React.useState('');
     const [spesifikasiBarang, setSpesifikasiBarang] = React.useState('');
-    const [namaPenanggungJawab, setNamaPenanggungJawab] = React.useState('');
+    const [namaPenanggungJawab, setNamaPenanggungJawab] = React.useState(localStorage.getItem("nama"));
     const [merkBarang, setMerkBarang] = React.useState('');
     const [kodeBarang, setKodeBarang] = React.useState('');
     const [keterangan, setKeterangan] = React.useState('');
@@ -28,6 +30,8 @@ const Pengadaan = () => {
     const [nomorBPKB, setNomorBPKB] = React.useState('');
     const [asalUsul, setAsalUsul] = React.useState('');
     const [hargaBarang, setHargaBarang] = React.useState('');
+    const [kodeLokasi, setKodeLokasi] = React.useState('');
+    const [nomorRegister, setNomorRegister] = React.useState('');
 
     const concatData = (data1, data2, status) => {
         let concatedData = [];
@@ -46,14 +50,243 @@ const Pengadaan = () => {
         setDataTable(concatedData);
     }
 
-    const addBarang = () => {
+    const addBarang = async () => {
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengadaan/create',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    nama_pengusul: namaPenanggungJawab,
+                    spesifikasi_barang: spesifikasiBarang,
+                    foto_barang: fotoBarang,
+                    nama_ruangan: namaRuangan,
+                    kode_barang: kodeBarang,
+                    kode_lokasi: kodeLokasi,
+                    nama_barang: namaBarang,
+                    nomor_register: nomorRegister,
+                    tipe_barang: merkBarang,
+                    ukuran_barang: ukuranBarang,
+                    bahan_barang: bahanBarang,
+                    tahun_pembelian: tahunPembelian,
+                    nomor_pabrik: nomorPabrik,
+                    nomor_rangka: nomorRangka,
+                    nomor_mesin: nomorMesin,
+                    nomor_polisi: nomorPolisi,
+                    nomor_bpkb: nomorBPKB,
+                    asal_usul: asalUsul,
+                    harga_barang: hargaBarang,
+                    keterangan: keterangan
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 201) {
+                    getDataTable(isTableUsulan ? 0 : 1);
+                    // clearForm();
+                } else {
+                    console.log('error' + data.response_code + data.response_message);
+                }
+            })
+            .catch((err) => {
+                console.log('error: ' + err.message);
+            });
+    }
 
+    const editBarang = async () => {
+        console.log(selectedBarang);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengadaan/edit',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    id: selectedBarang,
+                    nama_pengusul: namaPenanggungJawab,
+                    spesifikasi_barang: spesifikasiBarang,
+                    foto_barang: fotoBarang,
+                    nama_ruangan: namaRuangan,
+                    kode_barang: kodeBarang,
+                    kode_lokasi: kodeLokasi,
+                    nama_barang: namaBarang,
+                    nomor_register: nomorRegister,
+                    tipe_barang: merkBarang,
+                    ukuran_barang: ukuranBarang,
+                    bahan_barang: bahanBarang,
+                    tahun_pembelian: tahunPembelian,
+                    nomor_pabrik: nomorPabrik,
+                    nomor_rangka: nomorRangka,
+                    nomor_mesin: nomorMesin,
+                    nomor_polisi: nomorPolisi,
+                    nomor_bpkb: nomorBPKB,
+                    asal_usul: asalUsul,
+                    harga_barang: hargaBarang,
+                    keterangan: keterangan
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    getDataTable(isTableUsulan ? 0 : 1);
+                    clearForm();
+                } else {
+                    console.log('error' + data.response_code + data.response_message);
+                }
+            })
+            .catch((err) => {
+                console.log('error: ' + err.message);
+            });
+    }
+
+    const handleEditBarang = (item) => {
+        setIsTambahBarang(false);
+        setNamaRuangan(item.nama_ruangan);
+        setSpesifikasiBarang(item.spesifikasi_barang);
+        setNamaPenanggungJawab(item.nama_pengusul);
+        setMerkBarang(item.tipe_barang);
+        setKodeBarang(item.kode_barang);
+        setKeterangan(item.keterangan);
+        setNamaBarang(item.nama_barang);
+        setFotoBarang(item.foto_barang);
+        setJumlahBarang(item.jumlah_barang);
+        setUkuranBarang(item.ukuran_barang);
+        setBahanBarang(item.bahan_barang);
+        setTahunPembelian(item.tahun_pembelian);
+        setNomorPabrik(item.nomor_pabrik);
+        setNomorRangka(item.nomor_rangka);
+        setNomorMesin(item.nomor_mesin);
+        setNomorPolisi(item.nomor_polisi);
+        setNomorBPKB(item.nomor_bpkb);
+        setAsalUsul(item.asal_usul);
+        setHargaBarang(item.harga_barang);
+        setKodeLokasi(item.kode_lokasi);
+        setNomorRegister(item.nomor_register);
+        setSelectedBarang(item.user_pengadaan_id.$oid);
+    }
+
+    const deleteBarang = async (_id) => {
+        console.log(_id);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengadaan/delete',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    id: _id,
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    console.log(data.data);
+                    getDataTable(isTableUsulan ? 0 : 1);
+                } else {
+                    console.log('error' + data.response_code + data.response_message);
+                }
+            })
+            .catch((err) => {
+                console.log('error: ' + err.message);
+            });
+    }
+
+    const setApprovalBarang = async (_id, approvalStatus) => {
+        console.log(_id);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengadaan/approval',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    id: _id,
+                    is_approve: approvalStatus,
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('approval');
+                console.log(data);
+                if (data.response_code === 200) {
+                    getDataTable(isTableUsulan ? 0 : 1);
+                } else {
+                    console.log('error' + data.response_code + data.response_message);
+                }
+            })
+            .catch((err) => {
+                console.log('error: ' + err.message);
+            });
+    }
+
+    const getSearchDataTable = async (keywords) => {
+        setIsLoading(true);
+        await fetch(
+            isTableUsulan
+                ? 'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengadaan/search'
+                : 'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengadaan/search_riwayat',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    keywords: keywords
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.response_code === 200) {
+                    concatData(
+                        data.data.pengadaan,
+                        data.data.barang,
+                        isTableUsulan ? 0 : 1);
+                } else {
+                    setDataTable([]);
+                    console.log('error' + data.response_code + data.response_message);
+                }
+            })
+            .catch((err) => {
+                console.log('error: ' + err.message);
+            });
+        setIsLoading(false);
     }
 
     const getDataTable = async (status) => {
         setIsLoading(true);
         await fetch(
-            'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengadaan/findAll',
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengadaan/findAll',
             {
                 method: "GET",
                 headers: {
@@ -68,7 +301,6 @@ const Pengadaan = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data.response_code === 200) {
-                    console.log(data.data);
                     concatData(
                         data.data.pengadaan,
                         data.data.barang,
@@ -100,6 +332,29 @@ const Pengadaan = () => {
         }
     }
 
+    const clearForm = () => {
+        setNamaPenanggungJawab('');
+        setSpesifikasiBarang('');
+        setFotoBarang('');
+        setNamaRuangan('');
+        setKodeBarang('');
+        setKodeLokasi('');
+        setNamaBarang('');
+        setNomorRegister('');
+        setMerkBarang('');
+        setUkuranBarang('');
+        setBahanBarang('');
+        setTahunPembelian('');
+        setNomorPabrik('');
+        setNomorRangka('');
+        setNomorMesin('');
+        setNomorPolisi('');
+        setNomorBPKB('');
+        setAsalUsul('');
+        setHargaBarang('');
+        setKeterangan('');
+    }
+
     React.useEffect(() => {
         getDataTable(0);
     }, []);
@@ -108,10 +363,12 @@ const Pengadaan = () => {
 
     const labels = [
         { name: "Nama Ruangan", controller: setNamaRuangan, value: namaRuangan },
+        { name: "Kode Lokasi", controller: setKodeLokasi, value: kodeLokasi },
         { name: "Spesifikasi", controller: setSpesifikasiBarang, value: spesifikasiBarang },
         { name: "Nama Penanggung Jawab", controller: setNamaPenanggungJawab, value: namaPenanggungJawab },
         { name: "Merk/Type", controller: setMerkBarang, value: merkBarang },
         { name: "Kode Barang", controller: setKodeBarang, value: kodeBarang },
+        { name: "Nomor Register", controller: setNomorRegister, value: nomorRegister },
         { name: "Keterangan", controller: setKeterangan, value: keterangan },
         { name: "Nama Barang", controller: setNamaBarang, value: namaBarang },
         { name: "Upload Gambar", controller: setFotoBarang, value: fotoBarang },
@@ -135,7 +392,7 @@ const Pengadaan = () => {
     for (let i = 0; i < labels.length; i++) {
         fields.push(
             <Grid item xs={4}>
-                <TextField variant="outlined" label={labels[i].name} onChange={(e) => handleChangeInput(labels[i].controller, e)} fullWidth />
+                <TextField variant="outlined" label={labels[i].name} value={labels[i].value} onChange={(e) => handleChangeInput(labels[i].controller, e)} fullWidth />
             </Grid>
         );
     }
@@ -184,7 +441,7 @@ const Pengadaan = () => {
                     alignItems="center"
                     gap={1}
                 >
-                    <Trash2 size={20} />
+                    <CheckSquare size={20} />
                     <Typography variant="h2">
                         Pengadaan Barang
                     </Typography>
@@ -222,7 +479,7 @@ const Pengadaan = () => {
                 >
                     <PlusSquare size={24} color="#757575" />
                     <Typography variant="h2" sx={{ color: "themeGrey.darker" }}>
-                        Tambah Barang
+                        {isTambahBarang ? "Tambah" : "Edit"} Barang
                     </Typography>
                 </Grid>
                 <Grid
@@ -248,11 +505,11 @@ const Pengadaan = () => {
                     pr={4}
                     gap={1}
                 >
-                    <Button variant="outlined" >
+                    <Button variant="outlined" onClick={isTambahBarang ? clearForm : () => setIsTambahBarang(true)}>
                         <Typography variant="button">Batal</Typography>
                     </Button>
                     <Button variant="contained" disableElevation>
-                        <Typography variant="button">Simpan</Typography>
+                        <Typography variant="button" onClick={isTambahBarang ? addBarang : editBarang}>Simpan</Typography>
                     </Button>
                 </Box>
             </Stack>
@@ -285,22 +542,22 @@ const Pengadaan = () => {
                     <TextField
                         variant="outlined"
                         label="Search"
-                    // onChange={
-                    //     (e) => {
-                    //         if (e.target.value !== '') {
-                    //             getSearchDataTable(e.target.value);
-                    //         } else {
-                    //             getDataTable(isTableUsulan ? 0 : 1);
-                    //         }
-                    //     }
-                    // }
+                        onChange={
+                            (e) => {
+                                if (e.target.value !== '') {
+                                    getSearchDataTable(e.target.value);
+                                } else {
+                                    getDataTable(isTableUsulan ? 0 : 1);
+                                }
+                            }
+                        }
                     />
                 </Grid>
             </Grid>
 
             {
                 isLoading
-                    ? <LinearProgress m={3} />
+                    ? <LinearProgress p={3} />
                     : null
             }
 
@@ -315,7 +572,7 @@ const Pengadaan = () => {
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell>
+                            {isTableUsulan ? <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}></StyledTableCell> : null}
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>No</StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Nama Ruangan</StyledTableCell>
                             <StyledTableCell align="center" sx={{ border: 1, borderBottom: 0 }}>Nama Penanggung Jawab</StyledTableCell>
@@ -341,10 +598,10 @@ const Pengadaan = () => {
                                                 alignItems="center"
                                                 spacing={2}
                                             >
-                                                <IconButton >
+                                                <IconButton onClick={() => handleEditBarang(item)}>
                                                     <Edit size={20} />
                                                 </IconButton>
-                                                <IconButton>
+                                                <IconButton onClick={() => deleteBarang(item.user_pengadaan_id.$oid)}>
                                                     <Trash2 size={20} />
                                                 </IconButton>
                                             </Stack>
@@ -376,7 +633,7 @@ const Pengadaan = () => {
                                                     startIcon={<Save />}
                                                     color="success"
                                                     sx={{ minWidth: "108px" }}
-                                                // onClick={() => approvalBarang(item.user_pengusulan_id.$oid, "true")}
+                                                    onClick={() => setApprovalBarang(item.user_pengadaan_id.$oid, "true")}
                                                 >
                                                     <Typography variant="button">Terima</Typography>
                                                 </Button>
@@ -385,7 +642,7 @@ const Pengadaan = () => {
                                                     startIcon={<Save />}
                                                     color="error"
                                                     sx={{ minWidth: "108px" }}
-                                                // onClick={() => approvalBarang(item.user_pengusulan_id.$oid, "false")}
+                                                    onClick={() => setApprovalBarang(item.user_pengadaan_id.$oid, "false")}
                                                 >
                                                     <Typography variant="button">Tolak</Typography>
                                                 </Button>
