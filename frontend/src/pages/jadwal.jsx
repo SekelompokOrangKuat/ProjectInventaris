@@ -424,7 +424,7 @@ const Jadwal = () => {
                             setIsTableUsulan(!isTableUsulan);
                         }}
                     >
-                        <MenuItem value={true}>Usulan</MenuItem>
+                        <MenuItem value={true}>Jadwal</MenuItem>
                         <MenuItem value={false}>Riwayat</MenuItem>
                     </Select>
                 </Grid>
