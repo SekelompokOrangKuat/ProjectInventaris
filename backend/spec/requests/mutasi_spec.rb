@@ -10,6 +10,8 @@ describe 'CRUD Mutasi Barang' do
             parameter name: :body, in: :body, schema: {
                 type: :object,
                 properties: {
+                    satuan: {type: :string, example: "Unit"},
+                    jumlah_awal: {type: :integer, example: 1}
                     kode_barang: {type: :string, example: "1.3.2.02.01.01.001"},
                     nomor_register: {type: :string, example: "0001"},
                     jumlah_bertambah: {type: :integer, example: 1},
@@ -51,7 +53,7 @@ describe 'CRUD Mutasi Barang' do
             parameter name: :body, in: :body, schema: {
                 type: :object,
                 properties: {
-                    keywords: {type: :string, example: "Sedan"}
+                    keywords: {type: :string, example: "Portable"}
                 },
                 required: []
             }

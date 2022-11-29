@@ -227,27 +227,39 @@ class V1::Pengelola::MutasiController < ApplicationController
             end
         end
     end
-
+    mutasi = Pengelola::Mutasibarang.where(:barang_kibb_id.in => Barang::Kibb.undeleted.pluck(:_id))
+    barang = Barang::Kibb.undeleted.where(:_id.in => Pengelola::Mutasibarang.pluck(:barang_kibb_id))
     #Find One Mutasi Barang
     def search
-        if not role.match(/Admin/).present?
+        if not role.match(/Pengelola/).present?
             render json: {
                 response_code: 401,
                 response_message: "Tidak memiliki akses!"
             }, status: unauthorized
         else
-            @search = Admin::Kodebarang.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
-            if not @search.present?
-                render json: {
-                    response_code: 422, 
-                    response_message: "Keyword tidak dapat ditemukan!"
-                }, status: :unprocessable_entity
-            else
+            @mutasi = Pengelola::Mutasibarang.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+            if @mutasi.present?
+                barang = Barang::Kibb.undeleted.where(:_id.in => @mutasi.pluck(:barang_kibb_id))
                 render json: {
                     response_code: 200,
                     response_message: "Success",
-                    data: @search
+                    data: {barang: barang, mutasi: @mutasi}
                 }, status: :ok
+            else not @mutasi.present?
+                @barang = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+                mutasi = Pengelola::Mutasibarang.where(:barang_kibb_id.in => @barang.pluck(:_id))
+                if @barang.present?
+                    render json: {
+                        response_code: 200,
+                        response_message: "Success",
+                        data: {barang: @barang, mutasi: mutasi}
+                    }, status: :ok
+                else
+                    render json: {
+                        response_code: 422,
+                        response_message: "Keyword tidak dapat ditemukan!"
+                    }, status: :unprocessable_entity
+                end
             end
         end
     end

@@ -4,557 +4,6 @@ info:
   title: INVENTARIS API V1
   version: v1
 paths:
-  "/v1/admin/kb/create":
-    post:
-      summary: Create Kode Barang
-      tags:
-      - Kode Barang
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        requied: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            golongan:
-              type: string
-              example: '02'
-            bidang:
-              type: string
-              example: '08'
-            kelompok:
-              type: string
-              example: '01'
-            sub_kelompok:
-              type: string
-              example: '01'
-            sub_sub_kelompok:
-              type: string
-              example: '01'
-            nama_barang:
-              type: string
-              example: Sterilisator
-          required: []
-      responses:
-        '201':
-          description: Created
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Kode Barang gagal di buat, silahkan di coba kembali!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/kb/search":
-    post:
-      summary: Search Kode Barang
-      tags:
-      - Kode Barang
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            keywords:
-              type: string
-              example: Sterilisator
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Kode Barang tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/kb/edit":
-    post:
-      summary: Edit Kode Barang
-      tags:
-      - Kode Barang
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            id:
-              type: string
-              example: 6383c2e4377be028d43ab0e4
-            jumlah_bertambah:
-              type: integer
-              example: 1
-            jumlah_berkurang:
-              type: integer
-              example: 0
-            harga_berkurang:
-              type: integer
-              example: 0
-            harga_bertambah:
-              type: integer
-              example: 2000000
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Mutasi Barang tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/kb/delete":
-    post:
-      summary: Delete Kode Barang
-      tags:
-      - Kode Barang
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            id:
-              type: string
-              example: 637b82bc377be018f03103b3
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Kode Barang tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/kb/findAll":
-    get:
-      summary: Find All Kode Barang
-      tags:
-      - Kode Barang
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Kode Barang tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/skpd/create":
-    post:
-      summary: Create SKPD
-      tags:
-      - SKPD
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        requied: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            jabatan:
-              type: string
-              example: Pengurus Barang
-            nama:
-              type: string
-              example: Jajang
-            nip:
-              type: string
-              example: '19820511122014111001'
-            pangkat:
-              type: string
-              example: Kepala SKPD
-            provinsi:
-              type: string
-              example: Jawa Barat
-            unit:
-              type: string
-              example: Dinas Pendidikan
-            satuan_kerja:
-              type: string
-              example: Pengurus Barang
-          required: []
-      responses:
-        '201':
-          description: Created
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: SKPD gagal di buat, silahkan di coba kembali!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/skpd/findBy":
-    post:
-      summary: Find All SKPD by Provinsi AND Unit AND Satuan Kerja
-      tags:
-      - SKPD
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            provinsi:
-              type: string
-              example: Jawa Barat
-            unit:
-              type: string
-              example: Dinas Pendidikan
-            satuan_kerja:
-              type: string
-              example: Sekretariat
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: SKPD tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/skpd/edit":
-    post:
-      summary: Edit SKPD
-      tags:
-      - SKPD
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            jabatan:
-              type: string
-              example: Pengurus Barang
-            nama:
-              type: string
-              example: Toni
-            nip:
-              type: string
-              example: '19820511122014111002'
-            pangkat:
-              type: string
-              example: Kepala SKPD
-            provinsi:
-              type: string
-              example: Jawa Barat
-            unit:
-              type: string
-              example: Dinas Pendidikan
-            satuan_kerja:
-              type: string
-              example: Sekretariat
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: SKPD tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/skpd/delete":
-    post:
-      summary: Delete SKPD
-      tags:
-      - SKPD
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            id:
-              type: string
-              example: 637b82bc377be018f0310312
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: SKPD tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/admin/skpd/findAll":
-    get:
-      summary: Find All SKPD
-      tags:
-      - SKPD
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak ada data!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
   "/login":
     post:
       summary: Login
@@ -3209,7 +2658,7 @@ paths:
               response_code:
                 type: integer
                 example: 401
-  "/v1/pengelola/mutasi/create":
+  "/v1/peminjaman/peminjamans/create":
     post:
       summary: Create Mutasi Barang
       tags:
@@ -3295,7 +2744,7 @@ paths:
           properties:
             keywords:
               type: string
-              example: Sedan
+              example: Portable
           required: []
       responses:
         '200':
@@ -4503,11 +3952,294 @@ paths:
               response_code:
                 type: integer
                 example: 401
-  "/v1/user/pengusulan/search_riwayat_pemeliharaan":
+"/v1/admin/skpd/create":
     post:
-      summary: Search Riwayat Pengusulan Pemeliharaan
+      summary: Create SKPD
       tags:
-      - Pengusulan
+      - SKPD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            jabatan:
+              type: string
+              example: Pengurus Barang
+            nama:
+              type: string
+              example: Jajang
+            nip:
+              type: string
+              example: '19820511122014111001'
+            pangkat:
+              type: string
+              example: Kepala SKPD
+            provinsi:
+              type: string
+              example: Jawa Barat
+            unit:
+              type: string
+              example: Dinas Pendidikan
+            satuan_kerja:
+              type: string
+              example: Sekretariat
+          required: []
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: SKPD gagal di buat, silahkan di coba kembali!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/skpd/findBy":
+    post:
+      summary: Find All SKPD by Provinsi AND Unit AND Satuan Kerja
+      tags:
+      - SKPD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            provinsi:
+              type: string
+              example: Jawa Barat
+            unit:
+              type: string
+              example: Dinas Pendidikan
+            satuan_kerja:
+              type: string
+              example: Sekretariat
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: SKPD tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/skpd/edit":
+    post:
+      summary: Edit SKPD
+      tags:
+      - SKPD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            jabatan:
+              type: string
+              example: Pengurus Barang
+            nama:
+              type: string
+              example: Toni
+            nip:
+              type: string
+              example: '19820511122014111002'
+            pangkat:
+              type: string
+              example: Kepala SKPD
+            provinsi:
+              type: string
+              example: Jawa Barat
+            unit:
+              type: string
+              example: Dinas Pendidikan
+            satuan_kerja:
+              type: string
+              example: Sekretariat
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: SKPD tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/skpd/delete":
+    post:
+      summary: Delete SKPD
+      tags:
+      - SKPD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 638235b0e21fac0354b16976
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: SKPD tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/skpd/findAll":
+    get:
+      summary: Find All SKPD
+      tags:
+      - SKPD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/kb/search":
+    post:
+      summary: Search Kode Barang
+      tags:
+      - Kode Barang
       consumes:
       - application/json
       produces:
@@ -4524,7 +4256,7 @@ paths:
           properties:
             keywords:
               type: string
-              example: Jeep
+              example: Sterilisator
           required: []
       responses:
         '200':
@@ -4538,7 +4270,7 @@ paths:
             properties:
               response_message:
                 type: string
-                example: Pengadaan tidak dapat ditemukan!
+                example: Kode Barang tidak ditemukan!
               response_code:
                 type: integer
                 example: 422
@@ -4553,11 +4285,76 @@ paths:
               response_code:
                 type: integer
                 example: 401
-  "/v1/user/pengusulan/edit":
+  "/v1/admin/kb/create":
+      post:
+        summary: Create Kode Barang
+        tags:
+        - Kode Barang
+        consumes:
+        - application/json
+        produces:
+        - application/json
+        parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              golongan:
+                type: string
+                example: '02'
+              bidang:
+                type: string
+                example: '08'
+              kelompok:
+                type: string
+                example: '01'
+              sub_kelompok:
+                type: string
+                example: '01'
+              sub_sub_kelompok:
+                type: string
+                example: '01'
+              nama_barang:
+                type: string
+                example: Sterilisator
+            required: []
+        responses:
+          '201':
+            description: Created
+            schema:
+              type: object
+          '422':
+            description: Unprocessable Entity
+            schema:
+              type: object
+              properties:
+                response_message:
+                  type: string
+                  example: Kode Barang gagal di buat, silahkan di coba kembali!
+                response_code:
+                  type: integer
+                  example: 422
+          '401':
+            description: Unauthorized
+            schema:
+              type: object
+              properties:
+                response_message:
+                  type: string
+                  example: Tidak memiliki akses!
+                response_code:
+                  type: integer
+                  example: 401
+  "/v1/admin/kb/edit":
     post:
-      summary: Edit Pengusulan
+      summary: Edit Kode Barang
       tags:
-      - Pengusulan
+      - Kode Barang
       consumes:
       - application/json
       produces:
@@ -4574,261 +4371,714 @@ paths:
           properties:
             id:
               type: string
-              example: 637923e0e21fac2eb88fd183
-            nama_pengusul:
+              example: '637b82bc377be018f03103b3'
+            golongan:
               type: string
-              example: Admin Sinbada
-            kondisi_barang:
+              example: '02'
+            bidang:
               type: string
-              example: Rusak
-            keterangan:
+              example: '08'
+            kelompok:
               type: string
-              example: "-"
-            foto_barang:
+              example: '01'
+            sub_kelompok:
               type: string
-              example: img.png
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Pengadaan tidak dapat ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/pengusulan/delete":
-    post:
-      summary: Delete Pengusulan
-      tags:
-      - Pengusulan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            id:
+              example: '01'
+            sub_sub_kelompok:
               type: string
-              example: 637923e0e21fac2eb88fd183
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Pengadaan tidak dapat ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/pengusulan/approval":
-    post:
-      summary: Approval Pengusulan
-      tags:
-      - Pengusulan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            id:
-              type: string
-              example: 637923e0e21fac2eb88fd183
-            is_approve:
-              type: string
-              example: 'true'
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Pengadaan tidak dapat ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/pengusulan/find_penghapusan":
-    get:
-      summary: Find All Pengusulan Penghapusan
-      tags:
-      - Pengusulan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak ada data!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/pengusulan/find_pemeliharaan":
-    get:
-      summary: Find All Pengusulan Pemeliharaan
-      tags:
-      - Pengusulan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak ada data!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/pengusulan/getBarang":
-    post:
-      summary: Get Barang
-      tags:
-      - Pengusulan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
+              example: '01'
             nama_barang:
               type: string
-              example: Sedan
+              example: Sterilisator
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Kode Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/kb/delete":
+    post:
+      summary: Delete Kode Barang
+      tags:
+      - Kode Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 638235b0e21fac0354b16976
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Kode Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/kb/findAll":
+    get:
+      summary: Find All Kode Barang
+      tags:
+      - Kode Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/pengelola/mutasi/create":
+      post:
+        summary: Create Mutasi Barang
+        tags:
+        - Mutasi Barang
+        consumes:
+        - application/json
+        produces:
+        - application/json
+        parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+            satuan:
+              type: string
+              example: 'Unit'
+            jumlah_awal:
+              type: integer
+              example: 1
+            kode_barang:
+              type: string
+              example: '1.3.2.02.01.01.001'
+            nomor_register:
+              type: string
+              example: '0001'
+            jumlah_bertambah:
+              type: integer
+              example: 1
+            jumlah_berkurang:
+              type: integer
+              example: 0
+            harga_berkurang:
+              type: integer
+              example: 0
+            harga_bertambah:
+              type: integer
+              example: 2000000
+            required: []
+        responses:
+          '201':
+            description: Created
+            schema:
+              type: object
+          '422':
+            description: Unprocessable Entity
+            schema:
+              type: object
+              properties:
+                response_message:
+                  type: string
+                  example: Mutasi Barang gagal di buat, silahkan di coba kembali!
+                response_code:
+                  type: integer
+                  example: 422
+          '401':
+            description: Unauthorized
+            schema:
+              type: object
+              properties:
+                response_message:
+                  type: string
+                  example: Tidak memiliki akses!
+                response_code:
+                  type: integer
+                  example: 401
+  "/v1/pengelola/mutasi/edit":
+    post:
+      summary: Edit Mutasi Barang
+      tags:
+      - Mutasi Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: '6383c2e4377be028d43ab0e4'
+            jumlah_bertambah:
+              type: integer
+              example: 1
+            jumlah_berkurang:
+              type: integer
+              example: 0
+            harga_berkurang:
+              type: integer
+              example: 0
+            harga_bertambah:
+              type: integer
+              example: 2000000
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Mutasi Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/pengelola/mutasi/delete":
+    post:
+      summary: Delete Mutasi Barang
+      tags:
+      - Mutasi Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 6383c2e4377be028d43ab0e4
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Mutasi Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/kb/findAll":
+    get:
+      summary: Find All Kode Barang
+      tags:
+      - Kode Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak ada data!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+
+
+  "/v1/admin/kb/create":
+      post:
+        summary: Create Kode Barang
+        tags:
+        - Kode Barang
+        consumes:
+        - application/json
+        produces:
+        - application/json
+        parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              golongan:
+                type: string
+                example: '02'
+              bidang:
+                type: string
+                example: '08'
+              kelompok:
+                type: string
+                example: '01'
+              sub_kelompok:
+                type: string
+                example: '01'
+              sub_sub_kelompok:
+                type: string
+                example: '01'
+              nama_barang:
+                type: string
+                example: Sterilisator
+            required: []
+        responses:
+          '201':
+            description: Created
+            schema:
+              type: object
+          '422':
+            description: Unprocessable Entity
+            schema:
+              type: object
+              properties:
+                response_message:
+                  type: string
+                  example: Kode Barang gagal di buat, silahkan di coba kembali!
+                response_code:
+                  type: integer
+                  example: 422
+          '401':
+            description: Unauthorized
+            schema:
+              type: object
+              properties:
+                response_message:
+                  type: string
+                  example: Tidak memiliki akses!
+                response_code:
+                  type: integer
+                  example: 401
+  "/v1/admin/skpd/edit":
+    post:
+      summary: Edit SKPD
+      tags:
+      - SKPD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: '637b82bc377be018f03103b3'
+            golongan:
+              type: string
+              example: '02'
+            bidang:
+              type: string
+              example: '08'
+            kelompok:
+              type: string
+              example: '01'
+            sub_kelompok:
+              type: string
+              example: '01'
+            sub_sub_kelompok:
+              type: string
+              example: '01'
+            nama_barang:
+              type: string
+              example: Sterilisator
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Kode Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/kb/delete":
+    post:
+      summary: Delete Mutasi Barang
+      tags:
+      - Mutasi Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 6383c2e4377be028d43ab0e4
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Mutasi Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/kb/findAll":
+    get:
+      summary: Find All Mutasi Barang
+      tags:
+      - Mutasi Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Mutasi Barang tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/admin/kb/findAllkodebarang":
+    get:
+      summary: Find All Kode Barang
+      tags:
+      - Mutasi Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Kode Barang tidak ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/pengelola/mutasi/get_noreg":
+    post:
+      summary: Find Nomor Registrasi Barang
+      tags:
+      - Mutasi Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            kode_barang:
+              type: string
+              example: '1.3.2.02.01.01.001'
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Nomor Registrasi Barang tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
+  "/v1/pengelola/mutasi/get_barang":
+    post:
+      summary: Find Barang by Nomor Registrasi & Kode Barang
+      tags:
+      - Mutasi Barang
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            kode_barang:
+              type: string
+              example: '1.3.2.02.01.01.001'
             nomor_register:
               type: string
               example: '0001'
           required: []
       responses:
-        '201':
-          description: Created
+        '200':
+          description: Successfull
           schema:
             type: object
         '422':
@@ -4839,580 +5089,6 @@ paths:
               response_message:
                 type: string
                 example: Barang tidak dapat ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/registrasi/create":
-    post:
-      summary: Create User
-      tags:
-      - Registrasi
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            email:
-              type: string
-              example: sinbada@gmail.com
-            password:
-              type: string
-              example: '12345678'
-            password_confirmation:
-              type: string
-              example: '12345678'
-            user_role:
-              type: string
-              example: Admin
-            nama:
-              type: string
-              example: Admin Sinbada
-            nip:
-              type: string
-              example: '019231234329102'
-            telepon:
-              type: string
-              example: '081232132318'
-          required: []
-      responses:
-        '201':
-          description: Created
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Email is Already Taken
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/registrasi/search":
-    post:
-      summary: Search User
-      tags:
-      - Registrasi
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            keywords:
-              type: string
-              example: sinbada@gmail.com
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: User tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/registrasi/edit":
-    post:
-      summary: Edit User
-      tags:
-      - Registrasi
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            id:
-              type: string
-              example: 636cfd59e21fac2ab08223c3
-            email:
-              type: string
-              example: sinbada@gmail.com
-            user_role:
-              type: string
-              example: Admin
-            nama:
-              type: string
-              example: Admin Sinbada
-            nip:
-              type: string
-              example: '019231234329102'
-            telepon:
-              type: string
-              example: '081232132318'
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: User tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/registrasi/delete":
-    post:
-      summary: Delete User
-      tags:
-      - Registrasi
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            email:
-              type: string
-              example: sinbada@gmail.com
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: User tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/user/registrasi/findAll":
-    get:
-      summary: Find All User
-      tags:
-      - Registrasi
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak ada data!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/ruangan/ruangans/create":
-    post:
-      summary: Create Ruangan
-      tags:
-      - Ruangan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            nama_ruangan:
-              type: string
-              example: Kepala Bidang GTK
-            bidang_ruangan:
-              type: string
-              example: '02'
-            kelompok_ruangan:
-              type: string
-              example: '001'
-          required: []
-      responses:
-        '201':
-          description: Created
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Data is invalid!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/ruangan/ruangans/edit":
-    post:
-      summary: Edit Ruangan
-      tags:
-      - Ruangan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            _id:
-              type: string
-              example: 636d3c94a566de364c2a8ebf
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Ruangan tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/ruangan/ruangans/delete":
-    post:
-      summary: Hapus Ruangan
-      tags:
-      - Ruangan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            _id:
-              type: string
-              example: 636d3c94a566de364c2a8ebf
-          required: []
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Ruangan tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/ruangan/ruangans/findAll":
-    get:
-      summary: Get Ruangan
-      tags:
-      - Ruangan
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Ruangan tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/ruangan/kir/findbyruangan":
-    post:
-      summary: Get Barang By Ruangan
-      tags:
-      - KIR
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            nama_ruangan:
-              type: string
-              example: Kepala Seksi Pengembangan
-          required: []
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Ruangan tidak ditemukan!
-              response_code:
-                type: integer
-                example: 422
-        '401':
-          description: Unauthorized
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Tidak memiliki akses!
-              response_code:
-                type: integer
-                example: 401
-  "/v1/ruangan/kir/search_kir":
-    post:
-      summary: Search KIR
-      tags:
-      - KIR
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: body
-        in: body
-        schema:
-          type: object
-          properties:
-            nama_ruangan:
-              type: string
-              example: Kepala Seksi Pengembangan
-            keywords:
-              type: string
-              example: ''
-          required: []
-      - name: Authorization
-        in: header
-        type: string
-        required: true
-      responses:
-        '200':
-          description: Successfull
-          schema:
-            type: object
-        '422':
-          description: Unprocessable Entity
-          schema:
-            type: object
-            properties:
-              response_message:
-                type: string
-                example: Ruangan tidak ditemukan!
               response_code:
                 type: integer
                 example: 422
