@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox, Select, MenuItem, LinearProgress } from "@mui/material";
+import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox, Select, MenuItem, LinearProgress, Autocomplete } from "@mui/material";
 import { Box as BoxFeather, Edit, FileText, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
@@ -26,6 +26,9 @@ const MutasiBarang = () => {
     const [mutasiBertambahJumlahBarang, setmutasiBertambahJumlahBarang] = React.useState('')
     const [mutasiBertambahJumlahHarga, setmutasiBertambahJumlahHarga] = React.useState('')
     const [mutasiBerkurangJumlahHarga, setmutasiBerkurangJumlahHarga] = React.useState('')
+
+    const [dataRegisterBarang, setDataRegisterBarang] = React.useState([]);
+    const [dataNamaBarang, setDataNamaBarang] = React.useState([]);
 
     const concatData = (data1, data2) => {
         let concatedData = [];
@@ -148,6 +151,111 @@ const MutasiBarang = () => {
             });
         setIsLoading(false);
     }
+    const getNoRegister = async (namaBarang) => {
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/search',
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    keywords: namaBarang
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    let barangRegister = [];
+                    for (let i = 0; i < data.data.length; i++) {
+                        barangRegister.push({ label: data.data[i].nomor_register, id: i });
+                    }
+                    setDataRegisterBarang(barangRegister);
+                } else {
+                    console.log('error');
+                }
+            })
+            .catch((err) => { console.log('error: ' + err); });
+    }
+    const getBarangData = async (namaBarang, noRegister) => {
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/getBarang',
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    nama_barang: namaBarang,
+                    nomor_register: noRegister
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    // if (data.data.nama_ruangan === null || data.data.nama_ruangan === '') {
+                    //     setNamaRuangan('-');
+                    // } else {
+                    //     setNamaRuangan(data.data.nama_ruangan);
+                    // }
+                    setkodeLokasi(data.data.kode_lokasi);
+                    setkodeBarang(data.data.kode_barang);
+                    setmerkBarang(data.data.tipe_barang);
+                    setbahanBarang(data.data.bahan_barang);
+                    setsertifikatBarang(data.data.nomor_pabrik);
+                    setasalPerolehan(data.data.asal_usul);
+                    settahunPerolehan(data.data.tahun_pembelian);
+                    setukuranBarang(data.data.ukuran_barang);
+                } else {
+                    console.log('error');
+                }
+            })
+            .catch((err) => { console.log('error: ' + err); });
+    }
+
+    React.useEffect(() => {
+        fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/findAll',
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    let barangName = [];
+                    let barangNameFix = [];
+                    for (let i = 0; i < data.data.length; i++) {
+                        barangName.push(data.data[i].nama_barang);
+                    }
+                    barangName = [...new Set(barangName)];
+                    for (let i = 0; i < barangName.length; i++) {
+                        barangNameFix.push({ label: barangName[i] });
+                    }
+                    setDataNamaBarang(barangNameFix);
+                } else {
+                    console.log('error');
+                }
+            })
+            .catch((err) => { console.log('error: ' + err); });
+    }, []);
 
     /* Initiate State */
     React.useEffect(() => {
@@ -157,34 +265,60 @@ const MutasiBarang = () => {
     const fields = [];
 
     const labels = [
-        { nama: "Kode Lokasi", value: kodeLokasi, controller: setkodeLokasi },
-        { nama: "Kode Barang", value: kodeBarang, controller: setkodeBarang },
-        { nama: "Register", value: register, controller: setregister },
-        { nama: "Nama Barang", value: namaBarang, controller: setnamaBarang },
-        { nama: "Merk/Type", value: merkBarang, controller: setmerkBarang },
-        { nama: "Bahan", value: bahanBarang, controller: setbahanBarang },
-        { nama: "No. Pabrik, Mesin, Sertifikat", value: sertifikatBarang, controller: setsertifikatBarang },
-        { nama: "Asal/Cara Perolehan Barang", value: asalPerolehan, controller: setasalPerolehan },
-        { nama: "Tahun Beli/Perolehan", value: tahunPerolehan, controller: settahunPerolehan },
-        { nama: "Ukuran, Barang/Konstrukrsi (P,SP,D)", value: ukuranBarang, controller: setukuranBarang },
-        { nama: "Satuan", value: satuanBarang, controller: setsatuanBarang },
-        { nama: "Kondisi (B, RR, RB)", value: kondisiBarang, controller: setkondisiBarang },
-        { nama: "Jumlah Awal (Barang)", value: jumlahAwalBarang, controller: setjumlahAwalBarang },
-        { nama: "Jumlah Awal (Harga)", value: jumlahAwalHarga, controller: setjumlahAwalHarga },
-        { nama: "Mutasi Berkurang (Jumlah Barang)", value: mutasiBerkurangJumlahBarang, controller: setmutasiBerkurangJumlahBarang },
-        { nama: "Mutasi Bertambah (Jumlah Harga)", value: mutasiBertambahJumlahBarang, controller: setmutasiBertambahJumlahBarang },
-        { nama: "Mutasi Bertambah (Jumlah Harga)", value: mutasiBertambahJumlahHarga, controller: setmutasiBertambahJumlahHarga },
-        { nama: "Mutasi Berkurang (Jumlah Harga)", value: mutasiBerkurangJumlahHarga, controller: setmutasiBerkurangJumlahHarga },
+        { nama: "Nama Barang", value: namaBarang, controller: setnamaBarang, autoComplete: true, isDisable: false },
+        { nama: "Register", value: register, controller: setregister, autoComplete: true, isDisable: true },
+        { nama: "Kode Lokasi", value: kodeLokasi, controller: setkodeLokasi, autoComplete: false, isDisable: true },
+        { nama: "Kode Barang", value: kodeBarang, controller: setkodeBarang, autoComplete: false, isDisable: true },
+        { nama: "Merk/Type", value: merkBarang, controller: setmerkBarang, autoComplete: false, isDisable: true },
+        { nama: "Bahan", value: bahanBarang, controller: setbahanBarang, autoComplete: false, isDisable: true },
+        { nama: "No. Pabrik, Mesin, Sertifikat", value: sertifikatBarang, controller: setsertifikatBarang, autoComplete: false, isDisable: true },
+        { nama: "Asal/Cara Perolehan Barang", value: asalPerolehan, controller: setasalPerolehan, autoComplete: false, isDisable: true },
+        { nama: "Tahun Beli/Perolehan", value: tahunPerolehan, controller: settahunPerolehan, autoComplete: false, isDisable: true },
+        { nama: "Ukuran, Barang/Konstrukrsi (P,SP,D)", value: ukuranBarang, controller: setukuranBarang, autoComplete: false, isDisable: true },
+        { nama: "Satuan", value: satuanBarang, controller: setsatuanBarang, autoComplete: false, isDisable: false },
+        { nama: "Kondisi (B, RR, RB)", value: kondisiBarang, controller: setkondisiBarang, autoComplete: false, isDisable: false },
+        { nama: "Jumlah Awal (Barang)", value: jumlahAwalBarang, controller: setjumlahAwalBarang, autoComplete: false, isDisable: false },
+        { nama: "Jumlah Awal (Harga)", value: jumlahAwalHarga, controller: setjumlahAwalHarga, autoComplete: false, isDisable: false },
+        { nama: "Mutasi Berkurang (Jumlah Barang)", value: mutasiBerkurangJumlahBarang, controller: setmutasiBerkurangJumlahBarang, autoComplete: false, isDisable: false },
+        { nama: "Mutasi Bertambah (Jumlah Harga)", value: mutasiBertambahJumlahBarang, controller: setmutasiBertambahJumlahBarang, autoComplete: false, isDisable: false },
+        { nama: "Mutasi Bertambah (Jumlah Harga)", value: mutasiBertambahJumlahHarga, controller: setmutasiBertambahJumlahHarga, autoComplete: false, isDisable: false },
+        { nama: "Mutasi Berkurang (Jumlah Harga)", value: mutasiBerkurangJumlahHarga, controller: setmutasiBerkurangJumlahHarga, autoComplete: false, isDisable: false },
     ];
 
     const handleChangeDataForm = (controller, e) => {
         controller(e.target.value);
     }
 
+    const handleNamaBarangChange = async (e) => {
+        setnamaBarang(e);
+        if (e !== '') {
+            await getNoRegister(e);
+            handleRegisterBarangChange(dataRegisterBarang[0].label);
+        } else {
+            handleRegisterBarangChange('');
+        }
+    }
+
+    const handleRegisterBarangChange = (e) => {
+        setregister(e);
+        if (e !== '') {
+            getBarangData(namaBarang, e);
+        }
+    }
+
     for (let i = 0; i < labels.length; i++) {
         fields.push(
             <Grid item xs={4}>
-                <TextField variant="outlined" label={labels[i].nama} value={labels[i].value} onChange={(e) => handleChangeDataForm(labels[i].controller, e)} fullWidth />
+                {labels[i].autoComplete
+                    ? <Autocomplete
+                        disablePortal
+                        options={labels[i].nama.localeCompare('Nama Barang') === 0 ? dataNamaBarang : dataRegisterBarang}
+                        renderInput={(params) => <TextField {...params} variant="outlined" label={labels[i].nama} />}
+                        fullWidth
+                        input={labels[i].value}
+                        onInputChange={(event, newInput) => labels[i].nama.localeCompare('Nama Barang') === 0 ? handleNamaBarangChange(newInput) : handleRegisterBarangChange(newInput)}
+                    />
+                    : <TextField variant="outlined" label={labels[i].nama} value={labels[i].value} onChange={(e) => handleChangeDataForm(labels[i].controller, e)} fullWidth disabled={labels[i].isDisable} />}
             </Grid>
         );
     }
@@ -414,7 +548,7 @@ const MutasiBarang = () => {
                                         <Trash2 size={20} />
                                     </Stack>
                                 </StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{index}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{index + 1}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_register}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{item.nama_barang}</StyledTableCell>
