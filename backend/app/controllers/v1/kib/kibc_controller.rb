@@ -74,6 +74,7 @@ class V1::Kib::KibcController < ApplicationController
                         }, status: :unprocessable_entity
                 else
                     begin
+                        is_trigger = true
                         @kib_c = Barang::Kibc.find(params[:id])
                         kode_barang = params[:kode_barang]
                         kode_lokasi = params[:kode_lokasi]
@@ -103,7 +104,6 @@ class V1::Kib::KibcController < ApplicationController
                         end
                         if params[:nomor_register].blank? or params[:nomor_register] == @barang.nomor_register
                             nomor_register = @kib_c.nomor_register
-                            is_trigger = true
                         else
                             nomor_registered = Barang::Kibc.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
                             if nomor_registered.present?
