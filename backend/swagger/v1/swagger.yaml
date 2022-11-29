@@ -5313,7 +5313,7 @@ paths:
                 type: integer
                 example: 401
   "/v1/ruangan/kir/findbyruangan":
-    get:
+    post:
       summary: Get Barang By Ruangan
       tags:
       - KIR
