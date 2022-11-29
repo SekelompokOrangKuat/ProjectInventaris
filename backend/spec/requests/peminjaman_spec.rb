@@ -117,7 +117,7 @@ describe 'Peminjaman API' do
     end
   end
 
-  path '/v1/peminjaman/peminjamanas/search_peminjaman' do
+  path '/v1/peminjaman/peminjamans/search_peminjaman' do
     post 'Search Peminjaman' do
       tags 'Peminjaman'
       consumes 'application/json'

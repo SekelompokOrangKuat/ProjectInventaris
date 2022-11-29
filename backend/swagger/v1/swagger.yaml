@@ -3733,7 +3733,7 @@ paths:
               response_code:
                 type: integer
                 example: 401
-  "/v1/peminjaman/peminjamanas/search_peminjaman":
+  "/v1/peminjaman/peminjamans/search_peminjaman":
     post:
       summary: Search Peminjaman
       tags:
