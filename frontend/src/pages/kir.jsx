@@ -1,4 +1,4 @@
-import { Box, Grid, MenuItem, Select, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox, Autocomplete } from "@mui/material";
+import { Box, Grid, MenuItem, Select, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox, Autocomplete, FormControl, InputLabel } from "@mui/material";
 import { Edit, FileText, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
@@ -32,10 +32,13 @@ const KIR = () => {
 	const [tahunPembelianBarang, setTahunPembelianBarang] = React.useState('');
 	const [hargaPembelian, setHargaPembelian] = React.useState('');
 	const [keterangan, setKeterangan] = React.useState('');
-	const [ruanganListSelect, setRuanganListSelect] = React.useState([]);
+
+	const [listNamaRuangan, setListNamaRuangan] = React.useState([]);
 	const [dataTable, setDataTable] = React.useState([]);
 	const [selectedBarang, setSelectedBarang] = React.useState('');
 	const [ruanganInput, setRuanganInput] = React.useState('');
+	const [ruanganTableSelected, setRuanganTableSelected] = React.useState('');
+	const [itemRuangan, setItemRuangan] = React.useState([]);
 
 	const handleNamaBarangChange = async (e) => {
 		setValueNamaBarang(e);
@@ -63,13 +66,6 @@ const KIR = () => {
 			getBarangData(inputNamaBarang, e);
 		}
 	}
-
-	// const handleNamaRuanganChange = (e) => {
-	// 	setInputNamaRuangan(e);
-	// 	if (e !== '') {
-	// 		getNamaRuangan(inputNamaRuangan, e);
-	// 	}
-	// }
 
 	const handleAutoFillField = (controller, e) => {
 		controller(e.target.value);
@@ -184,13 +180,13 @@ const KIR = () => {
 			.catch((err) => { console.log('error: ' + err); });
 	}
 
-	React.useEffect(() => {
+	const getDataTableByRuangan = (_ruangan) => {
 		fetch(
-			'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/kir/findbyruangan',
+			'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/kir/findbyruangan',
 			{
 				method: 'POST',
 				body: JSON.stringify({
-					nama_ruangan: "KEPALA BIDANG GTK"
+					nama_ruangan: _ruangan
 				}),
 				headers: {
 					'Accept': 'application/json',
@@ -203,16 +199,18 @@ const KIR = () => {
 		)
 			.then((response) => response.json())
 			.then((data) => {
+				console.log('dataaa table');
 				console.log(data);
 				if (data.response_code === 200) {
-					setDataTable(data.data);
+					setDataTable(data.data.kib);
 				} else {
+					setDataTable([]);
 					console.log(`error: ${data.response_code} ${data.response_message}`);
 				}
 			})
 			.catch((err) => { console.log('error: ' + err); });
+	}
 
-	}, []);
 	React.useEffect(() => {
 		fetch(
 			'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/findAll',
@@ -248,9 +246,15 @@ const KIR = () => {
 			.catch((err) => { console.log('error: ' + err); });
 	}, []);
 
+	const handleRuanganTableChange = (e) => {
+		setRuanganTableSelected(e);
+		getDataTableByRuangan(e);
+	}
+
 	const getSemuaRuangan = async () => {
+		console.log('get here');
 		await fetch(
-			'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/findAll',
+			'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/findAll',
 			{
 				method: 'GET',
 				headers: {
@@ -264,34 +268,22 @@ const KIR = () => {
 		)
 			.then((response) => response.json())
 			.then((data) => {
+				console.log('cik kadieu teu');
 				console.log(data);
-				if (data.response_code === 200) {
-					let namaRuangan = [];
-					let namaRuanganFix = [];
-					for (let i = 0; i < data.data.length; i++) {
-						namaRuangan.push(data.data[i].nama_ruangan);
-					}
-					namaRuangan = [...new Set(namaRuangan)];
-					for (let i = 0; i < namaRuangan.length; i++) {
-						namaRuanganFix.push({ label: namaRuangan[i] });
-					}
-
-					const ruanganListSelectt = [];
-
-					for (let i = 0; i < namaRuanganFix.length; i++) {
-						ruanganListSelectt.push(
-							<MenuItem value={namaRuanganFix[i].nama_ruangan}>{namaRuanganFix[i].nama_ruangan}</MenuItem>
-						)
-					}
-					setSelectedRuangan(namaRuanganFix[0].nama_ruangan);
-					setRuanganListSelect(ruanganListSelectt);
-					setDataRuangan(namaRuanganFix);
-					console.log(data)
-				} else {
-					console.log(`error: ${data.response_code} ${data.response_message}`);
+				let justNamaRuangan = [];
+				let menuItemRuangan = [];
+				for (let i = 0; i < data.length; i++) {
+					justNamaRuangan.push(data[i].nama_ruangan);
+					menuItemRuangan.push(
+						<MenuItem value={data[i].nama_ruangan}>{data[i].nama_ruangan}</MenuItem>
+					)
 				}
-				console.log(data);
-
+				console.log('namaruangan');
+				console.log(justNamaRuangan);
+				setRuanganTableSelected(justNamaRuangan[0]);
+				getDataTableByRuangan(justNamaRuangan[0]);
+				setItemRuangan(menuItemRuangan);
+				setListNamaRuangan(justNamaRuangan);
 			})
 			.catch((err) => {
 				console.log('error: ' + err);
@@ -299,6 +291,7 @@ const KIR = () => {
 	}
 
 	React.useEffect(() => {
+		console.log('getruangan');
 		getSemuaRuangan();
 	}, []);
 
@@ -504,31 +497,44 @@ const KIR = () => {
 					boxSizing: "border-box"
 				}}
 			>
-				<Grid item>
-					<Select
-						value={1}
-					// onChange={(e) => setSelectedRuangan(e)}
-					>
-						<MenuItem value={0}>Kepala Seksi Pengembangan</MenuItem>
-						<MenuItem value={1}>KEPALA BIDANG GTK</MenuItem>
-						{ruanganListSelect}
-					</Select>
+				<Grid item xs={3}>
+					{/* <Autocomplete
+						disablePortal
+						id="combo-box-demo"
+						options={listNamaRuangan}
+						input={ruanganTableSelected}
+						onInputChange={(e, val) => handleRuanganTableChange(val)}
+						renderInput={(params) => <TextField {...params} label="Nama Ruangan" fullWidth />}
+					/> */}
+
+					<FormControl fullWidth>
+						<InputLabel id="demo-simple-select-label">Ruangan</InputLabel>
+						<Select
+							labelId="demo-simple-select-label"
+							id="demo-simple-select"
+							value={ruanganTableSelected}
+							label="Ruangan"
+							onChange={(e) => handleRuanganTableChange(e.target.value)}
+						>
+							{itemRuangan}
+						</Select>
+					</FormControl>
 				</Grid>
-				{/* <Grid item>
+				<Grid item>
 					<TextField
 						variant="outlined"
 						label="Search"
-						onChange={
-							(e) => {
-								if (e.target.value !== '') {
-									getSearchDataTable(e.target.value);
-								} else {
-									getDataTable(isTableUsulan ? 0 : 1);
-								}
-							}
-						}
+					// onChange={
+					// 	(e) => {
+					// 		if (e.target.value !== '') {
+					// 			getSearchDataTable(e.target.value);
+					// 		} else {
+					// 			getDataTable(isTableUsulan ? 0 : 1);
+					// 		}
+					// 	}
+					// }
 					/>
-				</Grid> */}
+				</Grid>
 			</Grid>
 			<TableContainer
 				component={Paper}
@@ -574,7 +580,7 @@ const KIR = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{dataTable.map((row, index) => (
+						{dataTable.map((item, index) => (
 							<StyledTableRow key={index}>
 								<StyledTableCell align="center" sx={{ border: 1 }}>
 									<Stack
@@ -588,19 +594,19 @@ const KIR = () => {
 										<Trash2 size={20} />
 									</Stack>
 								</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{index}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-								<StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{index + 1}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.nama_barang}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.tipe_barang}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_pabrik}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.ukuran_barang}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.bahan_barang}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.tahun_pembelian}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_register}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>{item.harga_barang}</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
+								<StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
 								<StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
 							</StyledTableRow>
 						))}
