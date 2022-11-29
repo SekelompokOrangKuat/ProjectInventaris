@@ -3,25 +3,18 @@ class V1::Admin::KbController < ApplicationController
 
     #Find All Kode Barang
     def index
-        if not role.match(/Admin/).present?
+        @kode_barang = Admin::Kodebarang.all
+        if not @kode_barang.present?
             render json: { 
-                response_code: 401,
-                response_message: "Tidak memiliki akses!"
-                }, status: :unauthorized
+                response_code: 422,
+                response_message: "Tidak ada data!"
+            }, status: :unprocessable_entity
         else
-            @kode_barang = Admin::Kodebarang.all
-            if not @kode_barang.present?
-                render json: { 
-                    response_code: 422,
-                    response_message: "Tidak ada data!"
-                }, status: :unprocessable_entity
-            else
-                render json: {
-                    response_code: 200,
-                    response_message: "Success",
-                    data: @kode_barang
-                }, status: :ok
-            end
+            render json: {
+                response_code: 200,
+                response_message: "Success",
+                data: @kode_barang
+            }, status: :ok
         end
     end
 
