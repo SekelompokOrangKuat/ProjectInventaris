@@ -75,6 +75,7 @@ class V1::Kib::KibbController < ApplicationController
                 else
                     begin
                         @kib_b = Barang::Kibb.find(params[:id])
+                        nama_ruangan = params[:nama_ruangan]
                         kode_barang = params[:kode_barang]
                         kode_lokasi = params[:kode_lokasi]
                         nama_barang = params[:nama_barang]
@@ -91,6 +92,9 @@ class V1::Kib::KibbController < ApplicationController
                         asal_usul = params[:asal_usul]
                         harga_barang = params[:harga_barang]
                         keterangan = params[:keterangan]
+                        if params[:nama_ruangan].blank?
+                            nama_ruangan = @kib_b.nama_ruangan
+                        end
                         if params[:kode_barang].blank?
                             kode_barang = @kib_b.kode_barang
                         end
@@ -150,6 +154,7 @@ class V1::Kib::KibbController < ApplicationController
                             keterangan = @kib_b.keterangan
                         end
                         @kib_b.assign_attributes({
+                            nama_ruangan: nama_ruangan,
                             kode_barang: kode_barang,
                             kode_lokasi: kode_lokasi, 
                             nama_barang: nama_barang, 
