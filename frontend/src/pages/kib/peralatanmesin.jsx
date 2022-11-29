@@ -1,8 +1,10 @@
-import { Box, Grid, Typography, TextField, Button, TableContainer, TableCell, TableHead, Table, TableRow, styled, TableBody, Paper, tableCellClasses } from "@mui/material";
+import { Box, Grid, Typography, TextField, Button, TableContainer, TableCell, TableHead, Table, TableRow, styled, TableBody, Paper, Select, InputLabel, MenuItem, tableCellClasses, FormControl } from "@mui/material";
 import { FileText, Edit, Trash2, PlusSquare } from "react-feather";
 import { color } from "@mui/system";
 import React, { useState } from "react";
 import { useGetAllKibB } from "../../services/peralatanmesin";
+import { useGetAllGoods } from "../../services/goods";
+import { useEffect } from "react";
 
 
 const columns = [
@@ -63,20 +65,6 @@ const kodeBarang = [
 	}
 ];
 
-// function createData(no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, no_pabrik, no_rangka, no_mesin, no_polisi, no_bpkb, asal_usul, harga, keterangan) {
-// 	return { no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, no_pabrik, no_rangka, no_mesin, no_polisi, no_bpkb, asal_usul, harga, keterangan };
-// }
-
-// function createData(no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, pabrik, rangka, mesin, polisi, bpkb, asal_usul, harga, keterangan) {
-// 	return {
-// 		no, jenis_barang, register, merk, ukuran, bahan, tahun_pembelian, pabrik, rangka, mesin, polisi, bpkb, asal_usul, harga, keterangan
-// 	}
-// }
-// const rows = [
-// 	createData(1, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
-// 	createData(2, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
-// 	createData(3, 'Sedan', '0001', 'Toyota Altis', 1800, 'Besi', 2008, 'Toyota', 'BGHF123JJHNH6354', 'MH1GHKHTEEYU234', 'D 1763 E', 'L-050345455', 'APBD', 239000000, ''),
-// ];
 
 const fields = [];
 
@@ -106,7 +94,29 @@ for (let i = 0; i < labels.length; i++) {
 }
 const PeralatanMesin = () => {
 	var rows = useGetAllKibB();
-
+	var dataBarang = useGetAllGoods();
+	const [dataTable, setDataTable] = useState(rows);
+	const [listNamaBarang, setListNamaBarang] = useState([]);
+	const [listKodeBarang, setListKodeBarang] = useState([]);
+	useEffect(() => {
+		dataBarang.map((data) => {
+			var kode_barang = data.golongan != "-" || data.golongan != "" || data.golongan != " " ? data.golongan : "";
+			kode_barang += data.bidang != "-" || data.bidang != "" || data.bidang != " " ? "." + data.bidang : "";
+			kode_barang += data.kelompok != "-" || data.kelompok != "" || data.kelompok != " " ? "." + data.kelompok : "";
+			kode_barang += data.sub_kelompok != "-" || data.sub_kelompok != "" || data.sub_kelompok != " " ? "." + data.sub_kelompok : "";
+			kode_barang += data.sub_sub_kelompok != "-" || data.sub_sub_kelompok != "" || data.sub_sub_kelompok != " " ? "." + data.sub_sub_kelompok : "";
+			console.log(kode_barang);
+			if (!listKodeBarang.includes(kode_barang)) {
+				setListKodeBarang((prevData) => [...prevData, kode_barang]);
+			}
+			if (!listNamaBarang.includes(data.nama_barang)) {
+				setListNamaBarang((prevData) => [...prevData, data.nama_barang]);
+			}
+		});
+	}, [dataBarang]);
+	useEffect(()=>{
+		setDataTable(rows);
+	}, [rows])
 	const [kodeBarang, setKodeBarang] = useState('');
 	const [kodeLokasi, setKodeLokasi] = useState('');
 	const [namaBarang, setNamabarang] = useState('');
@@ -166,6 +176,49 @@ const PeralatanMesin = () => {
 
 	}
 
+	const [isLoading, setIsLoading] = useState(false);
+	const getSearchDataTable = async (keywords) => {
+		setIsLoading(true);
+		await fetch(
+				'http://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/kib/kibb/search',
+				
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					keywords: keywords
+				}),
+				headers: {
+					'Accept': 'application/json',
+					'X-Requested-With': 'application/json',
+					'Content-type': 'application/json; charset=UTF-8',
+					'Access-Control-Allow-Origin': '*',
+					'Authorization': localStorage.getItem('token'),
+				},
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.response_code === 200) {
+					let selectedArray = [];
+					for (let i = 0; i < data.data.length; i++) {
+						if (data.data[i]) {
+							selectedArray.push(data.data[i])
+						}
+					}
+					setDataTable(selectedArray);
+				} else if (data.response_code === 422) {
+					console.log('keywords not found');
+					setDataTable([]);
+				} else {
+					console.log('error' + data.response_code + data.response_message);
+				}
+			})
+			.catch((err) => {
+				console.log('error: ' + err.message);
+			});
+		setIsLoading(false);
+	}
+
 	return (
 		<React.Fragment>
 			<Box sx={{
@@ -207,13 +260,35 @@ const PeralatanMesin = () => {
 								<TextField label="Kode Lokasi" variant="outlined" fullWidth onChange={(e) => setKodeLokasi(e.target.value)} />
 							</Grid>
 							<Grid item xs={4}>
-								<TextField label="Kode Barang" variant="outlined" fullWidth onChange={(e) => setKodeBarang(e.target.value)} />
+								<FormControl fullWidth>
+									<InputLabel id="kode-barang">Kode Barang</InputLabel>
+									<Select
+										defaultValue=""
+										label="Kode Barang"
+										id="select-kode-barang"
+										labelId="kode-barang"
+										onChange={(e) => setKodeBarang(e.target.value)}
+										fullWidth
+									>
+										{listKodeBarang.map((data) => { return (<MenuItem value={data}>{data}</MenuItem>) })}
+									</Select>
+								</FormControl>
 							</Grid>
 							<Grid item xs={4}>
 								<TextField label="Nomor Register" variant="outlined" fullWidth onChange={(e) => setNomorRegister(e.target.value)} />
 							</Grid>
 							<Grid item xs={4}>
-								<TextField label="Nama Barang" variant="outlined" fullWidth onChange={(e) => setNamabarang(e.target.value)} />
+								<FormControl fullWidth>
+									<InputLabel id="nama-barang">Nama Barang</InputLabel>
+									<Select
+										label="Nama Barang"
+										id="select-nama-barang"
+										labelId="nama-barang"
+										onChange={(e) => setNamabarang(e.target.value)}
+									>
+										{listNamaBarang.map((data) => { return (<MenuItem value={data}>{data}</MenuItem>) })}
+									</Select>
+								</FormControl>
 							</Grid>
 							<Grid item xs={4}>
 								<TextField label="Nomor Polisi" variant="outlined" fullWidth onChange={(e) => setNomorPolisi(e.target.value)} />
@@ -278,7 +353,7 @@ const PeralatanMesin = () => {
 					justifyContent='space-between'
 				>
 					<Typography>Preview</Typography>
-					<TextField placeholder="Cari"></TextField>
+					<TextField placeholder="Cari" onChange={(e) => { if (e.target.value !== "") { getSearchDataTable(e.target.value) } else {setDataTable(rows)} }}></TextField>
 				</Box>
 				<TableContainer
 					sx={{
@@ -320,7 +395,7 @@ const PeralatanMesin = () => {
 							</StyledTableRow>
 						</TableHead>
 						<TableBody>
-							{rows.map((row, index) => (
+							{dataTable.map((row, index) => (
 								<StyledTableRow
 									key={index}
 									sx={{ '&:last-child td, &:last-child th, &:nth-of-type(odd)': { border: 0 } }}
