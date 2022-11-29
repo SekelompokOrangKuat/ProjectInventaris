@@ -41,9 +41,9 @@ class V1::Ruangan::RuangansController < ApplicationController
   end
 
   def create
-    @ruangan = Ruangan.new(ruangan_params)
-    if @ruangan.save
-      render json: @ruangan, status: :created
+    ruangan = Ruangan.new(ruangan_params)
+    if ruangan.save
+      render json: ruangan, status: :created
     else 
       render json: { errors: @ruangan.errors.full_messages }, status: :unprocessable_entity
     end
@@ -71,6 +71,6 @@ class V1::Ruangan::RuangansController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ruangan_params
-      params.permit(:ruangan).permit(:nama_ruangan, :bidang_ruangan, :kelompok_ruangan, :id)
+      params.permit(:nama_ruangan, :bidang_ruangan, :kelompok_ruangan, :id)
     end
 end

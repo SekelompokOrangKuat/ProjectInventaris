@@ -4,7 +4,24 @@ class V1::Peminjaman::PeminjamansController < ApplicationController
       @peminjamans = Peminjaman.all
       render json: @peminjamans, status: :ok
     end
-  
+
+    def getPeminjaman
+      barang = Barang::Kibb.peminjaman.where(:peminjaman_id.in => Peminjaman.borrowed.pluck(:id))
+      peminjaman = Peminjaman.borrowed.where(:_id.in => Barang::Kibb.peminjaman.pluck(:peminjaman_id))
+      if not peminjaman.present?
+        render json: {
+          response_code: 422,
+          response_message: "Tidak ada data"
+        }, status: :unprocessable_entity
+      else
+        render json: {
+          response_code: 200,
+          response_message: "Success",
+          data: {peminjaman: peminjaman, barang: barang}
+        }, status: :ok
+      end
+    end
+
     def editById
       if params[:_id].blank?
         render json: { error: "ID tidak boleh kosong!"}, status: :unprocessable_entity
@@ -37,17 +54,21 @@ class V1::Peminjaman::PeminjamansController < ApplicationController
   
     def create
       @barang = Barang::Kibb.undeleted.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
-      @barang.assign_attributes({status_kib: Enums::Kib::PEMINJAMAN})
-      @peminjaman = Peminjaman.pending.find(@barang.peminjaman_id)
-      @peminjaman.assign_attributes({
-        tanggal_peminjaman: params[:tanggal_peminjaman],
-        tanggal_pengembalian: params[:tanggal_pengembalian],
-        status_peminjaman: Enums::StatusPeminjaman::BORROWED
-        })
-      if @barang.save(:validate => false) and @peminjaman.save(:validate => false) 
-        render json: {barang: @barang, peminjaman: @peminjaman}, status: :ok
-      else 
-        render json: { errors_barang: @barang.errors.full_messages, errors_peminjaman: @peminjaman.errors.full_messages }, status: :unprocessable_entity
+      if @barang.present?
+        @barang.assign_attributes({status_kib: Enums::Kib::PEMINJAMAN})
+        @peminjaman = Peminjaman.pending.find(@barang.peminjaman_id)
+        @peminjaman.assign_attributes({
+          tanggal_peminjaman: params[:tanggal_peminjaman],
+          tanggal_pengembalian: params[:tanggal_pengembalian],
+          status_peminjaman: Enums::StatusPeminjaman::BORROWED
+          })
+        if @barang.save(:validate => false) and @peminjaman.save(:validate => false) 
+          render json: {barang: @barang, peminjaman: @peminjaman}, status: :ok
+        else 
+          render json: { errors_barang: @barang.errors.full_messages, errors_peminjaman: @peminjaman.errors.full_messages }, status: :unprocessable_entity
+        end
+      else
+        render json: { error: "Data Barang tidak terdaftar!" }, status: :unprocessable_entity
       end
     end
   
@@ -64,6 +85,33 @@ class V1::Peminjaman::PeminjamansController < ApplicationController
         end
       end
     end
+
+    def search_peminjaman
+      @peminjaman = Peminjaman.borrowed.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+      if @peminjaman.present?
+          barang = Barang::Kibb.peminjaman.where(:peminjaman_id.in => @peminjaman.pluck(:id))
+          render json: {
+              response_code: 200, 
+              response_message: "Success", 
+              data: {barang: barang, peminjaman: @peminjaman}
+              }, status: :ok
+      else
+          @barang = Barang::Kibb.peminjaman.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end            
+          peminjaman = Peminjaman.borrowed.where(:_id.in => @barang.pluck(:peminjaman_id))
+          if @barang.present?
+              render json: {
+                  response_code: 200, 
+                  response_message: "Success", 
+                  data: {barang: @barang, peminjaman: peminjaman}
+                  }, status: :ok
+          else
+              render json: {
+                  response_code: 422, 
+                  response_message: "Keyword tidak dapat ditemukan!"
+                  }, status: :unprocessable_entity
+          end
+      end
+  end
   
     private
       # Use callbacks to share common setup or constraints between actions.

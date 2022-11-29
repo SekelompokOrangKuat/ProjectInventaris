@@ -3,8 +3,45 @@ import { Box, Button, Container, FormControl, TextField, Typography, Dialog, Dia
 import { Edit, Trash2, Plus } from 'react-feather';
 
 import SearchBar from "../../components/search_bar.jsx";
+import { useGetAllGoods } from "../../services/goods.jsx";
 
 const Form = (props) => {
+	const [golongan, setGolongan] = useState('');
+	const [bidang, setBidang] = useState('');
+	const [kelompok, setKelompok] = useState('');
+	const [subKelompok, setSubKelompok] = useState('');
+	const [subSubKelompok, setSubSubKelompok] = useState('');
+	const [nama, setNama] = useState('');
+	const handleSubmit = async (e) => {
+		try {
+			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/create",
+				{
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'X-Requested-With': 'application/json',
+						'Content-type': 'application/json; charset=UTF-8',
+						'Access-Control-Allow-Origin': '*',
+						"Authorization": localStorage.getItem('token'),
+					},
+					body: JSON.stringify({
+						golongan: golongan,
+						bidang: bidang,
+						kelompok: kelompok,
+						sub_kelompok: subKelompok,
+						sub_sub_kelompok: subSubKelompok,
+						nama_barang: nama
+					})
+				});
+
+			let resJson = await response.json();
+			props.setShowForm(!props.showForm);
+			window.location.reload()
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
 	return (
 		<Box
 			id=""
@@ -36,26 +73,32 @@ const Form = (props) => {
 						<TextField
 							fullWidth
 							label="Golongan"
+							onChange={(e) => { setGolongan(e.target.value) }}
 						/>
 						<TextField
 							fullWidth
 							label="Bidang"
+							onChange={(e) => { setBidang(e.target.value) }}
 						/>
 						<TextField
 							fullWidth
 							label="Kelompok"
+							onChange={(e) => { setKelompok(e.target.value) }}
 						/>
 						<TextField
 							fullWidth
 							label="Sub Kelompok"
+							onChange={(e) => { setSubKelompok(e.target.value) }}
 						/>
 						<TextField
 							fullWidth
 							label="Sub Sub Kelompok"
+							onChange={(e) => { setSubSubKelompok(e.target.value) }}
 						/>
 						<TextField
 							fullWidth
 							label="Nama Barang"
+							onChange={(e) => { setNama(e.target.value) }}
 						/>
 					</Box>
 					<Box
@@ -67,7 +110,7 @@ const Form = (props) => {
 						}}
 					>
 						<Button variant="text" color="warning" onClick={() => props.setShowForm(!props.showForm)}>Batal</Button>
-						<Button variant="contained">Tambah</Button>
+						<Button variant="contained" onClick={handleSubmit}>Tambah</Button>
 					</Box>
 				</Box>
 			</FormControl>
@@ -120,7 +163,7 @@ const GoodsCode = () => {
 					</Box>
 				</Box>
 				<Box>
-					<Tables/>
+					<Tables />
 				</Box>
 			</Box>
 		</Container>
@@ -158,25 +201,44 @@ const Tables = () => {
 		return { golongan, bidang, kelompok, sub_kelompok, sub_sub_kelompok, nama_barang };
 	}
 
-	const rows = [
-		createData('02', '08', '-', '-', '-', "Alat alat kedokteran"),
-		createData('02', '08', '-', '-', '-', "Alat alat kedokteran"),
-		createData('02', '08', '-', '-', '-', "Alat alat kedokteran"),
-		createData('02', '08', '-', '-', '-', "Alat alat kedokteran"),
-		createData('02', '08', '-', '-', '-', "Alat alat kedokteran"),
-		createData('02', '08', '-', '-', '-', "Alat alat kedokteran"),
-		createData('02', '08', '-', '-', '-', "Alat alat kedokteran"),
-	];
+	var goodsData = useGetAllGoods();
 
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
+	const [open, setOpen] = useState(false);
+	const [selected, setSelected] = useState();
+	const handleClickOpen = (data) => {
+		setSelected(data);
 		setOpen(true);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
+
+	const handleDelete = async (id) =>{
+		try {
+			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/delete",
+				{
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'X-Requested-With': 'application/json',
+						'Content-type': 'application/json; charset=UTF-8',
+						'Access-Control-Allow-Origin': '*',
+						"Authorization": localStorage.getItem('token'),
+					},
+					body: JSON.stringify({
+						id: id
+					})
+				});
+
+			let resJson = await response.json();
+			handleClose();
+			window.location.reload();
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
 
 	return (
 		<React.Fragment>
@@ -194,11 +256,11 @@ const Tables = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row, index) => (
+						{goodsData.map((row, index) => (
 							<StyledTableRow key={index}>
 								<StyledTableCell align="center" width="132px">
 									<IconButton onClick={() => alert(row.Nama)}><Edit size={20} color="#0F2C64" /></IconButton>
-									<IconButton onClick={handleClickOpen}><Trash2 size={20} color="#D32F2F" /></IconButton>
+									<IconButton onClick={() => handleClickOpen(row._id.$oid)}><Trash2 size={20} color="#D32F2F" /></IconButton>
 								</StyledTableCell>
 								<StyledTableCell>{row.golongan}</StyledTableCell>
 								<StyledTableCell>{row.bidang}</StyledTableCell>
@@ -219,12 +281,12 @@ const Tables = () => {
 			>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						Apakah Anda yakin ingin menghapus akun ini?
+						Apakah Anda yakin ingin menghapus barang ini?
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button variant="outlined" onClick={handleClose}>Batal</Button>
-					<Button variant="text" color="warning" onClick={handleClose} autoFocus>
+					<Button variant="text" color="warning" onClick={()=>handleDelete(selected)} autoFocus>
 						Hapus
 					</Button>
 				</DialogActions>

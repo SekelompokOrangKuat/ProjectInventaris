@@ -2,7 +2,7 @@ class V1::Kib::KibbController < ApplicationController
     before_action :authorize_request
   
     def index
-        @kib_b = Barang::Kibb.all.undeleted
+        @kib_b = Barang::Kibb.all
         if not @kib_b.present?
             render json: {
                 response_code: 422, 
@@ -102,8 +102,8 @@ class V1::Kib::KibbController < ApplicationController
                         end
                         if params[:nomor_register].blank? or params[:nomor_register] == @barang.nomor_register
                             nomor_register = @kib_b.nomor_register
-                        else
                             is_trigger = true
+                        else
                             nomor_registered = Barang::Kibb.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
                             if nomor_registered.present?
                                 render json: {
@@ -229,8 +229,24 @@ class V1::Kib::KibbController < ApplicationController
         end
     end
     
+    def search_riwayat
+        @search = Barang::Kibb.deleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if not @search.present?
+            render json: {
+                response_code: 422, 
+                response_message: "Keyword tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
+        else
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: @search
+                }, status: :ok
+        end
+    end
+
     def search
-        @search = Barang::Kibb.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        @search = Barang::Kibb.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if not @search.present?
             render json: {
                 response_code: 422, 
@@ -248,7 +264,7 @@ class V1::Kib::KibbController < ApplicationController
     private
 
     def user_params
-        params.permit(:kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :ukuran_barang, :tipe_barang, :bahan_barang, 
+        params.permit(:nama_ruangan, :kode_barang, :kode_lokasi, :nama_barang, :nomor_register, :ukuran_barang, :tipe_barang, :bahan_barang, 
             :tahun_pembelian, :nomor_pabrik, :nomor_rangka, :nomor_mesin, :nomor_polisi, :nomor_bpkb, :asal_usul, :harga_barang, :keterangan)
     end
 end

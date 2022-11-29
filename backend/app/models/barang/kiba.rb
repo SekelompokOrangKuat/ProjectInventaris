@@ -17,6 +17,7 @@ class Barang::Kiba
   field :kota, type: String
   field :status_tanah, type: String
   field :nomor_sertifikat, type: String
+  field :tanggal_sertifikat, type: String
   field :penggunaan, type: String
   field :asal_usul, type: String
   field :nilai_perolehan, type: String
@@ -24,4 +25,5 @@ class Barang::Kiba
   field :status_kib, type: Integer, default: Enums::Kib::NEW
 
   scope :undeleted, -> { where(status_kib: Enums::Kib::NEW) }
+  scope :deleted, -> { where(status_kib: Enums::Kib::DELETED) }
 end  

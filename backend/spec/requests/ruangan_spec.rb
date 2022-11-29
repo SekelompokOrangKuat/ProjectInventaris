@@ -140,7 +140,7 @@ describe 'Kode Ruangan API' do
     end
   end
   path '/v1/ruangan/kir/findbyruangan' do
-    get 'Get Barang By Ruangan' do
+    post 'Get Barang By Ruangan' do
       tags 'KIR'
       consumes 'application/json'
       produces 'application/json'
@@ -174,4 +174,42 @@ describe 'Kode Ruangan API' do
       end
     end
   end
+
+  path '/v1/ruangan/kir/search_kir' do
+    post 'Search KIR' do
+      tags 'KIR'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            nama_ruangan: {type: :string, example: "Kepala Seksi Pengembangan"},
+            keywords: {type: :string, example: ""}
+        },
+        required: []
+      }
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Ruangan tidak ditemukan!"},
+                  response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                response_message: {type: :string, example: "Tidak memiliki akses!"},
+                response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
 end

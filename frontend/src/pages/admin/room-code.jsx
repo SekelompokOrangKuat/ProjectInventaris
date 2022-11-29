@@ -3,29 +3,56 @@ import { Box, Button, Container, FormControl, TextField, Typography, Dialog, Dia
 import { Edit, Trash2, Plus } from 'react-feather';
 
 import SearchBar from "../../components/search_bar.jsx";
+import { useGetAllRoom } from '../../services/room.jsx';
 
 const Form = (props) => {
+	const [bidang, setBidang] = useState('');
+	const [kelompok, setKelompok] = useState('');
+	const [namaRuangan, setNamaRuangan] = useState('');
+	const handleSubmit = async (e) => {
+		try {
+			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/create",
+				{
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'X-Requested-With': 'application/json',
+						'Content-type': 'application/json; charset=UTF-8',
+						'Access-Control-Allow-Origin': '*',
+						"Authorization": localStorage.getItem('token'),
+					},
+					body: JSON.stringify({
+						nama_ruangan: namaRuangan,
+						bidang_ruangan: bidang,
+						kelompok_ruangan: kelompok
+					})
+				});
+
+			let resJson = await response.json();
+			props.setShowForm(!props.showForm);
+			window.location.reload();
+		}
+		catch (err) {
+			console.log(err)
+		}
+
+	}
+
 	return (
-		<Box
-			id=""
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				p: 5,
-				gap: 2
-			}}
-		>
-			<Typography variant="h4">
-				{props.title}
-			</Typography>
-			<FormControl>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: 2,
-					}}
-				>
+		<form onSubmit={handleSubmit}>
+			<Box
+				id=""
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					p: 5,
+					gap: 2
+				}}
+			>
+				<Typography variant="h4">
+					{props.title}
+				</Typography>
+				<FormControl>
 					<Box
 						sx={{
 							display: 'flex',
@@ -33,33 +60,44 @@ const Form = (props) => {
 							gap: 2,
 						}}
 					>
-						<TextField
-							fullWidth
-							label="Bidang"
-						/>
-						<TextField
-							fullWidth
-							label="Kelompok"
-						/>
-						<TextField
-							fullWidth
-							label="Nama Ruangan"
-						/>
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: 2,
+							}}
+						>
+							<TextField
+								fullWidth
+								label="Bidang"
+								onChange={(e) => { setBidang(e.target.value) }}
+							/>
+							<TextField
+								fullWidth
+								label="Kelompok"
+								onChange={(e) => { setKelompok(e.target.value) }}
+							/>
+							<TextField
+								fullWidth
+								label="Nama Ruangan"
+								onChange={(e) => { setNamaRuangan(e.target.value) }}
+							/>
+						</Box>
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								gap: 2,
+								justifyContent: 'end'
+							}}
+						>
+							<Button variant="text" color="warning" onClick={() => props.setShowForm(!props.showForm)}>Batal</Button>
+							<Button variant="contained" onClick={handleSubmit}>Tambah</Button>
+						</Box>
 					</Box>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							gap: 2,
-							justifyContent: 'end'
-						}}
-					>
-						<Button variant="text" color="warning" onClick={() => props.setShowForm(!props.showForm)}>Batal</Button>
-						<Button variant="contained">Tambah</Button>
-					</Box>
-				</Box>
-			</FormControl>
-		</Box>
+				</FormControl>
+			</Box>
+		</form>
 	)
 }
 
@@ -108,7 +146,7 @@ const RoomCode = () => {
 					</Box>
 				</Box>
 				<Box>
-					<Tables/>
+					<Tables />
 				</Box>
 			</Box>
 		</Container>
@@ -142,26 +180,43 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Tables = () => {
-	function createData(bidang, kelompok, nama_ruangan) {
-		return { bidang, kelompok, nama_ruangan };
-	}
-
-	const rows = [
-		createData('02', '01', "Kepala Bidang GTK"),
-		createData('02', '01', "Kepala Bidang GTK"),
-		createData('02', '01', "Kepala Bidang GTK"),
-		createData('02', '01', "Kepala Bidang GTK"),
-	];
-
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
+	var roomData = useGetAllRoom();
+	const [open, setOpen] = useState(false);
+	const [selected, setSelected] = useState();
+	const handleClickOpen = (data) => {
+		setSelected(data);
 		setOpen(true);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
+
+	const handleDelete = async (id) =>{
+		try {
+			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/delete",
+				{
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'X-Requested-With': 'application/json',
+						'Content-type': 'application/json; charset=UTF-8',
+						'Access-Control-Allow-Origin': '*',
+						"Authorization": localStorage.getItem('token'),
+					},
+					body: JSON.stringify({
+						_id: id
+					})
+				});
+
+			let resJson = await response.json();
+			handleClose();
+			window.location.reload();
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
 
 	return (
 		<React.Fragment>
@@ -176,17 +231,19 @@ const Tables = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row, index) => (
-							<StyledTableRow key={index}>
+						{roomData.map((data) => 
+						{
+						return (
+							<StyledTableRow key={data._id.$oid}>
 								<StyledTableCell align="center" width="132px">
-									<IconButton onClick={() => alert(row.Nama)}><Edit size={20} color="#0F2C64" /></IconButton>
-									<IconButton onClick={handleClickOpen}><Trash2 size={20} color="#D32F2F" /></IconButton>
+									<IconButton onClick={() => alert()}><Edit size={20} color="#0F2C64" /></IconButton>
+									<IconButton onClick={() => handleClickOpen(data)}><Trash2 size={20} color="#D32F2F" /></IconButton>
 								</StyledTableCell>
-								<StyledTableCell>{row.bidang}</StyledTableCell>
-								<StyledTableCell>{row.kelompok}</StyledTableCell>
-								<StyledTableCell>{row.nama_ruangan}</StyledTableCell>
+								<StyledTableCell>{data.bidang_ruangan}</StyledTableCell>
+								<StyledTableCell>{data.kelompok_ruangan}</StyledTableCell>
+								<StyledTableCell>{data.nama_ruangan}</StyledTableCell>
 							</StyledTableRow>
-						))}
+						)})}
 					</TableBody>
 				</Table>
 			</TableContainer>
@@ -198,12 +255,12 @@ const Tables = () => {
 			>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						Apakah Anda yakin ingin menghapus akun ini?
+						Apakah Anda yakin ingin menghapus ruangan ini?
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button variant="outlined" onClick={handleClose}>Batal</Button>
-					<Button variant="text" color="warning" onClick={handleClose} autoFocus>
+					<Button variant="text" color="warning" onClick={()=>handleDelete(selected._id.$oid)} autoFocus>
 						Hapus
 					</Button>
 				</DialogActions>

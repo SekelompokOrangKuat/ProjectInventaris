@@ -1,6 +1,7 @@
 class Peminjaman
     include Mongoid::Document
     include Mongoid::Timestamps
+    include Mongoid::Attributes::Dynamic
     field :tanggal_peminjaman, type: Date
     field :tanggal_pengembalian, type: Date
     field :status_peminjaman, type: Integer

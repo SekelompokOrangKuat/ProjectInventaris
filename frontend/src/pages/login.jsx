@@ -18,6 +18,11 @@ const Login = () => {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
+    // React.useEffect(() => {
+    //     if (localStorage.getItem("token") !== null) {
+    //         navigate('/');
+    //     }
+    // }, []);
 
     /* REST API EXAMPLE */
     const tryLogin = async () => {
@@ -43,8 +48,18 @@ const Login = () => {
                 if (data.response_code === 200) {
                     setEmailPasswordValidation(true);
                     localStorage.setItem("token", data.data.token_access);
-                    console.log('Success Login\nToken: ' + data.data.token_access);
-                    navigate("/");
+                    localStorage.setItem("email", data.data.user.email);
+                    localStorage.setItem("nama", data.data.user.nama);
+                    localStorage.setItem("role", data.data.user.user_role);
+                    console.log(data.data);
+                    if (data.data != undefined) {
+                        if (data.data.user.user_role == "Admin") {
+                            navigate("/admin/skpd");
+                        }
+                        else{
+                            navigate("/");
+                        }
+                    }
                 } else {
                     setEmailPasswordValidation(false);
                     console.log('token not found!');

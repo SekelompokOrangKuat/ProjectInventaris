@@ -2,7 +2,7 @@ class V1::Kib::KibcController < ApplicationController
     before_action :authorize_request
   
     def index
-        @kib_c = Barang::Kibc.all.undeleted
+        @kib_c = Barang::Kibc.all
         if not @kib_c.present?
             render json: {
                 response_code: 422, 
@@ -103,8 +103,8 @@ class V1::Kib::KibcController < ApplicationController
                         end
                         if params[:nomor_register].blank? or params[:nomor_register] == @barang.nomor_register
                             nomor_register = @kib_c.nomor_register
-                        else
                             is_trigger = true
+                        else
                             nomor_registered = Barang::Kibc.where(nama_barang: params[:nama_barang]).where(nomor_register: params[:nomor_register]).first
                             if nomor_registered.present?
                                 render json: {
@@ -230,9 +230,25 @@ class V1::Kib::KibcController < ApplicationController
             end
         end
     end
+
+    def search_riwayat
+        @search = Barang::Kibc.deleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        if not @search.present?
+            render json: {
+                response_code: 422, 
+                response_message: "Keyword tidak dapat ditemukan!"
+                }, status: :unprocessable_entity
+        else
+            render json: {
+                response_code: 200, 
+                response_message: "Success", 
+                data: @search
+                }, status: :ok
+        end
+    end
     
     def search
-        @search = Barang::Kibc.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+        @search = Barang::Kibc.undeleted.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
         if not @search.present?
             render json: {
                 response_code: 422, 
