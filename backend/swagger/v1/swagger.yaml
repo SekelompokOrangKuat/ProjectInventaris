@@ -3584,6 +3584,18 @@ paths:
             nomor_register:
               type: string
               example: '0001'
+            nama_peminjam:
+              type: string
+              example: Rafi
+            nip_peminjam:
+              type: string
+              example: '12304012'
+            hp_peminjam:
+              type: string
+              example: '08122484848'
+            unit_kerja:
+              type: string
+              example: Sekretariat
             tanggal_peminjaman:
               type: string
               example: 19-11-2022
@@ -3618,7 +3630,7 @@ paths:
               response_code:
                 type: integer
                 example: 401
-  "/v1/peminjaman/peminjamanas/edit":
+  "/v1/peminjaman/peminjamans/edit":
     post:
       summary: Edit Peminjaman
       tags:

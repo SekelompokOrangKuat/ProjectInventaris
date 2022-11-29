@@ -58,6 +58,10 @@ class V1::Peminjaman::PeminjamansController < ApplicationController
         @barang.assign_attributes({status_kib: Enums::Kib::PEMINJAMAN})
         @peminjaman = Peminjaman.pending.find(@barang.peminjaman_id)
         @peminjaman.assign_attributes({
+          nama_peminjam: params[:nama_peminjam],
+          nip_peminjam: params[:nip_peminjam],
+          hp_peminjam: params[:hp_peminjam],
+          unit_kerja: params[:unit_kerja],
           tanggal_peminjaman: params[:tanggal_peminjaman],
           tanggal_pengembalian: params[:tanggal_pengembalian],
           status_peminjaman: Enums::StatusPeminjaman::BORROWED
