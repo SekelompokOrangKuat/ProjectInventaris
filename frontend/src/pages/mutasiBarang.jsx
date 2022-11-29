@@ -1,61 +1,190 @@
-import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox } from "@mui/material";
-import { Box as BoxFeather, Edit, PlusSquare, Trash2 } from "react-feather";
+import { Box, Grid, Typography, Stack, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, styled, Paper, Checkbox, Select, MenuItem, LinearProgress } from "@mui/material";
+import { Box as BoxFeather, Edit, FileText, PlusSquare, Trash2 } from "react-feather";
 import React from "react";
 
 const MutasiBarang = () => {
 
-    /* REST API EXAMPLE */
-    // const [posts, setPosts] = React.useState([]);
-    // React.useEffect(() => {
-    //     fetch(
-    //         'https://cors-anywhere.herokuapp.com/https://backend-sinbada.herokuapp.com/v1/kib/kiba/findAll',
-    //         {
-    //             method: 'GET',
-    //             headers: {
-    //                 // 'Accept': 'application/json',
-    //                 'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjp7IiRvaWQiOiI2MzcxY2ViNmUyMWZhYzBjNDhlNGUxNmQifSwiZXhwIjoxNjY5MDMyMDE4fQ.PujpxQ882HAwkZjGAwHiUpj_LHf_FcF4OcwDNbBEuAY',
-    //                 'X-Requested-With': 'application/json'
-    //             },
-    //         }
-    //     )
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             setPosts(data);
-    //             console.log(posts[0]['_id']['$oid'])
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         });
-    // }, []);
+    const [dataTable, setDataTable] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    /* FORM DATA CHANGE */
+    const [kodeLokasi, setkodeLokasi] = React.useState('')
+    const [kodeBarang, setkodeBarang] = React.useState('')
+    const [register, setregister] = React.useState('')
+    const [namaBarang, setnamaBarang] = React.useState('')
+    const [merkBarang, setmerkBarang] = React.useState('')
+    const [bahanBarang, setbahanBarang] = React.useState('')
+    const [sertifikatBarang, setsertifikatBarang] = React.useState('')
+    const [asalPerolehan, setasalPerolehan] = React.useState('')
+    const [tahunPerolehan, settahunPerolehan] = React.useState('')
+    const [ukuranBarang, setukuranBarang] = React.useState('')
+    const [satuanBarang, setsatuanBarang] = React.useState('')
+    const [kondisiBarang, setkondisiBarang] = React.useState('')
+    const [jumlahAwalBarang, setjumlahAwalBarang] = React.useState('')
+    const [jumlahAwalHarga, setjumlahAwalHarga] = React.useState('')
+    const [mutasiBerkurangJumlahBarang, setmutasiBerkurangJumlahBarang] = React.useState('')
+    const [mutasiBertambahJumlahBarang, setmutasiBertambahJumlahBarang] = React.useState('')
+    const [mutasiBertambahJumlahHarga, setmutasiBertambahJumlahHarga] = React.useState('')
+    const [mutasiBerkurangJumlahHarga, setmutasiBerkurangJumlahHarga] = React.useState('')
+
+    const concatData = (data1, data2) => {
+        let concatedData = [];
+        for (let i = 0; i < data2.length; i++) {
+            const joinedObject = { ...data1[i], ...data2[i] };
+            concatedData.push(joinedObject);
+        }
+        setDataTable(concatedData);
+    }
+
+    const addBarang = async () => {
+        console.log(satuanBarang);
+        console.log(parseInt(jumlahAwalBarang));
+        console.log(kodeBarang);
+        console.log(register);
+        console.log(parseInt(mutasiBertambahJumlahBarang));
+        console.log(parseInt(mutasiBerkurangJumlahBarang));
+        console.log(parseInt(mutasiBerkurangJumlahHarga));
+        console.log(parseInt(mutasiBertambahJumlahHarga));
+
+        const jumlah_awal_barang = parseInt(jumlahAwalBarang);
+        const mutasi_bertambah_jumlah_barang = parseInt(mutasiBertambahJumlahBarang);
+        const mutasi_berkurang_jumlah_barang = parseInt(mutasiBerkurangJumlahBarang);
+        const mutasi_bertambah_jumlah_harga = parseInt(mutasiBertambahJumlahHarga);
+        const mutasi_berkurang_jumlah_harga = parseInt(mutasiBerkurangJumlahHarga);
+
+
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/create',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    satuan: satuanBarang,
+                    jumlah_awal: jumlah_awal_barang,
+                    kode_barang: kodeBarang,
+                    nomor_register: register,
+                    jumlah_bertambah: mutasi_bertambah_jumlah_barang,
+                    jumlah_berkurang: mutasi_berkurang_jumlah_barang,
+                    harga_berkurang: mutasi_bertambah_jumlah_harga,
+                    harga_bertambah: mutasi_berkurang_jumlah_harga
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                getDataTable();
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }
+
+    const getSearchDataTable = async (keywords) => {
+        setIsLoading(true);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/search',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    keywords: keywords
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.response_code === 200) {
+                    setDataTable(data.data);
+                } else {
+                    setDataTable([]);
+                    console.log(`error: ${data.response_code} ${data.response_message}`);
+                }
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        setIsLoading(false);
+    }
+
+    const getDataTable = async () => {
+        setIsLoading(true);
+        await fetch(
+            'https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/pengelola/mutasi/findAll',
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'application/json',
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.response_code === 200) {
+                    concatData(data.data.mutasi, data.data.barang);
+                } else {
+                    console.log(`error: ${data.response_code} ${data.response_message}`);
+                }
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        setIsLoading(false);
+    }
+
+    /* Initiate State */
+    React.useEffect(() => {
+        getDataTable();
+    }, []);
 
     const fields = [];
 
     const labels = [
-        "Kode Lokasi",
-        "Kode Barang",
-        "Register",
-        "Nama Barang",
-        "Merk/Type",
-        "Bahan",
-        "No. Pabrik, Mesin, Sertifikat",
-        "Asal/Cara Perolehan Barang",
-        "Tahun Beli/Perolehan",
-        "Ukuran, Barang/Konstrukrsi (P,SP,D)",
-        "Satuan",
-        "Kondisi (B, RR, RB)",
-        "Jumlah Awal (Barang)",
-        "Jumlah Awal (Harga)",
-        "Mutasi Berkurang (Jumlah Barang)",
-        "Mutasi Bertambah (Jumlah Harga)",
-        "Mutasi Bertambah (Jumlah Harga)",
-        "Mutasi Berkurang (Jumlah Harga)",
+        { nama: "Kode Lokasi", value: kodeLokasi, controller: setkodeLokasi },
+        { nama: "Kode Barang", value: kodeBarang, controller: setkodeBarang },
+        { nama: "Register", value: register, controller: setregister },
+        { nama: "Nama Barang", value: namaBarang, controller: setnamaBarang },
+        { nama: "Merk/Type", value: merkBarang, controller: setmerkBarang },
+        { nama: "Bahan", value: bahanBarang, controller: setbahanBarang },
+        { nama: "No. Pabrik, Mesin, Sertifikat", value: sertifikatBarang, controller: setsertifikatBarang },
+        { nama: "Asal/Cara Perolehan Barang", value: asalPerolehan, controller: setasalPerolehan },
+        { nama: "Tahun Beli/Perolehan", value: tahunPerolehan, controller: settahunPerolehan },
+        { nama: "Ukuran, Barang/Konstrukrsi (P,SP,D)", value: ukuranBarang, controller: setukuranBarang },
+        { nama: "Satuan", value: satuanBarang, controller: setsatuanBarang },
+        { nama: "Kondisi (B, RR, RB)", value: kondisiBarang, controller: setkondisiBarang },
+        { nama: "Jumlah Awal (Barang)", value: jumlahAwalBarang, controller: setjumlahAwalBarang },
+        { nama: "Jumlah Awal (Harga)", value: jumlahAwalHarga, controller: setjumlahAwalHarga },
+        { nama: "Mutasi Berkurang (Jumlah Barang)", value: mutasiBerkurangJumlahBarang, controller: setmutasiBerkurangJumlahBarang },
+        { nama: "Mutasi Bertambah (Jumlah Harga)", value: mutasiBertambahJumlahBarang, controller: setmutasiBertambahJumlahBarang },
+        { nama: "Mutasi Bertambah (Jumlah Harga)", value: mutasiBertambahJumlahHarga, controller: setmutasiBertambahJumlahHarga },
+        { nama: "Mutasi Berkurang (Jumlah Harga)", value: mutasiBerkurangJumlahHarga, controller: setmutasiBerkurangJumlahHarga },
     ];
+
+    const handleChangeDataForm = (controller, e) => {
+        controller(e.target.value);
+    }
 
     for (let i = 0; i < labels.length; i++) {
         fields.push(
             <Grid item xs={4}>
-                <TextField variant="outlined" label={labels[i]} fullWidth />
+                <TextField variant="outlined" label={labels[i].nama} value={labels[i].value} onChange={(e) => handleChangeDataForm(labels[i].controller, e)} fullWidth />
             </Grid>
         );
     }
@@ -80,18 +209,6 @@ const MutasiBarang = () => {
             backgroundColor: "#D9E6FF",
         },
     }));
-
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-    }
-
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
 
     return (
         <Box
@@ -183,11 +300,40 @@ const MutasiBarang = () => {
                     <Button variant="outlined" >
                         <Typography variant="button">Batal</Typography>
                     </Button>
-                    <Button variant="contained" disableElevation>
+                    <Button variant="contained" disableElevation onClick={addBarang}>
                         <Typography variant="button">Simpan</Typography>
                     </Button>
                 </Box>
             </Stack>
+
+            <Grid
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                maxWidth="100%"
+                sx={{
+                    px: 3,
+                    boxSizing: "border-box"
+                }}
+            >
+                <Grid item>
+                    <TextField
+                        variant="outlined"
+                        label="Search"
+                        onChange={
+                            (e) => {
+                                if (e.target.value !== '') {
+                                    getSearchDataTable(e.target.value);
+                                } else {
+                                    getDataTable();
+                                }
+                            }
+                        }
+                    />
+                </Grid>
+            </Grid>
+            {isLoading ? <LinearProgress sx={{ m: 3 }} /> : null}
 
             <TableContainer
                 component={Paper}
@@ -254,7 +400,7 @@ const MutasiBarang = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => (
+                        {dataTable.map((item, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>
                                     <Stack
@@ -269,31 +415,50 @@ const MutasiBarang = () => {
                                     </Stack>
                                 </StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>{index}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.fat}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="center" sx={{ border: 1 }}>{row.protein}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kode_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_register}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nama_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tipe_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.nomor_pabrik}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.bahan_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.asal_usul}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.tahun_pembelian}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.ukuran_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.satuan}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.kondisi_barang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_awal}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_akhir}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_bertambah}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.harga_bertambah}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_berkurang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.harga_berkurang}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.jumlah_akhir}</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ border: 1 }}>{item.harga_akhir}</StyledTableCell>
                                 <StyledTableCell align="center" sx={{ border: 1 }}>-</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Grid
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                pr={3}
+                mb={3}
+            >
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        startIcon={<FileText />}
+                        onClick={() => window.open('/pdf/berita-acara-mutasi', '_blank')}
+                        m={2}
+                    >
+                        <Typography variant="button">Berita Acara Mutasi</Typography>
+                    </Button>
+                </Grid>
+            </Grid>
         </Box>
     )
 }
