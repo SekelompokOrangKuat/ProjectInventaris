@@ -63,6 +63,22 @@ class V1::Ruangan::RuangansController < ApplicationController
     end
   end
 
+  def search
+    @search = Ruangan.all.select do | user | user.attributes.values.grep(/^#{params[:keywords]}/i).any? end
+    if not @search.present?
+        render json: {
+            response_code: 422, 
+            response_message: "Keyword tidak dapat ditemukan!"
+            }, status: :unprocessable_entity
+    else
+        render json: {
+            response_code: 200, 
+            response_message: "Success", 
+            data: @search
+            }, status: :ok
+    end
+end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ruangan
@@ -71,6 +87,6 @@ class V1::Ruangan::RuangansController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ruangan_params
-      params.permit(:nama_ruangan, :bidang_ruangan, :kelompok_ruangan, :id)
+      params.permit(:nama_ruangan, :bidang_ruangan, :kelompok_ruangan, :id, :keywords)
     end
 end

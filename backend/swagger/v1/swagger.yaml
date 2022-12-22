@@ -5330,6 +5330,56 @@ paths:
               response_code:
                 type: integer
                 example: 401
+  "/v1/ruangan/ruangans/search":
+    post:
+      summary: Search Ruangan
+      tags:
+      - Ruangan
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            keywords:
+              type: string
+              example: '001'
+          required: []
+      responses:
+        '200':
+          description: Successfull
+          schema:
+            type: object
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Keyword tidak dapat ditemukan!
+              response_code:
+                type: integer
+                example: 422
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              response_message:
+                type: string
+                example: Tidak memiliki akses!
+              response_code:
+                type: integer
+                example: 401
   "/v1/ruangan/kir/findbyruangan":
     post:
       summary: Get Barang By Ruangan

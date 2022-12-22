@@ -104,6 +104,7 @@ Rails.application.routes.draw do
         post "/create" => "ruangans#create"
         post "/delete" => "ruangans#destroy"
         post "/edit" => "ruangans#editById"
+        post "/search" => "ruangans#search"
       end
       resource :kir do
         post "/findbyruangan" => "kir#getByRuangan"

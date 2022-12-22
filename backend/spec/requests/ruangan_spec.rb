@@ -139,6 +139,43 @@ describe 'Kode Ruangan API' do
       end
     end
   end
+
+  path '/v1/ruangan/ruangans/search' do
+    post 'Search Ruangan' do
+      tags 'Ruangan'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: 'Authorization', in: :header, type: :string, required: true
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+            keywords: {type: :string, example: "001"},
+        },
+        required: []
+      }
+      response '200', 'Successfull' do
+        schema type: :object
+        run_test!
+      end
+      response '422', 'Unprocessable Entity' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Keyword tidak dapat ditemukan!"},
+                  response_code: {type: :integer, example: 422}
+              }
+        run_test!
+      end
+      response '401', 'Unauthorized' do
+        schema type: :object,
+              properties: {
+                  response_message: {type: :string, example: "Tidak memiliki akses!"},
+                  response_code: {type: :integer, example: 401}
+              }
+        run_test!
+      end
+    end
+  end
+
   path '/v1/ruangan/kir/findbyruangan' do
     post 'Get Barang By Ruangan' do
       tags 'KIR'
