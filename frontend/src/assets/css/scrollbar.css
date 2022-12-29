@@ -1,0 +1,24 @@
+.hidden-scrollbar__scrollbar::-webkit-scrollbar {
+    width: 8px;
+    /* padding-left: 2px;
+    padding-right: 2px; */
+}
+
+.hidden-scrollbar__scrollbar-thumb::-webkit-scrollbar-thumb {
+    opacity: 0;
+    background-color: transparent;
+}
+
+.hidden-scrollbar__scrollbar-thumb:hover::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #00823F;
+}
+
+.hidden-scrollbar__scrollbar-track::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.hidden-scrollbar {
+    scrollbar-width: 8px;
+    scrollbar-color: red
+}

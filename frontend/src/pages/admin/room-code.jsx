@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Box, Button, Container, FormControl, TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled } from '@mui/material';
+import React, { useEffect, useState, useRef } from 'react';
+import { Box, Button, Container, CircularProgress, FormControl, TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled } from '@mui/material';
 import { Edit, Trash2, Plus } from 'react-feather';
 
-import SearchBar from "../../components/search_bar.jsx";
-import { useGetAllRoom } from '../../services/room.jsx';
+import { getAllRuangan, createRuangan, deleteRuangan, searchRuangan } from '../../services/kode-ruangan.jsx';
+import SearchBar from '../../components/search_bar.jsx';
 
 const Form = (props) => {
 	const [bidang, setBidang] = useState('');
@@ -11,26 +11,10 @@ const Form = (props) => {
 	const [namaRuangan, setNamaRuangan] = useState('');
 	const handleSubmit = async (e) => {
 		try {
-			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/create",
-				{
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'X-Requested-With': 'application/json',
-						'Content-type': 'application/json; charset=UTF-8',
-						'Access-Control-Allow-Origin': '*',
-						"Authorization": localStorage.getItem('token'),
-					},
-					body: JSON.stringify({
-						nama_ruangan: namaRuangan,
-						bidang_ruangan: bidang,
-						kelompok_ruangan: kelompok
-					})
-				});
-
-			let resJson = await response.json();
-			props.setShowForm(!props.showForm);
-			window.location.reload();
+			createRuangan(namaRuangan, bidang, kelompok).then(() => {
+				props.setShowForm(!props.showForm);
+				props.setStatus(!props.status);
+			})
 		}
 		catch (err) {
 			console.log(err)
@@ -102,9 +86,35 @@ const Form = (props) => {
 }
 
 const RoomCode = () => {
-
+	const [tableDataUpdateStatus, setTableDataUpdateStatus] = useState(true);
 	const [showForm, setShowForm] = useState(false);
+	const [roomData, setRoomData] = useState(null);
+	const [searchKeywords, setSearchKeywords] = useState("");
 
+	useEffect(() => {
+		getAllRuangan().then((response) => {
+			if (response.ok) {
+				response.json().then((data) => {
+					if (data !== undefined) {
+						setRoomData(data);
+					}
+				});
+			}
+		});
+	}, [tableDataUpdateStatus]);
+
+	const firstMount = useRef(true);
+	useEffect(() => {
+		if (!firstMount.current) {
+			searchRuangan(searchKeywords).then((response) => response.json()).then((data) => {
+				if (data.data !== undefined) { setRoomData(data.data) }
+				else { setRoomData([]) }
+			});
+		}
+		else {
+			firstMount.current = false;
+		}
+	}, [searchKeywords]);
 	return (
 		<Container
 			disableGutters
@@ -114,7 +124,7 @@ const RoomCode = () => {
 				height: '100%',
 			}}
 		>
-			{showForm && <Form title="Tambah Ruangan" setShowForm={setShowForm} showForm={showForm} />}
+			{showForm && <Form title="Tambah Ruangan" setShowForm={setShowForm} showForm={showForm} setStatus={setTableDataUpdateStatus} status={tableDataUpdateStatus} />}
 			<Box
 				sx={{
 					display: 'flex',
@@ -142,11 +152,11 @@ const RoomCode = () => {
 						}}
 					>
 						{!showForm ? <Button variant="contained" startIcon={<Plus size={20} />} onClick={() => setShowForm(!showForm)}>Tambah Entri</Button> : <React.Fragment></React.Fragment>}
-						<SearchBar></SearchBar>
+						<SearchBar func={setSearchKeywords} />
 					</Box>
 				</Box>
 				<Box>
-					<Tables />
+					<Tables roomData={roomData} setStatus={setTableDataUpdateStatus} status={tableDataUpdateStatus} />
 				</Box>
 			</Box>
 		</Container>
@@ -179,8 +189,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	},
 }));
 
-const Tables = () => {
-	var roomData = useGetAllRoom();
+const Tables = ({ roomData, setStatus, status }) => {
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState();
 	const handleClickOpen = (data) => {
@@ -192,26 +201,12 @@ const Tables = () => {
 		setOpen(false);
 	};
 
-	const handleDelete = async (id) =>{
+	const handleDelete = async (id) => {
 		try {
-			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/delete",
-				{
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'X-Requested-With': 'application/json',
-						'Content-type': 'application/json; charset=UTF-8',
-						'Access-Control-Allow-Origin': '*',
-						"Authorization": localStorage.getItem('token'),
-					},
-					body: JSON.stringify({
-						_id: id
-					})
-				});
-
-			let resJson = await response.json();
-			handleClose();
-			window.location.reload();
+			deleteRuangan(id).then(() => {
+				setStatus(!status);
+				handleClose();
+			});
 		}
 		catch (err) {
 			console.log(err)
@@ -230,21 +225,44 @@ const Tables = () => {
 							<StyledTableCell align="center">Nama Ruangan</StyledTableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody>
-						{roomData.map((data) => 
-						{
-						return (
-							<StyledTableRow key={data._id.$oid}>
-								<StyledTableCell align="center" width="132px">
-									<IconButton onClick={() => alert()}><Edit size={20} color="#0F2C64" /></IconButton>
-									<IconButton onClick={() => handleClickOpen(data)}><Trash2 size={20} color="#D32F2F" /></IconButton>
-								</StyledTableCell>
-								<StyledTableCell>{data.bidang_ruangan}</StyledTableCell>
-								<StyledTableCell>{data.kelompok_ruangan}</StyledTableCell>
-								<StyledTableCell>{data.nama_ruangan}</StyledTableCell>
+					{roomData !== null ?
+						roomData.length > 0 ?
+							<TableBody>
+								{roomData.map((data) => (
+									<StyledTableRow key={data._id.$oid}>
+										<StyledTableCell align="center" width="132px">
+											<IconButton onClick={() => alert()}><Edit size={20} color="#0F2C64" /></IconButton>
+											<IconButton onClick={() => handleClickOpen(data)}><Trash2 size={20} color="#D32F2F" /></IconButton>
+										</StyledTableCell>
+										<StyledTableCell>{data.bidang_ruangan}</StyledTableCell>
+										<StyledTableCell>{data.kelompok_ruangan}</StyledTableCell>
+										<StyledTableCell>{data.nama_ruangan}</StyledTableCell>
+									</StyledTableRow>
+								)
+								)}
+							</TableBody> :
+							<TableBody>
+								<StyledTableRow>
+									<TableCell></TableCell>
+									<TableCell></TableCell>
+									<TableCell>
+										Tidak Ada Data
+									</TableCell>
+									<TableCell></TableCell>
+								</StyledTableRow>
+							</TableBody>
+						:
+						<TableBody>
+							<StyledTableRow>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
+								<TableCell align="center">
+									<CircularProgress />
+								</TableCell>
+								<TableCell></TableCell>
 							</StyledTableRow>
-						)})}
-					</TableBody>
+						</TableBody>
+					}
 				</Table>
 			</TableContainer>
 			<Dialog
@@ -260,7 +278,7 @@ const Tables = () => {
 				</DialogContent>
 				<DialogActions>
 					<Button variant="outlined" onClick={handleClose}>Batal</Button>
-					<Button variant="text" color="warning" onClick={()=>handleDelete(selected._id.$oid)} autoFocus>
+					<Button variant="text" color="warning" onClick={() => handleDelete(selected._id.$oid)} autoFocus>
 						Hapus
 					</Button>
 				</DialogActions>

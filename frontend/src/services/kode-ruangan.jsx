@@ -1,7 +1,8 @@
 let token = localStorage.getItem('token');
 
-async function getAllAccounts() {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/registrasi/findAll",
+async function getAllRuangan() {
+
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/findAll",
         {
             method: 'GET',
             headers: {
@@ -11,11 +12,11 @@ async function getAllAccounts() {
                 'Access-Control-Allow-Origin': '*',
                 "Authorization": token,
             }
-        });
+        })
 }
 
-async function deleteAccount(email) {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/registrasi/delete",
+async function deleteRuangan(id) {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/delete",
         {
             method: 'POST',
             headers: {
@@ -26,13 +27,13 @@ async function deleteAccount(email) {
                 "Authorization": token,
             },
             body: JSON.stringify({
-                email: email
+                _id: id
             })
         });
 }
 
-async function editAccount(id, email, user_role, nama, nip, telepon) {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/registrasi/edit",
+async function editRuangan(id) {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/edit",
         {
             method: 'POST',
             headers: {
@@ -43,18 +44,32 @@ async function editAccount(id, email, user_role, nama, nip, telepon) {
                 "Authorization": token,
             },
             body: JSON.stringify({
-                id: id,
-                email: email,
-                user_role: user_role,
-                nama: nama,
-                nip: nip,
-                telepon: telepon
+                _id: id
             })
         });
 }
 
-async function searchAccount(keywords) {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/registrasi/search",
+async function createRuangan(nama_ruangan, bidang_ruangan, kelompok_ruangan) {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/create",
+        {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'application/json',
+                'Content-type': 'application/json; charset=UTF-8',
+                'Access-Control-Allow-Origin': '*',
+                "Authorization": token,
+            },
+            body: JSON.stringify({
+                nama_ruangan: nama_ruangan,
+                bidang_ruangan: bidang_ruangan,
+                kelompok_ruangan: kelompok_ruangan
+            })
+        });
+}
+
+async function searchRuangan(keywords) {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/create",
         {
             method: 'POST',
             headers: {
@@ -70,27 +85,4 @@ async function searchAccount(keywords) {
         });
 }
 
-async function createAccount(email, password, password_confirmation, user_role, nama, nip, telepon) {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/registrasi/create",
-        {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'X-Requested-With': 'application/json',
-                'Content-type': 'application/json; charset=UTF-8',
-                'Access-Control-Allow-Origin': '*',
-                "Authorization": token,
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                password_confirmation: password_confirmation,
-                user_role: user_role,
-                nama: nama,
-                nip: nip,
-                telepon: telepon
-            })
-        });
-}
-
-export { getAllAccounts, deleteAccount, editAccount, searchAccount, createAccount }
+export { getAllRuangan, createRuangan, deleteRuangan, editRuangan, searchRuangan }

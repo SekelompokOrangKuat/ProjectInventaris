@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Box, Button, Container, FormControl, TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Box, Button, Container, CircularProgress, FormControl, TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled, tableSortLabelClasses } from '@mui/material';
 import { Edit, Trash2, Plus } from 'react-feather';
 
 import SearchBar from "../../components/search_bar.jsx";
-import { useGetAllGoods } from "../../services/goods.jsx";
+import { deleteGoods, getAllGoods, searchGoods, createGoods } from '../../services/kode-barang.jsx';
+import { useRef } from 'react';
 
 const Form = (props) => {
 	const [golongan, setGolongan] = useState('');
@@ -12,31 +13,12 @@ const Form = (props) => {
 	const [subKelompok, setSubKelompok] = useState('');
 	const [subSubKelompok, setSubSubKelompok] = useState('');
 	const [nama, setNama] = useState('');
-	const handleSubmit = async (e) => {
+	const handleSubmit = async () => {
 		try {
-			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/create",
-				{
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'X-Requested-With': 'application/json',
-						'Content-type': 'application/json; charset=UTF-8',
-						'Access-Control-Allow-Origin': '*',
-						"Authorization": localStorage.getItem('token'),
-					},
-					body: JSON.stringify({
-						golongan: golongan,
-						bidang: bidang,
-						kelompok: kelompok,
-						sub_kelompok: subKelompok,
-						sub_sub_kelompok: subSubKelompok,
-						nama_barang: nama
-					})
-				});
-
-			let resJson = await response.json();
-			props.setShowForm(!props.showForm);
-			window.location.reload()
+			createGoods(golongan, bidang, kelompok, subKelompok, subSubKelompok, nama).then(() => {
+				props.setShowForm(!props.showForm);
+				props.setStatus(!props.status);
+			});
 		}
 		catch (err) {
 			console.log(err)
@@ -119,8 +101,35 @@ const Form = (props) => {
 }
 
 const GoodsCode = () => {
-
+	const [tableDataUpdateStatus, setTableDataUpdateStatus] = useState(true);
 	const [showForm, setShowForm] = useState(false);
+	const [searchKeywords, setSearchKeywords] = useState("");
+	const [goodsData, setGoodsData] = useState(null);
+
+	useEffect(() => {
+		getAllGoods().then((response) => {
+			if (response.ok) {
+				response.json().then((data) => {
+					if (data.data !== undefined) {
+						setGoodsData(data.data);
+					}
+				});
+			}
+		});
+	}, [tableDataUpdateStatus]);
+
+	const firstMount = useRef(true);
+	useEffect(() => {
+		if (!firstMount.current) {
+			searchGoods(searchKeywords).then((response) => response.json()).then((data) => {
+				if (data.data !== undefined) { setGoodsData(data.data) }
+				else { setGoodsData([]) }
+			});
+		}
+		else {
+			firstMount.current = false;
+		}
+	}, [searchKeywords]);
 
 	return (
 		<Container
@@ -131,7 +140,7 @@ const GoodsCode = () => {
 				height: '100%',
 			}}
 		>
-			{showForm && <Form title="Tambah Barang" setShowForm={setShowForm} showForm={showForm} />}
+			{showForm && <Form title="Tambah Barang" setShowForm={setShowForm} showForm={showForm} status={tableDataUpdateStatus} setStatus={setTableDataUpdateStatus} />}
 			<Box
 				sx={{
 					display: 'flex',
@@ -159,11 +168,11 @@ const GoodsCode = () => {
 						}}
 					>
 						{!showForm ? <Button variant="contained" startIcon={<Plus size={20} />} onClick={() => setShowForm(!showForm)}>Tambah Entri</Button> : <React.Fragment></React.Fragment>}
-						<SearchBar></SearchBar>
+						<SearchBar func={setSearchKeywords}></SearchBar>
 					</Box>
 				</Box>
 				<Box>
-					<Tables />
+					<Tables goodsData={goodsData} setStatus={setTableDataUpdateStatus} status={tableDataUpdateStatus} />
 				</Box>
 			</Box>
 		</Container>
@@ -196,13 +205,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	},
 }));
 
-const Tables = () => {
-	function createData(golongan, bidang, kelompok, sub_kelompok, sub_sub_kelompok, nama_barang) {
-		return { golongan, bidang, kelompok, sub_kelompok, sub_sub_kelompok, nama_barang };
-	}
-
-	var goodsData = useGetAllGoods();
-
+const Tables = ({ goodsData, setStatus, status }) => {
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState();
 	const handleClickOpen = (data) => {
@@ -214,26 +217,12 @@ const Tables = () => {
 		setOpen(false);
 	};
 
-	const handleDelete = async (id) =>{
+	const handleDelete = (id) => {
 		try {
-			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/delete",
-				{
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'X-Requested-With': 'application/json',
-						'Content-type': 'application/json; charset=UTF-8',
-						'Access-Control-Allow-Origin': '*',
-						"Authorization": localStorage.getItem('token'),
-					},
-					body: JSON.stringify({
-						id: id
-					})
-				});
-
-			let resJson = await response.json();
-			handleClose();
-			window.location.reload();
+			deleteGoods(id).then(() => {
+				handleClose();
+				setStatus(!status);
+			});
 		}
 		catch (err) {
 			console.log(err)
@@ -246,7 +235,7 @@ const Tables = () => {
 				<Table sx={{ minWidth: 700, border: 'solid 1px', borderColor: 'themeGrey.darkest', }} aria-label="customized table">
 					<TableHead>
 						<TableRow>
-							<StyledTableCell></StyledTableCell>
+							<StyledTableCell width="132px"></StyledTableCell>
 							<StyledTableCell align="center">Golongan</StyledTableCell>
 							<StyledTableCell align="center">Bidang</StyledTableCell>
 							<StyledTableCell align="center">Kelompok</StyledTableCell>
@@ -255,22 +244,53 @@ const Tables = () => {
 							<StyledTableCell align="center">Nama Barang</StyledTableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody>
-						{goodsData.map((row, index) => (
-							<StyledTableRow key={index}>
-								<StyledTableCell align="center" width="132px">
-									<IconButton onClick={() => alert(row.Nama)}><Edit size={20} color="#0F2C64" /></IconButton>
-									<IconButton onClick={() => handleClickOpen(row._id.$oid)}><Trash2 size={20} color="#D32F2F" /></IconButton>
-								</StyledTableCell>
-								<StyledTableCell>{row.golongan}</StyledTableCell>
-								<StyledTableCell>{row.bidang}</StyledTableCell>
-								<StyledTableCell>{row.kelompok}</StyledTableCell>
-								<StyledTableCell>{row.sub_kelompok}</StyledTableCell>
-								<StyledTableCell>{row.sub_sub_kelompok}</StyledTableCell>
-								<StyledTableCell>{row.nama_barang}</StyledTableCell>
+					{goodsData !== null ?
+						goodsData.length > 0 ?
+							<TableBody>
+								{goodsData.map((row, index) => (
+									<StyledTableRow key={index}>
+										<StyledTableCell align="center" width="132px">
+											<IconButton onClick={() => alert(row.Nama)}><Edit size={20} color="#0F2C64" /></IconButton>
+											<IconButton onClick={() => handleClickOpen(row._id.$oid)}><Trash2 size={20} color="#D32F2F" /></IconButton>
+										</StyledTableCell>
+										<StyledTableCell>{row.golongan}</StyledTableCell>
+										<StyledTableCell>{row.bidang}</StyledTableCell>
+										<StyledTableCell>{row.kelompok}</StyledTableCell>
+										<StyledTableCell>{row.sub_kelompok}</StyledTableCell>
+										<StyledTableCell>{row.sub_sub_kelompok}</StyledTableCell>
+										<StyledTableCell align="center">{row.nama_barang}</StyledTableCell>
+									</StyledTableRow>
+								))
+								}
+							</TableBody> :
+							<TableBody>
+								<StyledTableRow>
+									<TableCell></TableCell>
+									<TableCell></TableCell>
+									<TableCell></TableCell>
+									<TableCell></TableCell>
+									<TableCell>
+										Tidak Ada Data
+									</TableCell>
+									<TableCell></TableCell>
+									<TableCell></TableCell>
+								</StyledTableRow>
+							</TableBody>
+						:
+						<TableBody>
+							<StyledTableRow>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
+								<TableCell>
+									<CircularProgress />
+								</TableCell>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
 							</StyledTableRow>
-						))}
-					</TableBody>
+						</TableBody>
+					}
 				</Table>
 			</TableContainer>
 			<Dialog
@@ -286,7 +306,7 @@ const Tables = () => {
 				</DialogContent>
 				<DialogActions>
 					<Button variant="outlined" onClick={handleClose}>Batal</Button>
-					<Button variant="text" color="warning" onClick={()=>handleDelete(selected)} autoFocus>
+					<Button variant="text" color="warning" onClick={() => handleDelete(selected)} autoFocus>
 						Hapus
 					</Button>
 				</DialogActions>

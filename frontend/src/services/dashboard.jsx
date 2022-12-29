@@ -1,12 +1,8 @@
 import { useState, useEffect } from "react";
 let token = localStorage.getItem('token');
 
-const useGetPemeliharaanTotal = () => {
-    const [total, setTotal] = useState([]);
-    useEffect(() => {
-        async function fetchData(){
-
-            await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/find_pemeliharaan",
+const getTotalPemeliharaan = async () => {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/pengusulan/find_pemeliharaan",
             {
             method:'GET',
             headers:{
@@ -16,14 +12,7 @@ const useGetPemeliharaanTotal = () => {
                 'Access-Control-Allow-Origin': '*',
                 "Authorization" : token,
             }
-        })
-        .then((response) => response.json())
-        .then((data)=>{setTotal(data)})
-        }
-        
-        fetchData();
-    }, [])
-    return total;
+    });
 }
 
 const useGetPenghapusanTotal = () => {
@@ -101,4 +90,4 @@ const useGetJadwal = () => {
 }
 
 
-export { useGetPemeliharaanTotal, useGetPenghapusanTotal, useGetPengadaanTotal, useGetJadwal }
+export { getTotalPemeliharaan, useGetPenghapusanTotal, useGetPengadaanTotal, useGetJadwal }
