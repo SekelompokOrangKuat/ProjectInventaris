@@ -1,7 +1,8 @@
 let token = localStorage.getItem('token');
 
-async function getAllGoods() {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/findAll",
+async function getAllRuangan() {
+
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/findAll",
         {
             method: 'GET',
             headers: {
@@ -14,8 +15,8 @@ async function getAllGoods() {
         })
 }
 
-async function deleteGoods(id) {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/delete",
+async function deleteRuangan(id) {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/delete",
         {
             method: 'POST',
             headers: {
@@ -26,13 +27,49 @@ async function deleteGoods(id) {
                 "Authorization": token,
             },
             body: JSON.stringify({
-                id: id
+                _id: id
             })
         });
 }
 
-async function searchGoods(keywords) {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/search",
+async function editRuangan(id) {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/edit",
+        {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'application/json',
+                'Content-type': 'application/json; charset=UTF-8',
+                'Access-Control-Allow-Origin': '*',
+                "Authorization": token,
+            },
+            body: JSON.stringify({
+                _id: id
+            })
+        });
+}
+
+async function createRuangan(nama_ruangan, bidang_ruangan, kelompok_ruangan) {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/create",
+        {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'application/json',
+                'Content-type': 'application/json; charset=UTF-8',
+                'Access-Control-Allow-Origin': '*',
+                "Authorization": token,
+            },
+            body: JSON.stringify({
+                nama_ruangan: nama_ruangan,
+                bidang_ruangan: bidang_ruangan,
+                kelompok_ruangan: kelompok_ruangan
+            })
+        });
+}
+
+async function searchRuangan(keywords) {
+    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/ruangan/ruangans/create",
         {
             method: 'POST',
             headers: {
@@ -48,26 +85,4 @@ async function searchGoods(keywords) {
         });
 }
 
-async function createGoods(golongan, bidang, kelompok, subKelompok, subSubKelompok, nama) {
-    return await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/admin/kb/create",
-        {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'X-Requested-With': 'application/json',
-                'Content-type': 'application/json; charset=UTF-8',
-                'Access-Control-Allow-Origin': '*',
-                "Authorization": token,
-            },
-            body: JSON.stringify({
-                golongan: golongan,
-                bidang: bidang,
-                kelompok: kelompok,
-                sub_kelompok: subKelompok,
-                sub_sub_kelompok: subSubKelompok,
-                nama_barang: nama
-            })
-        });
-}
-
-export { getAllGoods, deleteGoods, searchGoods, createGoods }
+export { getAllRuangan, createRuangan, deleteRuangan, editRuangan, searchRuangan }

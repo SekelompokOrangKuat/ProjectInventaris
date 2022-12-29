@@ -7,36 +7,68 @@
 
 import { Box, Button, Container, Typography } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
-import { Calendar, FileText, Tool, Trash2, PlusSquare} from "react-feather";
-import { useGetPemeliharaanTotal, useGetPengadaanTotal, useGetPenghapusanTotal, useGetJadwal } from "../services/dashboard";
+import { Calendar, FileText, Tool, Trash2, PlusSquare } from "react-feather";
+import { getAllPemeliharaan, getAllPenghapusan } from "../services/pengusulan";
+import { getAllPengadaan } from "../services/pengadaan";
+import { getAllJadwal } from "../services/jadwal";
 
 const Dashboard = () => {
+    const [totalPemeliharaan, setTotalPemeliharaan] = useState(null);
+    const [totalPenghapusan, setTotalPenghapusan] = useState(null);
+    const [totalPengadaan, setTotalPengadaan] = useState(null);
+    const [jadwalInventarisasi, setJadwalInentarisasi] = useState(null);
 
-    var today = new Date();
-    const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    useEffect(() => {
+        getAllPemeliharaan().then((response) => {
+            if (response.ok) {
+                response.json().then((data) => {
+                    if (data.data !== undefined) setTotalPemeliharaan((data.data.pengusulan.length))
+                });
+            }
+        });
 
-    var pemeliharaan = useGetPemeliharaanTotal();
-    var penghapusan = useGetPenghapusanTotal();
-    var pengadaan = useGetPengadaanTotal();
-    var jadwal = useGetJadwal();
+        getAllPenghapusan().then((response) => {
+            if (response.ok) {
+                response.json().then((data) => {
+                    if (data.data !== undefined) setTotalPenghapusan(data.data.pengusulan.length)
+                });
+            }
+        });
+
+        getAllPengadaan().then((response) => {
+            if (response.ok) {
+                response.json().then((data) => {
+                    if (data.data !== undefined) setTotalPengadaan(data.data.pengadaan.length)
+                });
+            }
+        });
+
+        getAllJadwal().then((response) => {
+            if (response.ok) {
+                response.json().then((data) => {
+                    if (data.data !== undefined) setJadwalInentarisasi(data.data[0])
+                });
+            }
+        });
+    }, []);
 
     let infographicsDatas = [
-        {icon: <Tool size={50} />, title:'Pemeliharaan', amount: pemeliharaan.data != undefined ? pemeliharaan.data.pengusulan.length : "-"},
-        {icon: <Trash2 size={50} />, title:'Penghapusan', amount: penghapusan.data != undefined ? penghapusan.data.pengusulan.length : "-"},
-        {icon: <PlusSquare size={50} />, title:'Pengadaan', amount:pengadaan.data != undefined ? pengadaan.data.pengadaan.length : "-"}
-    ]
+        { icon: <Tool size={50} />, title: 'Pemeliharaan', amount: totalPemeliharaan != null ? totalPemeliharaan : "-" },
+        { icon: <Trash2 size={50} />, title: 'Penghapusan', amount: totalPenghapusan != null ? totalPenghapusan : "-" },
+        { icon: <PlusSquare size={50} />, title: 'Pengadaan', amount: totalPengadaan != null ? totalPengadaan : "-" }
+    ];
 
     const sopDatas = [
-        {icon: <FileText size={50}/>, title:'SOP Pengelolaan Barang Milik Daerah', url:'/pdf/mutasi'},
-        {icon: <FileText size={50}/>, title:'SOP Mutasi', url:'/pdf/pengelolaan'}
-    ]
+        { icon: <FileText size={50} />, title: 'SOP Pengelolaan Barang Milik Daerah', url: '/pdf/mutasi' },
+        { icon: <FileText size={50} />, title: 'SOP Mutasi', url: '/pdf/pengelolaan' }
+    ];
 
     const [contentHeight, setContentHeight] = useState(0);
     const [anotherContentHeight, setAnotherContentHeight] = useState(0);
     const ref = useRef(null);
     const anotherRef = useRef(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         setContentHeight(ref.current.clientHeight - 80);
         setAnotherContentHeight(anotherRef.current.clientHeight);
     }, []);
@@ -54,7 +86,7 @@ const Dashboard = () => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    pb:5
+                    pb: 5
                 }}
             >
                 {/* Information Section */}
@@ -83,31 +115,31 @@ const Dashboard = () => {
                     >
                         <Calendar size={50}></Calendar>
                         <Typography variant="h3">Jadwal Inventarisasi</Typography>
-                        <Typography variant="h1">{jadwal.data != undefined ? jadwal.data[jadwal.data.length-1].keterangan : "-"}</Typography>
-                        <Typography variant="h2">{jadwal.data != undefined ? jadwal.data[jadwal.data.length-1].tanggal : "-"}</Typography>
+                        <Typography variant="h1">{jadwalInventarisasi != null ? jadwalInventarisasi.keterangan : "-"}</Typography>
+                        <Typography variant="h2">{jadwalInventarisasi != null ? jadwalInventarisasi.tanggal : "-"}</Typography>
                     </Box>
                     <Box
                         sx={{
                             display: 'flex',
                             flexDirection: 'row',
                             gap: 3,
-                            color:'themeWhite.lightest'
+                            color: 'themeWhite.lightest'
                         }}
                         ref={anotherRef}
                     >
-                        {infographicsDatas.map((data, index)=>
-                            <Box 
-                                key={index + "-" + data.title} 
-                                sx={{ 
-                                    display: 'flex', 
-                                    flexDirection: 'column', 
-                                    alignItems: 'center', 
-                                    px: 3, 
-                                    py: 5, 
-                                    gap: 3, 
-                                    width: '100%', 
+                        {infographicsDatas.map((data, index) =>
+                            <Box
+                                key={index}
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    px: 3,
+                                    py: 5,
+                                    gap: 3,
+                                    width: '100%',
                                     background: 'linear-gradient(to right, #009B4C, #007037)',
-                                    borderRadius:'5px'
+                                    borderRadius: '5px'
                                 }}
                             >
                                 {data.icon}
@@ -126,27 +158,27 @@ const Dashboard = () => {
                         px: 5,
                         // py: 3,
                         gap: 3,
-                        color:'themeWhite.lightest'
+                        color: 'themeWhite.lightest'
                     }}
                 >
-                    {sopDatas.map((data, index)=>
+                    {sopDatas.map((data, index) =>
                         <Box
-                            key={index + data.title}
-                            height={index === 0? {contentHeight} : {anotherContentHeight}}
+                            key={index}
+                            height={index === 0 ? { contentHeight } : { anotherContentHeight }}
                             sx={{
-                                display:'flex',
-                                flexDirection:'column',
-                                alignItems:'center',
-                                p:5,
-                                gap:3,
-                                background:'linear-gradient(to right, #009B4C, #007037)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                p: 5,
+                                gap: 3,
+                                background: 'linear-gradient(to right, #009B4C, #007037)',
                                 borderRadius: '5px',
-                                textAlign:'center'
+                                textAlign: 'center'
                             }}
                         >
                             {data.icon}
                             <Typography variant="h4">{data.title}</Typography>
-                            <Button variant="contained" onClick={()=>window.open(data.url, '_blank')}>Lihat SOP</Button>
+                            <Button variant="contained" onClick={() => window.open(data.url, '_blank')}>Lihat SOP</Button>
                         </Box>
                     )}
                 </Box>

@@ -18,7 +18,6 @@ import { useLocation, Outlet, useNavigate } from "react-router-dom";
 import Navbar from './navbar';
 import Sidebar from './sidebar';
 import { useState } from 'react';
-import { useEffect } from 'react';
 
 
 const Layout = ({ isAdmin, isPengelola, user }) => {
@@ -32,11 +31,11 @@ const Layout = ({ isAdmin, isPengelola, user }) => {
 
 
     const publicMenuLists = [
-        { name: "Dashboard", url: "/", icon: <Home size={20} /> },
+        { name: "Dashboard", url: "/", icon: <Home size={20} color="#E0E0E0" /> },
         {
             name: "Pendataan",
             url: "/pendataan",
-            icon: <FilePlus size={20} />,
+            icon: <FilePlus size={20} color="#E0E0E0" />,
             child: [
                 { name: "Pemeliharaan", url: "/pendataan/pemeliharaan" },
                 { name: "Penghapusan", url: "/pendataan/penghapusan" },
@@ -44,16 +43,31 @@ const Layout = ({ isAdmin, isPengelola, user }) => {
                 { name: "Jadwal", url: "/pendataan/jadwal" },
             ]
         },
-        { name: "Pencatatan", url: "/pencatatan", icon: <BoxFeather size={20} /> },
-        { name: "Pelaporan", url: "/pelaporan", icon: <FileText size={20} /> }
+        {
+            name: "Pencatatan",
+            url: "/pencatatan",
+            icon: <BoxFeather size={20} color="#E0E0E0" />,
+            child: [
+                { name: "KIB A", url: "/kib/a" },
+                { name: "KIB B", url: "/kib/b" },
+                { name: "KIB C", url: "/kib/c" },
+                { name: "KIB D", url: "/kib/d" },
+                { name: "KIB E", url: "/kib/e" },
+                { name: "KIB F", url: "/kib/f" },
+                { name: "KIR", url: "/pencatatan/kir" },
+                { name: "Mutasi Barang", url: "/pencatatan/mutasi-barang" },
+                { name: "Peminjaman", url: "/pencatatan/peminjaman" },
+            ]
+        },
+        { name: "Pelaporan", url: "/pelaporan", icon: <FileText size={20} color="#E0E0E0" /> }
     ];
 
     const adminMenuLists = [
-        { name: "Dashboard", url: "/", icon: <Home size={20} /> },
-        { name: "Data SKPD", url: "/admin/skpd", icon: <Users size={20} /> },
-        { name: "Data Kode Barang", url: "/admin/barang", icon: <BoxFeather size={20} /> },
-        { name: "Data Kode Ruangan", url: "/admin/ruangan", icon: <Archive size={20} /> },
-        { name: "Data Akun", url: "/admin/akun", icon: <User size={20} /> }
+        { name: "Dashboard", url: "/", icon: <Home size={20} color="#E0E0E0" /> },
+        { name: "Data SKPD", url: "/admin/skpd", icon: <Users size={20} color="#E0E0E0" /> },
+        { name: "Data Kode Barang", url: "/admin/barang", icon: <BoxFeather size={20} color="#E0E0E0" /> },
+        { name: "Data Kode Ruangan", url: "/admin/ruangan", icon: <Archive size={20} color="#E0E0E0" /> },
+        { name: "Data Akun", url: "/admin/akun", icon: <User size={20} color="#E0E0E0" /> }
     ];
 
     var menuLists = [];
@@ -90,9 +104,11 @@ const Layout = ({ isAdmin, isPengelola, user }) => {
                     display: 'flex',
                     flexDirection: 'row',
                     height: 'calc(100vh - 71px)',
+                    overflowY: 'hidden'
                 }}
             >
                 <Sidebar menu={menuLists} size={sidebarSize} />
+
                 <Box sx={{ width: '100%', overflowY: 'auto' }}>
                     {currentLocationData[0] !== undefined &&
                         <Box

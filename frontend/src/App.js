@@ -43,6 +43,13 @@ import KIBD from "./assets/pdf/KIB D.pdf"
 import KIBE from "./assets/pdf/KIB E.pdf"
 import KIBF from "./assets/pdf/KIB F.pdf"
 
+import PDFKIBA from "./pages/pdf/kiba";
+import PDFKIBB from "./pages/pdf/kibb";
+import PDFKIBC from "./pages/pdf/kibc";
+import PDFKIBD from "./pages/pdf/kibd";
+import PDFKIBE from "./pages/pdf/kibe";
+import PDFKIBF from "./pages/pdf/kibf";
+
 import './App.css';
 import Laporan from "./pages/laporan";
 import Pencatatan from "./pages/pencatatan";
@@ -98,6 +105,12 @@ function App() {
 
 
         {/* Exclusive path. Do not change those path! */}
+        <Route path="pdf/kiba" element={<PDFKIBA />}></Route>
+        <Route path="pdf/kibb" element={<PDFKIBB />}></Route>
+        <Route path="pdf/kibc" element={<PDFKIBC />}></Route>
+        <Route path="pdf/kibd" element={<PDFKIBD />}></Route>
+        <Route path="pdf/kibe" element={<PDFKIBE />}></Route>
+        <Route path="pdf/kibf" element={<PDFKIBF />}></Route>
         <Route path="pdf/mutasi" element={<PDFViewer file={SOPMutasi} />}></Route>
         <Route path="pdf/pengelolaan" element={<PDFViewer file={SOPPengelolaan} />}></Route>
         <Route path="pdf/berita-acara-mutasi" element={<PDFViewer file={BeritaAcaraMutasi} />}></Route>

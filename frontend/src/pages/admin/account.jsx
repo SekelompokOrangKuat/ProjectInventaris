@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Button, Container, FormControl, TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled } from '@mui/material';
+import { Box, Button, Container, CircularProgress, FormControl, InputLabel, TextField, Typography, MenuItem, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled, Select } from '@mui/material';
 import { Edit, Trash2, Plus, RefreshCcw } from 'react-feather';
 
-import { useGetAllAccounts } from '../../services/account.jsx';
+import { createAccount, deleteAccount, getAllAccounts } from '../../services/account.jsx';
 import SearchBar from "../../components/search_bar.jsx";
 
 const Form = (props) => {
@@ -15,30 +15,10 @@ const Form = (props) => {
 
 	const handleSubmit = async (e) => {
 		try {
-			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/registrasi/create",
-				{
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'X-Requested-With': 'application/json',
-						'Content-type': 'application/json; charset=UTF-8',
-						'Access-Control-Allow-Origin': '*',
-						"Authorization": localStorage.getItem('token'),
-					},
-					body: JSON.stringify({
-						email: email,
-						password: password,
-						password_confirmation: password,
-						user_role: role,
-						nama: nama,
-						nip: nip,
-						telepon: telepon
-					})
-				});
-
-			let resJson = await response.json();
-			props.setShowForm(!props.showForm);
-			window.location.reload()
+			createAccount(email, password, password, role, nama, nip, telepon).then(() => {
+				props.setStatus(!props.status);
+				props.setShowForm(!props.showForm);
+			})
 		}
 		catch (err) {
 			console.log(err)
@@ -77,33 +57,41 @@ const Form = (props) => {
 							<TextField
 								fullWidth
 								label="Nama"
-								onChange={(e)=>{setNama(e.target.value)}}
+								onChange={(e) => { setNama(e.target.value) }}
 							/>
 							<TextField
 								fullWidth
 								label="NIP"
-								onChange={(e)=>{setNip(e.target.value)}}
+								onChange={(e) => { setNip(e.target.value) }}
 							/>
 							<TextField
 								fullWidth
 								label="Email"
-								onChange={(e)=>{setEmail(e.target.value)}}
+								onChange={(e) => { setEmail(e.target.value) }}
 							/>
 							<TextField
 								fullWidth
 								label="Nomor Telepon"
-								onChange={(e)=>{setTelepon(e.target.value)}}
+								onChange={(e) => { setTelepon(e.target.value) }}
 							/>
-							<TextField
-								fullWidth
-								label="Role"
-								onChange={(e)=>{setRole(e.target.value)}}
-							/>
+							<FormControl fullWidth>
+								<InputLabel id="demo-simple-select-label">Role</InputLabel>
+								<Select
+									labelId="demo-simple-select-label"
+									id="demo-simple-select"
+									label="Role"
+									onChange={(e) => { setRole(e.target.value) }}
+								>
+									<MenuItem value="Admin">Admin</MenuItem>
+									<MenuItem value="Pengelola">Pengelola</MenuItem>
+									<MenuItem value="Pengguna">Pengguna</MenuItem>
+								</Select>
+							</FormControl>
 							<TextField
 								fullWidth
 								type="password"
 								label="Password"
-								onChange={(e)=>{setPassword(e.target.value)}}
+								onChange={(e) => { setPassword(e.target.value) }}
 							/>
 						</Box>
 						<Box
@@ -125,9 +113,21 @@ const Form = (props) => {
 }
 
 const Account = () => {
-
+	const [tableDataUpdateStatus, setTableDataUpdateStatus] = useState(true);
 	const [showForm, setShowForm] = useState(false);
+	const [accountData, setAccountData] = useState(null);
 
+	useState(() => {
+		getAllAccounts().then((response) => {
+			if (response.ok) {
+				response.json().then((data) => {
+					if (data.data !== undefined) {
+						setAccountData(data.data);
+					}
+				});
+			}
+		});
+	}, [tableDataUpdateStatus]);
 	return (
 		<Container
 			disableGutters
@@ -137,7 +137,7 @@ const Account = () => {
 				height: '100%',
 			}}
 		>
-			{showForm && <Form title="Tambah Akun" setShowForm={setShowForm} showForm={showForm} />}
+			{showForm && <Form title="Tambah Akun" setShowForm={setShowForm} showForm={showForm} setStatus={setTableDataUpdateStatus} status={tableDataUpdateStatus} />}
 			<Box
 				sx={{
 					display: 'flex',
@@ -169,7 +169,7 @@ const Account = () => {
 					</Box>
 				</Box>
 				<Box>
-					<Tables />
+					<Tables accountData={accountData} setStatus={setTableDataUpdateStatus} status={tableDataUpdateStatus} />
 				</Box>
 			</Box>
 		</Container>
@@ -202,9 +202,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	},
 }));
 
-const Tables = () => {
-
-	var accountDatas = useGetAllAccounts();
+const Tables = ({ accountData, setStatus, status }) => {
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState();
 	const handleClickOpen = (data) => {
@@ -216,26 +214,12 @@ const Tables = () => {
 		setOpen(false);
 	};
 
-	const handleDelete = async (email) =>{
+	const handleDelete = async (email) => {
 		try {
-			let response = await fetch("https://backend.icygrass-3ea20227.eastasia.azurecontainerapps.io/v1/user/registrasi/delete",
-				{
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'X-Requested-With': 'application/json',
-						'Content-type': 'application/json; charset=UTF-8',
-						'Access-Control-Allow-Origin': '*',
-						"Authorization": localStorage.getItem('token'),
-					},
-					body: JSON.stringify({
-						email: email
-					})
-				});
-
-			let resJson = await response.json();
-			handleClose();
-			window.location.reload();
+			deleteAccount(email).then(() => {
+				setStatus(!status);
+				handleClose();
+			})
 		}
 		catch (err) {
 			console.log(err)
@@ -255,21 +239,47 @@ const Tables = () => {
 							<StyledTableCell align="center">Nomor Telepopn</StyledTableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody>
-						{accountDatas.map((data, index) => (
-							<StyledTableRow key={index}>
-								<StyledTableCell align="center" width="132px">
-									<IconButton onClick={() => alert(data.nama)}><Edit size={20} color="#0F2C64" /></IconButton>
-									<IconButton onClick={()=>handleClickOpen(data.email)}><Trash2 size={20} color="#D32F2F" /></IconButton>
-									<IconButton onClick={() => alert(data.nama)}><RefreshCcw size={20} color="#317011" /></IconButton>
-								</StyledTableCell>
-								<StyledTableCell>{data.nama}</StyledTableCell>
-								<StyledTableCell>{data.nip}</StyledTableCell>
-								<StyledTableCell>{data.email}</StyledTableCell>
-								<StyledTableCell>{data.telepon}</StyledTableCell>
+					{accountData !== null ?
+						accountData.length > 0 ?
+							<TableBody>
+								{accountData.map((data, index) => (
+									<StyledTableRow key={index}>
+										<StyledTableCell align="center" width="132px">
+											<IconButton onClick={() => alert(data.nama)}><Edit size={20} color="#0F2C64" /></IconButton>
+											<IconButton onClick={() => handleClickOpen(data.email)}><Trash2 size={20} color="#D32F2F" /></IconButton>
+											<IconButton onClick={() => alert(data.nama)}><RefreshCcw size={20} color="#317011" /></IconButton>
+										</StyledTableCell>
+										<StyledTableCell>{data.nama}</StyledTableCell>
+										<StyledTableCell>{data.nip}</StyledTableCell>
+										<StyledTableCell>{data.email}</StyledTableCell>
+										<StyledTableCell>{data.telepon}</StyledTableCell>
+									</StyledTableRow>
+								))}
+							</TableBody> :
+							<TableBody>
+								<StyledTableRow>
+									<TableCell></TableCell>
+									<TableCell></TableCell>
+									<TableCell>
+										Tidak Ada Data
+									</TableCell>
+									<TableCell></TableCell>
+									<TableCell></TableCell>
+								</StyledTableRow>
+							</TableBody>
+						:
+						<TableBody>
+							<StyledTableRow>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
+								<TableCell align="right">
+									<CircularProgress />
+								</TableCell>
+								<TableCell></TableCell>
+								<TableCell></TableCell>
 							</StyledTableRow>
-						))}
-					</TableBody>
+						</TableBody>
+					}
 				</Table>
 			</TableContainer>
 			<Dialog
@@ -285,7 +295,7 @@ const Tables = () => {
 				</DialogContent>
 				<DialogActions>
 					<Button variant="outlined" onClick={handleClose}>Batal</Button>
-					<Button variant="text" color="warning" onClick={()=>handleDelete(selected)} autoFocus>
+					<Button variant="text" color="warning" onClick={() => handleDelete(selected)} autoFocus>
 						Hapus
 					</Button>
 				</DialogActions>
