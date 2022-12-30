@@ -15,6 +15,7 @@ class kibcPDF extends Component {
         this.state = {
             isFetching: true,
             data: [],
+            ok: false
         }
     }
 
@@ -22,8 +23,11 @@ class kibcPDF extends Component {
         getAllKIBC().then((response) => {
             if (response.ok) {
                 response.json().then((data) => {
-                    this.setState({ isFetching: false, data: data.data });
+                    this.setState({ isFetching: false, data: data.data, ok: true });
                 })
+            }
+            else if (response.status === 401) {
+                this.setState({ isFetching: false, ok: false });
             }
         });
     }
